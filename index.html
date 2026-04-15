@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FohBoh.ai — Certified Intelligence Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#fff;--off-white:#FAFAFA;--light-gray:#F4F4F6;--mid-gray:#E5E5EA;
+  --text-gray:#6B6B76;--charcoal:#1A1A1F;--dark-bg:#0D0D11;
+  --red:#D63031;--red-glow:#D6303118;--cert-green:#00C853;
+  --cert-green-lt:#00C85315;--blue:#2979FF;--amber:#FF9800;--amber-lt:#FF980015;
+  --f-display:'Outfit',sans-serif;--f-body:'DM Sans',sans-serif;--f-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{border:none;outline:none;cursor:pointer;font-family:var(--f-body)}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseGlow{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes badgePulse{0%,100%{box-shadow:none}50%{box-shadow:0 0 14px rgba(0,200,83,.35)}}
+@keyframes countUp{from{opacity:0}to{opacity:1}}
+@keyframes tooltipIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:translateY(0)}
+.section-inner{max-width:1200px;margin:0 auto}
+
+/* Header */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid transparent;transition:all .35s;padding:0 24px}
+.header.scrolled{background:rgba(255,255,255,.9);border-bottom-color:var(--mid-gray)}
+.header-inner{max-width:1200px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo-icon{width:40px;height:40px;border-radius:50%;object-fit:cover}
+.logo-text{font-family:'Alkaline',var(--f-display);font-weight:700;font-size:24px;color:var(--charcoal)}
+.logo-dot{font-family:var(--f-mono);font-size:12px;color:var(--text-gray)}
+.nav{display:flex;align-items:center;gap:4px}
+.nav-item{position:relative}
+.nav-link{font-size:14px;font-family:var(--f-body);font-weight:500;color:var(--text-gray);padding:8px 14px;border-radius:8px;transition:all .2s;display:flex;align-items:center;gap:4px;cursor:pointer}
+.nav-link:hover{color:var(--charcoal);background:var(--light-gray)}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:8px;z-index:200;display:none}
+.nav-item:hover .nav-dropdown{display:block;animation:tooltipIn .2s ease-out}
+.dropdown-inner{background:#fff;border-radius:16px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);min-width:290px}
+.dropdown-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:10px;transition:background .15s}
+.dropdown-item:hover{background:var(--light-gray)}
+.dropdown-item:not(:last-child){border-bottom:1px solid var(--light-gray)}
+.dd-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
+.dd-name{font-family:var(--f-display);font-size:13px;font-weight:600;color:var(--charcoal)}
+.dd-desc{font-family:var(--f-body);font-size:11.5px;color:var(--text-gray);margin-top:2px;line-height:1.4}
+.header-ctas{display:flex;align-items:center;gap:10px}
+.btn-primary{padding:9px 20px;border-radius:8px;background:var(--charcoal);color:#fff;font-family:var(--f-body);font-size:13px;font-weight:600;letter-spacing:.3px}
+.btn-outline{padding:9px 20px;border-radius:8px;border:1px solid var(--mid-gray);font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--charcoal)}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,#fff 0%,var(--off-white) 100%);padding:100px 24px 32px;position:relative;overflow:hidden}
+.hero-grid-bg{position:absolute;inset:0;background-image:radial-gradient(var(--mid-gray) 1px,transparent 1px);background-size:32px 32px;opacity:.3;pointer-events:none}
+.hero-glow{position:absolute;top:-10%;right:-5%;width:50%;height:60%;border-radius:50%;background:radial-gradient(circle,rgba(214,48,49,.06) 0%,transparent 60%);filter:blur(60px);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.15fr;gap:32px;align-items:center;position:relative;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--red-glow);border:1px solid rgba(214,48,49,.13);margin-bottom:20px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulseDot 2s infinite}
+.hero-badge-text{font-family:var(--f-mono);font-size:10px;font-weight:600;color:var(--red);letter-spacing:.8px}
+.hero h1{font-family:var(--f-display);font-size:62px;font-weight:800;line-height:1.02;color:var(--charcoal);margin-bottom:20px;letter-spacing:-2.5px}
+.hero h1 span{color:var(--text-gray);font-weight:400;font-size:34px;letter-spacing:-1px;display:block;margin-top:8px}
+.hero-sub{font-family:var(--f-body);font-size:17px;line-height:1.6;color:var(--text-gray);max-width:440px;margin-bottom:24px}
+.hero-sub strong{color:var(--charcoal)}
+.pillars{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.pillar{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:28px;border:1px solid var(--mid-gray);background:#fff;font-size:12.5px;font-family:var(--f-body)}
+.pillar-icon{font-size:13px}.pillar-name{font-weight:600;color:var(--charcoal)}.pillar-sub{color:var(--text-gray);font-size:11.5px}
+.hero-ctas{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cta-main{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:10px;background:var(--charcoal);color:#fff;font-family:var(--f-body);font-size:14.5px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.cta-secondary{padding:13px 26px;border-radius:10px;border:1px solid var(--mid-gray);background:#fff;color:var(--charcoal);font-family:var(--f-body);font-size:14.5px;font-weight:500}
+.cta-text{font-family:var(--f-body);font-size:13px;color:var(--text-gray)}
+
+/* Diagram container */
+.diagram-container{position:relative;width:100%;max-width:600px;aspect-ratio:620/500;margin:0 auto}
+.diagram-glow{position:absolute;left:32%;top:28%;width:36%;height:38%;border-radius:50%;background:radial-gradient(circle,rgba(214,48,49,.1) 0%,transparent 70%);filter:blur(30px);z-index:0;animation:pulseGlow 4s ease-in-out infinite}
+.diagram-node{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .25s,box-shadow .25s;z-index:5}
+.diagram-node:hover{transform:scale(1.06)!important;z-index:20!important}
+.diagram-node.node-data{left:12.9%;top:14%;width:22.6%;height:11.6%;border-radius:12px;background:#fff;border:1px solid var(--mid-gray);box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.diagram-node.node-data:hover{box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.diagram-node.node-mge{left:37.1%;top:44%;width:24.2%;height:17.6%;border-radius:18px;background:var(--charcoal);box-shadow:0 4px 24px rgba(0,0,0,.2);z-index:10}
+.diagram-node.node-mge:hover{box-shadow:0 8px 36px rgba(214,48,49,.22),0 0 0 2px var(--red)}
+.diagram-node.node-cortex{left:67.7%;top:14%;width:21%;height:11.6%;border-radius:12px;background:#fff;border:1.5px solid var(--red)}
+.diagram-node.node-cortex:hover{box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.diagram-node.node-sentry{left:12.9%;top:76%;width:22.6%;height:11.6%;border-radius:12px;background:rgba(214,48,49,.04);border:1.5px solid rgba(214,48,49,.25)}
+.diagram-node.node-sentry:hover{box-shadow:0 8px 28px rgba(214,48,49,.12)}
+.diagram-node.node-operator{left:67.7%;top:76%;width:21%;height:11.6%;border-radius:12px;background:#fff;border:1px solid var(--mid-gray)}
+.diagram-node.node-operator:hover{box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.node-title{font-family:var(--f-display);font-weight:700;letter-spacing:.2px}
+.node-sub{font-family:var(--f-body);font-size:9px;color:var(--text-gray);margin-top:1px}
+.mge-badge{margin-top:5px;padding:2px 10px;border-radius:8px;background:var(--cert-green);font-family:var(--f-mono);font-size:8px;font-weight:700;color:#fff;letter-spacing:1px;animation:badgePulse 2.5s ease-in-out infinite}
+
+/* Trust gauge */
+.trust-gauge{position:absolute;right:12%;top:40%;width:90px;height:90px;z-index:15}
+.trust-gauge-glow{position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,83,.12) 0%,transparent 70%);z-index:-1;animation:pulseGlow 3s ease-in-out infinite}
+
+/* Floating labels */
+.float-label{position:absolute;padding:5px 12px;border-radius:7px;font-family:var(--f-mono);font-size:9px;font-weight:600;letter-spacing:.5px;z-index:15}
+.float-det{left:3%;top:54%;background:var(--charcoal);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18);animation:float 6s ease-in-out infinite}
+.float-hal{left:38%;bottom:4%;background:#fff;border:1px solid var(--mid-gray);color:var(--charcoal);box-shadow:0 4px 14px rgba(0,0,0,.05);animation:float 5s ease-in-out infinite 1s}
+.float-audit{right:3%;bottom:8%;background:var(--cert-green-lt);border:1px solid rgba(0,200,83,.2);color:var(--cert-green);font-size:8.5px;animation:float 7s ease-in-out infinite 2s}
+
+/* Tooltip */
+.node-tooltip{position:absolute;left:50%;transform:translateX(-50%);width:280px;background:#fff;border-radius:14px;padding:18px 16px;box-shadow:0 16px 48px rgba(0,0,0,.15),0 0 0 1px rgba(0,0,0,.05);z-index:50;animation:tooltipIn .2s ease-out;display:none}
+.diagram-node:hover .node-tooltip{display:block}
+.tooltip-top{top:108%}.tooltip-bottom{bottom:108%}
+.tooltip-arrow{position:absolute;left:50%;transform:translateX(-50%) rotate(45deg);width:10px;height:10px;background:#fff}
+.tooltip-arrow-top{top:-5px;box-shadow:-2px -2px 4px rgba(0,0,0,.05)}
+.tooltip-arrow-bottom{bottom:-5px;box-shadow:2px 2px 4px rgba(0,0,0,.05)}
+.tooltip-header{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.tooltip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.tooltip-title{font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal)}
+.tooltip-desc{font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-bottom:8px}
+.tooltip-tags{display:flex;flex-wrap:wrap;gap:4px}
+.tooltip-tag{padding:2px 8px;border-radius:5px;background:var(--light-gray);font-family:var(--f-mono);font-size:9.5px;font-weight:600;color:var(--charcoal)}
+
+/* Trust Strip */
+.trust-strip{background:#fff;border-top:1px solid var(--mid-gray);border-bottom:1px solid var(--mid-gray);padding:30px 24px;text-align:center}
+.trust-strip-label{font-family:var(--f-body);font-size:11.5px;color:var(--text-gray);margin-bottom:16px;letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.trust-strip-items{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.trust-strip-item{font-family:var(--f-body);font-size:13px;font-weight:600;color:var(--charcoal);display:flex;align-items:center;gap:6px}
+.trust-strip-check{color:var(--cert-green);font-size:12px}
+
+/* General sections */
+.section{padding:88px 24px}
+.section.spacious{padding:120px 24px}
+.section.tight{padding:64px 24px}
+.section-label{font-family:var(--f-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;text-align:center;font-weight:600}
+.section-title{font-family:var(--f-display);font-size:40px;font-weight:700;text-align:center;letter-spacing:-1.2px;line-height:1.12;margin-bottom:44px}
+.section-subtitle{font-family:var(--f-body);font-size:16px;color:var(--text-gray);text-align:center;max-width:580px;margin:0 auto 36px;line-height:1.6}
+
+/* Problem cards */
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.metric-card{background:#fff;border-radius:14px;padding:32px 20px;text-align:center;border:1px solid var(--mid-gray);transition:transform .3s}
+.metric-card:hover{transform:translateY(-3px)}
+.metric-value{font-family:var(--f-display);font-size:48px;font-weight:800;letter-spacing:-2px;margin-bottom:8px}
+.metric-label{font-family:var(--f-body);font-size:14px;color:var(--text-gray)}
+
+/* Platform cards */
+.platform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.platform-card{border:1.5px solid var(--mid-gray);border-radius:16px;background:#fff;transition:all .35s;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.platform-card:hover{transform:translateY(-3px)}
+.platform-card.open{border-color:rgba(0,0,0,.15)}
+.pc-header{padding:28px 22px 16px;position:relative}
+.pc-glow{position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;filter:blur(18px);opacity:.4}
+.pc-badge{font-family:var(--f-mono);font-size:9.5px;font-weight:700;letter-spacing:1.2px;padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:10px}
+.pc-name{font-family:var(--f-mono);font-size:11px;font-weight:600;margin-bottom:6px}
+.pc-title{font-family:var(--f-display);font-size:24px;font-weight:700;color:var(--charcoal);margin-bottom:8px}
+.pc-intro{font-family:var(--f-body);font-size:14px;color:var(--text-gray);line-height:1.55}
+.pc-toggle{padding:0 22px 16px;margin-top:auto;display:flex;align-items:center;gap:6px;font-family:var(--f-body);font-size:13px;font-weight:600}
+.pc-toggle-arrow{font-size:16px;transition:transform .3s}
+.pc-details{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)}
+.platform-card.open .pc-details{max-height:1200px}
+.pc-details-inner{padding:0 22px 24px;border-top:1px solid var(--light-gray)}
+.pc-detail-block{margin-top:16px}
+.pc-detail-block h4{font-family:var(--f-display);font-size:14px;font-weight:700;color:var(--charcoal);margin-bottom:5px}
+.pc-detail-block p{font-family:var(--f-body);font-size:13px;color:var(--text-gray);line-height:1.55}
+
+/* MGE Architecture */
+.mge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mge-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 22px;transition:border-color .3s}
+.mge-card:hover{border-color:rgba(255,255,255,.2)}
+.mge-loop-label{display:inline-block;padding:4px 12px;border-radius:6px;font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.2px;margin-bottom:16px}
+.mge-card h3{font-family:var(--f-display);font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+.mge-card .mge-sub{font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.35);margin-bottom:14px;letter-spacing:.5px}
+.mge-card p{font-family:var(--f-body);font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.55;margin-bottom:18px}
+.mge-list-item{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.mge-list-dot{width:5px;height:5px;border-radius:50%;opacity:.7;flex-shrink:0}
+.mge-list-text{font-family:var(--f-body);font-size:12.5px;color:rgba(255,255,255,.45)}
+
+/* Trust Score */
+.trust-examples{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.trust-ex{border-radius:14px;padding:28px 24px}
+.trust-ex-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.trust-ex-badge{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:6px}
+.trust-ex-score{font-family:var(--f-display);font-size:28px;font-weight:800}
+.trust-ex h4{font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:8px}
+.trust-ex p{font-family:var(--f-body);font-size:13.5px;color:var(--text-gray);line-height:1.55}
+.trust-ex p strong{color:var(--charcoal)}
+.trust-checks{margin-top:24px;background:var(--light-gray);border-radius:12px;padding:20px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center}
+.trust-check-title{font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-bottom:3px}
+.trust-check-desc{font-family:var(--f-body);font-size:11.5px;color:var(--text-gray);line-height:1.4}
+
+/* Use cases */
+.uc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.uc-card{background:#fff;border-radius:12px;border:1px solid var(--mid-gray);overflow:hidden;transition:border-color .3s,box-shadow .3s;cursor:pointer}
+.uc-card.open{border-color:rgba(214,48,49,.22);box-shadow:0 6px 24px rgba(0,0,0,.06)}
+.uc-header{padding:20px 20px 14px}
+.uc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.uc-title-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.uc-title{font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--charcoal)}
+.uc-kpi{font-family:var(--f-mono);font-size:9.5px;color:var(--cert-green);font-weight:600;padding:2px 8px;border-radius:5px;background:var(--cert-green-lt);white-space:nowrap}
+.uc-short{font-family:var(--f-body);font-size:13px;color:var(--text-gray);line-height:1.45}
+.uc-meta{display:flex;align-items:center;gap:6px}
+.uc-engine{font-family:var(--f-mono);font-size:9px;color:var(--text-gray);white-space:nowrap}
+.uc-arrow{font-size:14px;color:var(--text-gray);transition:transform .3s}
+.uc-card.open .uc-arrow{transform:rotate(180deg)}
+.uc-details{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1)}
+.uc-card.open .uc-details{max-height:400px}
+.uc-details-inner{padding:0 20px 20px;border-top:1px solid var(--light-gray)}
+.uc-how{margin-top:14px}
+.uc-how h5{font-family:var(--f-display);font-size:12px;font-weight:700;color:var(--charcoal);margin-bottom:4px}
+.uc-how p{font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5}
+.uc-impact{margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--light-gray)}
+.uc-impact h5{font-family:var(--f-display);font-size:11px;font-weight:700;color:var(--red);margin-bottom:3px}
+.uc-impact p{font-family:var(--f-body);font-size:12px;color:var(--charcoal);line-height:1.5;font-weight:500}
+
+/* Sentry Deep Dive */
+.sentry-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:32px}
+.sentry-tab{padding:9px 20px;border-radius:10px;border:1.5px solid var(--mid-gray);background:#fff;color:var(--text-gray);font-family:var(--f-body);font-size:13px;font-weight:600;transition:all .25s}
+.sentry-tab.active{border-color:var(--red);background:rgba(214,48,49,.05);color:var(--red)}
+.sentry-item{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:20px 24px;background:var(--light-gray);border-radius:12px;border:1px solid var(--mid-gray);margin-bottom:10px;transition:border-color .3s}
+.sentry-item:hover{border-color:rgba(214,48,49,.2)}
+.sentry-num{width:40px;height:40px;border-radius:10px;background:rgba(214,48,49,.08);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--red)}
+.sentry-item h4{font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--charcoal);margin-bottom:6px}
+.sentry-whw{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sentry-whw-label{font-family:var(--f-mono);font-size:9px;font-weight:700;letter-spacing:.8px}
+.sentry-whw-text{font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.4;margin-top:2px}
+
+/* OEM */
+.oem-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
+.oem-features{display:flex;gap:24px;margin-bottom:28px}
+.oem-feat-title{font-family:var(--f-display);font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.oem-feat-desc{font-family:var(--f-body);font-size:11.5px;color:rgba(255,255,255,.3)}
+
+/* Demo */
+.demo-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center}
+.demo-video{background:var(--light-gray);border-radius:16px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border:1px solid var(--mid-gray);cursor:pointer;position:relative;transition:box-shadow .3s}
+.demo-video:hover{box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.demo-play{width:64px;height:64px;border-radius:50%;background:var(--charcoal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.demo-label{position:absolute;bottom:16px;left:20px;font-family:var(--f-mono);font-size:10px;color:var(--text-gray);letter-spacing:1px}
+.demo-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px}
+.demo-check-icon{color:var(--cert-green);font-size:12px;margin-top:2px}
+.demo-check-text{font-family:var(--f-body);font-size:14px;color:var(--text-gray);line-height:1.5}
+
+/* Final CTA */
+.final-cta{background:linear-gradient(135deg,var(--charcoal) 0%,#2A2A32 100%);padding:120px 24px;text-align:center;position:relative;overflow:hidden}
+.final-cta-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.final-cta h2{font-family:var(--f-display);font-size:42px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-1.5px;line-height:1.12}
+.final-cta p{font-family:var(--f-body);font-size:16px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:32px}
+.final-cta-btns{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.cta-red{padding:13px 28px;border-radius:10px;background:var(--red);color:#fff;font-family:var(--f-body);font-size:14px;font-weight:600}
+.cta-ghost{padding:13px 28px;border-radius:10px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.18);font-family:var(--f-body);font-size:14px;font-weight:600}
+
+/* Footer */
+.footer{background:var(--dark-bg);padding:64px 24px 32px;color:rgba(255,255,255,.4)}
+.footer-grid{display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:24px;margin-bottom:44px}
+.footer-col h5{font-family:var(--f-display);font-size:11.5px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.5px}
+.footer-col a{display:block;font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.32);margin-bottom:8px;transition:color .2s}
+.footer-col a:hover{color:rgba(255,255,255,.7)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:18px;display:flex;justify-content:space-between;align-items:center;font-family:var(--f-body);font-size:11px}
+.footer-legal{display:flex;gap:16px}
+.footer-legal a{color:rgba(255,255,255,.28)}
+
+/* Product mockups inside platform cards */
+.product-mock{margin-top:16px;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
+.mock-bar{height:28px;background:var(--charcoal);display:flex;align-items:center;padding:0 10px;gap:5px}
+.mock-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2)}
+.mock-body{padding:14px;background:#0D1117;font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.5);line-height:1.7}
+.mock-highlight{color:var(--cert-green)}.mock-amber{color:var(--amber)}.mock-red{color:var(--red)}.mock-blue{color:var(--blue)}
+.mock-label{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:4px}
+.mock-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.mock-badge{display:inline-block;padding:1px 6px;border-radius:4px;font-size:8px;font-weight:600}
+
+/* Testimonials */
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testimonial-card{background:#fff;border-radius:14px;padding:28px 24px;border:1px solid var(--mid-gray);position:relative}
+.testimonial-card::before{content:'"';position:absolute;top:16px;left:20px;font-family:Georgia,serif;font-size:48px;color:var(--red);opacity:.15;line-height:1}
+.testimonial-text{font-family:var(--f-body);font-size:14px;color:var(--charcoal);line-height:1.6;margin-bottom:20px;font-style:italic}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:var(--light-gray);display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:11px;color:var(--text-gray);flex-shrink:0}
+.testimonial-name{font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal)}
+.testimonial-role{font-family:var(--f-body);font-size:11px;color:var(--text-gray)}
+
+/* FAQ */
+.faq-list{max-width:800px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--mid-gray);cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-family:var(--f-display);font-size:16px;font-weight:600;color:var(--charcoal)}
+.faq-arrow{font-size:16px;color:var(--text-gray);transition:transform .3s;flex-shrink:0}
+.faq-item.faq-open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
+.faq-item.faq-open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 0 20px;font-family:var(--f-body);font-size:14px;color:var(--text-gray);line-height:1.6}
+
+/* Contact form */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.form-input{padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-family:var(--f-body);font-size:14px;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--red)}
+.form-input::placeholder{color:rgba(255,255,255,.3)}
+.form-textarea{min-height:100px;resize:vertical}
+.form-submit{padding:14px 28px;border-radius:10px;background:var(--red);color:#fff;font-family:var(--f-body);font-size:15px;font-weight:600;border:none;cursor:pointer;transition:opacity .2s}
+.form-submit:hover{opacity:.9}
+
+/* Chatbot widget */
+.chatbot-widget{position:fixed;bottom:24px;right:24px;z-index:99;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.chatbot-tooltip{background:var(--charcoal);color:#fff;padding:10px 16px;border-radius:12px 12px 0 12px;font-family:var(--f-body);font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.15);max-width:220px;line-height:1.4;animation:tooltipIn .3s ease-out}
+.chatbot-btn{width:56px;height:56px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 20px rgba(214,48,49,.3);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
+.chatbot-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(214,48,49,.4)}
+
+/* Leader headshot placeholder */
+.leader-headshot{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:var(--f-display);color:#fff;flex-shrink:0;position:relative;overflow:hidden}
+.headshot-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:8px;font-family:var(--f-mono);color:rgba(255,255,255,.5);letter-spacing:.5px}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pricing-card{background:#fff;border-radius:16px;border:1px solid var(--mid-gray);padding:28px 24px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.pricing-card:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.06)}
+.pricing-card.featured{border-color:rgba(214,48,49,.25);box-shadow:0 8px 32px rgba(214,48,49,.08)}
+.pricing-badge{position:absolute;top:16px;right:16px;font-family:var(--f-mono);font-size:10px;font-weight:700;border-radius:20px;padding:5px 12px;background:rgba(214,48,49,.08);color:var(--red)}
+.pricing-plan{font-family:var(--f-mono);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-gray);margin-bottom:10px}
+.pricing-price{font-family:var(--f-display);font-size:44px;font-weight:800;color:var(--charcoal);letter-spacing:-2px;margin-bottom:6px;line-height:1}
+.pricing-price small{font-size:16px;font-weight:500;color:var(--text-gray);letter-spacing:0}
+.pricing-meta{font-family:var(--f-body);font-size:13px;color:var(--text-gray);line-height:1.5;margin-bottom:20px;min-height:40px}
+.pricing-features{list-style:none;padding:0;margin:0 0 24px;flex:1}
+.pricing-features li{position:relative;padding-left:22px;margin-bottom:12px;font-family:var(--f-body);font-size:13.5px;color:var(--charcoal);line-height:1.5}
+.pricing-features li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cert-green);position:absolute;left:0;top:.55em}
+.pricing-cta{display:inline-block;padding:12px 20px;border-radius:10px;font-family:var(--f-body);font-size:14px;font-weight:600;text-align:center;transition:all .2s;cursor:pointer;text-decoration:none}
+.pricing-cta.outline{border:1px solid var(--charcoal);color:var(--charcoal);background:#fff}
+.pricing-cta.outline:hover{background:var(--light-gray)}
+.pricing-cta.primary{border:none;background:var(--charcoal);color:#fff}
+.pricing-cta.primary:hover{opacity:.9}
+.pricing-cta.accent{border:none;background:var(--red);color:#fff}
+.pricing-cta.accent:hover{opacity:.9}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.tier-card{background:#fff;border:1px solid var(--mid-gray);border-radius:12px;padding:18px 20px}
+.tier-card h4{font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--charcoal);margin:0 0 4px}
+.tier-card p{font-family:var(--f-body);font-size:13px;color:var(--text-gray);margin:0;line-height:1.45}
+.tier-card p strong{color:var(--charcoal)}
+.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+
+/* Demo mockup */
+.demo-mock{background:#1A1A1F;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.demo-mock-header{padding:16px 20px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.demo-mock-brand{font-family:'Alkaline',var(--f-display);font-size:16px;font-weight:700;color:#fff}
+.demo-mock-brand span{color:var(--amber)}
+.demo-mock-body{padding:24px 20px}
+.demo-mock-prompt{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px 16px;margin-bottom:20px}
+.demo-mock-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.demo-chip{padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-family:var(--f-body);font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:6px}
+.demo-chip-icon{font-size:12px;color:var(--amber)}
+
+@media(max-width:900px){
+  .hero-inner,.platform-grid,.metric-grid,.mge-grid,.trust-examples,.uc-grid,.oem-grid,.demo-grid,.sentry-whw,.trust-checks,.footer-grid,.bento-grid,.res-grid,.partner-cat-grid,.testimonial-grid,.contact-grid,.pricing-grid,.tier-grid,.custom-grid{grid-template-columns:1fr!important}
+  .hero h1{font-size:36px}.section-title{font-size:30px}
+  .nav{display:none}
+  .header-ctas{display:none}
+  .hamburger{display:flex!important}
+  .mobile-menu.open{display:flex!important}
+}
+
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:101}
+.hamburger span{width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);flex-direction:column;padding:24px;z-index:99;overflow-y:auto}
+.mobile-menu a{font-family:var(--f-display);font-size:20px;font-weight:600;color:var(--charcoal);padding:16px 0;border-bottom:1px solid var(--mid-gray);text-decoration:none;display:block}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu .mobile-cta{margin-top:20px;padding:14px 24px;border-radius:10px;background:var(--red);color:#fff;font-family:var(--f-body);font-size:15px;font-weight:600;text-align:center;display:block;text-decoration:none}
+
+/* Metric sources */
+.metric-source{font-family:var(--f-mono);font-size:10px;color:var(--text-gray);margin-top:10px;opacity:.7;cursor:pointer;transition:opacity .2s}
+.metric-source:hover{opacity:1}
+.metric-source a{color:var(--red);text-decoration:underline}
+
+/* Resources section */
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.res-card{background:#fff;border-radius:12px;border:1px solid var(--mid-gray);padding:20px 18px;cursor:pointer;transition:border-color .3s,transform .3s;display:flex;flex-direction:column;height:100%}
+.res-card:hover{border-color:rgba(214,48,49,.25);transform:translateY(-2px)}
+.res-cat{font-family:var(--f-mono);font-size:9.5px;font-weight:600;letter-spacing:.8px;margin-bottom:8px}
+.res-card h4{font-family:var(--f-display);font-size:14px;font-weight:700;color:var(--charcoal);line-height:1.3;margin-bottom:12px;flex:1}
+.res-card-meta{font-family:var(--f-body);font-size:10.5px;color:var(--text-gray)}
+.res-categories{display:flex;justify-content:center;gap:6px;margin-bottom:28px;flex-wrap:wrap}
+.res-category-btn{padding:7px 16px;border-radius:8px;border:1px solid var(--mid-gray);background:#fff;font-family:var(--f-body);font-size:12px;font-weight:500;color:var(--text-gray);cursor:pointer;transition:all .2s}
+.res-category-btn.active,.res-category-btn:hover{border-color:var(--red);color:var(--red);background:rgba(214,48,49,.04)}
+
+/* Company bento box */
+.bento-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:auto auto;gap:14px}
+.bento-card{border-radius:16px;padding:30px 24px;transition:transform .3s}
+.bento-card:hover{transform:translateY(-2px)}
+.bento-card.large{grid-column:1;grid-row:1/3}
+.bento-card h3{font-family:var(--f-display);font-weight:700;margin-bottom:10px}
+.bento-card p{font-family:var(--f-body);line-height:1.6}
+.bento-label{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.2px;margin-bottom:14px;display:block}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+.team-member{text-align:center}
+.team-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:700;font-size:18px;color:#fff}
+.team-name{font-family:var(--f-display);font-size:12px;font-weight:700;color:var(--charcoal)}
+.team-role{font-family:var(--f-body);font-size:10px;color:var(--text-gray)}
+.bento-stat{font-family:var(--f-display);font-size:36px;font-weight:800;letter-spacing:-1.5px;margin-bottom:4px}
+
+/* Leadership dropdown */
+.leadership-open #leadershipDetails{max-height:1200px!important}
+.leadership-open #leadershipArrow{transform:rotate(180deg)}
+.leader-card.leader-open .leader-bio{max-height:300px!important}
+.leader-card.leader-open .leader-arrow{transform:rotate(180deg)}
+
+/* Partner categories */
+.partner-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.partner-cat{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 22px;background:rgba(255,255,255,.03);transition:border-color .3s}
+.partner-cat:hover{border-color:rgba(255,255,255,.15)}
+.partner-cat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.partner-cat h4{font-family:var(--f-display);font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
+.partner-cat p{font-family:var(--f-body);font-size:13px;color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:16px}
+.partner-cat-features{display:flex;flex-direction:column;gap:8px}
+.partner-cat-feat{display:flex;align-items:center;gap:8px;font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.4)}
+.partner-cat-feat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="mainHeader">
+  <div class="header-inner">
+    <div class="logo">
+      <img class="logo-icon" src="data:image/png;base64,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" alt="FohBoh">
+      <span class="logo-text">FohBoh</span>
+      <span class="logo-dot">.ai</span>
+    </div>
+    <nav class="nav">
+      <div class="nav-item">
+        <a class="nav-link">Platform <span style="font-size:10px;color:var(--text-gray)">▾</span></a>
+        <div class="nav-dropdown">
+          <div class="dropdown-inner">
+            <a href="#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(214,48,49,.08);color:var(--red)">◆</div><div><div class="dd-name">Sentry™</div><div class="dd-desc">Dual-engine revenue recovery. DFR + MFR.</div></div></a>
+            <a href="#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(26,26,31,.06);color:var(--charcoal)">◉</div><div><div class="dd-name">Cortex™</div><div class="dd-desc">Certified AI. Voice & text on verified data.</div></div></a>
+            <a href="#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(0,200,83,.08);color:var(--cert-green)">◈</div><div><div class="dd-name">MGE™</div><div class="dd-desc">Deterministic governance core. Zero hallucination.</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item"><a href="#solutions" class="nav-link">Solutions</a></div>
+      <div class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></div>
+      <div class="nav-item"><a href="#partners" class="nav-link">Partners</a></div>
+      <div class="nav-item"><a href="#resources" class="nav-link">Resources</a></div>
+      <div class="nav-item"><a href="#contact" class="nav-link">Company</a></div>
+    </nav>
+    <div class="header-ctas">
+      <a href="#demo" class="btn-primary">Watch Demo</a>
+      <a href="#contact-form" class="btn-outline">Contact</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobileMenu').classList.toggle('open');document.body.style.overflow=document.getElementById('mobileMenu').classList.contains('open')?'hidden':''">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#platform-section" onclick="closeMobile()">Platform</a>
+  <a href="#solutions" onclick="closeMobile()">Solutions</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <a href="#partners" onclick="closeMobile()">Partners</a>
+  <a href="#resources" onclick="closeMobile()">Resources</a>
+  <a href="#company" onclick="closeMobile()">Company</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a class="mobile-cta" href="#contact-form" onclick="closeMobile()">Book a Demo</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge reveal"><div class="hero-badge-dot"></div><span class="hero-badge-text">CERTIFIED INTELLIGENCE INFRASTRUCTURE</span></div>
+      <h1 class="reveal">Certified Intelligence<br>for Restaurants.<br><span>No Hallucinations. No Guesswork.</span></h1>
+      <p class="hero-sub reveal">Recover lost revenue. Answer critical questions. Powered by the industry's first <strong>deterministic certification engine</strong>.</p>
+      <div class="pillars reveal">
+        <div class="pillar"><span class="pillar-icon" style="color:var(--red)">◆</span><span class="pillar-name">Sentry™</span><span class="pillar-sub">→ Finds the money</span></div>
+        <div class="pillar"><span class="pillar-icon" style="color:var(--charcoal)">◉</span><span class="pillar-name">Cortex™</span><span class="pillar-sub">→ Answers the questions</span></div>
+        <div class="pillar"><span class="pillar-icon" style="color:var(--cert-green)">◈</span><span class="pillar-name">MGE™</span><span class="pillar-sub">→ Certifies the truth</span></div>
+      </div>
+      <div class="hero-ctas reveal">
+        <a href="#demo" class="cta-main"><span style="font-size:11px">▶</span> Watch 90-sec Demo</a>
+        <a href="#how-it-works" class="cta-secondary">See How It Works</a>
+        <a href="#partners" class="cta-text">For POS &amp; Partners →</a>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="diagram-container">
+        <div class="diagram-glow"></div>
+        <canvas id="particleCanvas" style="position:absolute;inset:0;pointer-events:none;z-index:1"></canvas>
+
+        <!-- Nodes -->
+        <div class="diagram-node node-data">
+          <span class="node-title" style="font-size:12.5px;color:var(--charcoal)">Data Sources</span>
+          <span class="node-sub">POS · Payments · 3PD</span>
+          <div class="node-tooltip tooltip-top"><div class="tooltip-arrow tooltip-arrow-top"></div><div class="tooltip-header"><div class="tooltip-dot" style="background:var(--text-gray)"></div><span class="tooltip-title">Data Sources</span></div><p class="tooltip-desc">POS transactions, payment processors, delivery platforms, labor systems — ingested, normalized, and prepared for certification.</p><div class="tooltip-tags"><span class="tooltip-tag">POS</span><span class="tooltip-tag">Payments</span><span class="tooltip-tag">3PD</span><span class="tooltip-tag">Labor</span></div></div>
+        </div>
+
+        <div class="diagram-node node-mge">
+          <span class="node-title" style="font-size:15px;color:#fff">MGE™</span>
+          <span class="node-sub" style="color:rgba(255,255,255,.5)">Deterministic Governance</span>
+          <div class="mge-badge">DETERMINISTIC</div>
+          <div class="node-tooltip tooltip-top"><div class="tooltip-arrow tooltip-arrow-top"></div><div class="tooltip-header"><div class="tooltip-dot" style="background:var(--cert-green)"></div><span class="tooltip-title">MGE™ — Governance Core</span></div><p class="tooltip-desc">Dual-loop certification: Trust Loop validates data integrity. Trust Gate blocks low-confidence outputs. Action Loop executes certified recovery.</p><div class="tooltip-tags"><span class="tooltip-tag">Trust Loop</span><span class="tooltip-tag">Trust Gate</span><span class="tooltip-tag">Action Loop</span><span class="tooltip-tag">Deterministic</span></div></div>
+        </div>
+
+        <div class="diagram-node node-cortex">
+          <span class="node-title" style="font-size:12.5px;color:var(--charcoal)">Cortex™</span>
+          <span class="node-sub">Certified AI</span>
+          <div class="node-tooltip tooltip-top"><div class="tooltip-arrow tooltip-arrow-top"></div><div class="tooltip-header"><div class="tooltip-dot" style="background:var(--blue)"></div><span class="tooltip-title">Cortex™ — Certified AI</span></div><p class="tooltip-desc">Voice and text AI operating only on MGE-certified data. Every answer sourced, trust-scored, and audit-ready.</p><div class="tooltip-tags"><span class="tooltip-tag">Voice + Text</span><span class="tooltip-tag">Certified-Only</span><span class="tooltip-tag">Real-Time</span></div></div>
+        </div>
+
+        <div class="diagram-node node-sentry">
+          <span class="node-title" style="font-size:12.5px;color:var(--red)">Sentry™</span>
+          <span class="node-sub">DFR + MFR Engines</span>
+          <div class="node-tooltip tooltip-bottom"><div class="tooltip-arrow tooltip-arrow-bottom"></div><div class="tooltip-header"><div class="tooltip-dot" style="background:var(--red)"></div><span class="tooltip-title">Sentry™ — Revenue Recovery</span></div><p class="tooltip-desc">Two certification engines: DFR audits delivery fees across 5 categories. MFR audits processor fees across 5 categories. Continuous, not one-time.</p><div class="tooltip-tags"><span class="tooltip-tag">DFR Engine</span><span class="tooltip-tag">MFR Engine</span><span class="tooltip-tag">10 Categories</span></div></div>
+        </div>
+
+        <div class="diagram-node node-operator">
+          <span class="node-title" style="font-size:12.5px;color:var(--charcoal)">Operator</span>
+          <span class="node-sub">Certified Actions</span>
+          <div class="node-tooltip tooltip-bottom"><div class="tooltip-arrow tooltip-arrow-bottom"></div><div class="tooltip-header"><div class="tooltip-dot" style="background:var(--text-gray)"></div><span class="tooltip-title">Operator Dashboard</span></div><p class="tooltip-desc">Every insight is certified, trust-scored, and audit-ready. Evidence ExportPacks ready for dispute or litigation.</p><div class="tooltip-tags"><span class="tooltip-tag">Actionable</span><span class="tooltip-tag">Trust-Scored</span><span class="tooltip-tag">Legally Defensible</span></div></div>
+        </div>
+
+        <!-- Trust Score Gauge -->
+        <div class="trust-gauge">
+          <svg viewBox="0 0 100 100" style="width:100%">
+            <circle cx="50" cy="50" r="36" fill="#fff" stroke="var(--mid-gray)" stroke-width="2"/>
+            <circle id="trustRing" cx="50" cy="50" r="36" fill="none" stroke="var(--cert-green)" stroke-width="4" stroke-linecap="round" stroke-dasharray="0 226" transform="rotate(-90 50 50)" style="transition:stroke-dasharray .05s"/>
+            <text id="trustNum" x="50" y="44" text-anchor="middle" font-family="Outfit" font-size="17" font-weight="800" fill="var(--charcoal)">0</text>
+            <text x="50" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="6" font-weight="600" fill="var(--cert-green)">TRUST SCORE</text>
+            <text x="50" y="66" text-anchor="middle" font-family="DM Sans" font-size="5.5" fill="var(--text-gray)">Certified ✓</text>
+          </svg>
+          <div class="trust-gauge-glow"></div>
+        </div>
+
+        <!-- Floating labels -->
+        <div class="float-label float-det">◈ DETERMINISTIC OUTPUT</div>
+        <div class="float-label float-hal">0% HALLUCINATION</div>
+        <div class="float-label float-audit">✓ AUDIT TRAIL</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="section-inner">
+    <p class="trust-strip-label">Built for enterprise operators and platform partners</p>
+    <div class="trust-strip-items">
+      <span class="trust-strip-item"><span class="trust-strip-check">✓</span>AdoraPOS Partner</span>
+      <span class="trust-strip-item"><span class="trust-strip-check">✓</span>API-First</span>
+      <span class="trust-strip-item"><span class="trust-strip-check">✓</span>SOC 2 Ready</span>
+      <span class="trust-strip-item"><span class="trust-strip-check">✓</span>Zero Hallucination</span>
+      <span class="trust-strip-item"><span class="trust-strip-check">✓</span>Legally Defensible</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section" id="problem" style="background:var(--light-gray)">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">THE PROBLEM</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">The Industry Is Bleeding Revenue —<br>And Flying Blind</h2>
+    <div class="metric-grid">
+      <div class="metric-card reveal"><div class="metric-value" style="color:var(--red)">$47B+</div><p class="metric-label">Annual leakage in US restaurants</p><p class="metric-source">Source: <a href="#">NRA Industry Report, 2025</a></p></div>
+      <div class="metric-card reveal"><div class="metric-value" style="color:var(--charcoal)">3–7%</div><p class="metric-label">Revenue lost per location annually</p><p class="metric-source">Source: <a href="#">FohBoh Certification Data, 2024–25</a></p></div>
+      <div class="metric-card reveal"><div class="metric-value" style="color:var(--text-gray)">0%</div><p class="metric-label">AI tools you can legally trust</p><p class="metric-source">Source: <a href="#">IEEE AI Accountability Study</a></p></div>
+    </div>
+    <p class="reveal" style="font-family:var(--f-body);font-size:16px;color:var(--text-gray);text-align:center;margin-top:32px">Most systems analyze. <strong style="color:var(--charcoal)">None certify.</strong></p>
+  </div>
+</section>
+
+<!-- PLATFORM -->
+<section class="section" id="platform-section" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">THE PLATFORM</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">The First Certified Intelligence Platform</h2>
+    <div class="platform-grid" id="platformGrid">
+      <!-- Cards injected by JS -->
+    </div>
+    <p class="reveal" style="font-family:var(--f-display);font-size:19px;font-weight:600;text-align:center;margin-top:44px;color:var(--charcoal)">MGE makes AI safe. <span style="color:var(--red)">Cortex makes AI useful.</span></p>
+  </div>
+</section>
+
+<!-- MGE ARCHITECTURE -->
+<section class="section" style="background:var(--dark-bg);color:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--amber)">MGE V2.0 ARCHITECTURE</p>
+    <h2 class="section-title reveal" style="color:#fff;margin-bottom:12px">The Deterministic Governance Core</h2>
+    <p class="reveal" style="font-family:var(--f-body);font-size:16px;color:rgba(255,255,255,.45);text-align:center;max-width:560px;margin:0 auto 56px;line-height:1.6">A dual-loop framework that certifies data, gates decisions, and executes recovery — entirely through pre-authorized human policy on certified facts.</p>
+    <div class="mge-grid" id="mgeGrid"></div>
+    <p class="reveal" style="font-family:var(--f-body);font-size:14px;color:rgba(255,255,255,.3);text-align:center;margin-top:36px;font-style:italic">You are not replacing human judgment. You are automating the execution of pre-authorized human policy based on certified facts.</p>
+  </div>
+</section>
+
+<!-- TRUST SCORE EXPLAINER -->
+<section class="section" id="trust-score" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">TRUST SCORE</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal);margin-bottom:24px">Confidence in the Process,<br>Not Approval of the Result</h2>
+    <p class="section-subtitle reveal" style="margin-top:0">The Trust Score is not a score of the result itself. It's a score of how <strong style="color:var(--charcoal)">reliably and completely</strong> that result was calculated.</p>
+    <div class="trust-examples">
+      <div class="trust-ex reveal" style="border:1px solid rgba(214,48,49,.15);background:rgba(214,48,49,.025)">
+        <div class="trust-ex-header"><span class="trust-ex-badge" style="color:var(--red);background:rgba(214,48,49,.08)">BAD OUTCOME · HIGH TRUST</span><span class="trust-ex-score" style="color:var(--cert-green)">95</span></div>
+        <h4>Food Cost at 45% — But You Can Trust It</h4>
+        <p>All inventory data complete. All invoices accounted for. Formula executed correctly. MGE says: <strong>"This 45% is accurate — it's your real performance."</strong> Focus on fixing the business problem, not chasing data ghosts.</p>
+      </div>
+      <div class="trust-ex reveal" style="border:1px solid rgba(255,152,0,.2);background:rgba(255,152,0,.025)">
+        <div class="trust-ex-header"><span class="trust-ex-badge" style="color:var(--amber);background:var(--amber-lt)">GOOD OUTCOME · LOW TRUST</span><span class="trust-ex-score" style="color:var(--red)">65</span></div>
+        <h4>Food Cost at 28% — But Don't Trust It</h4>
+        <p>Inventory data is 5 days old. Labor hours missing. MGE warns: <strong>"This 28% may not be reliable — it's built on incomplete data."</strong> The seemingly good number is built on bad data.</p>
+      </div>
+    </div>
+    <div class="trust-checks reveal">
+      <div><div class="trust-check-title">Freshness</div><div class="trust-check-desc">Timestamps of last data syncs</div></div>
+      <div><div class="trust-check-title">Completeness</div><div class="trust-check-desc">Boolean flags for missing files</div></div>
+      <div><div class="trust-check-title">Validity</div><div class="trust-check-desc">Inputs checked against thresholds</div></div>
+      <div><div class="trust-check-title">Process Integrity</div><div class="trust-check-desc">Formula version & approval logs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" id="solutions" style="background:var(--light-gray)">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">USE CASES</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Where Certified Intelligence Delivers</h2>
+    <div class="uc-grid" id="ucGrid"></div>
+  </div>
+</section>
+
+<!-- RESOURCES / LEARNING CENTER -->
+<section class="section" id="resources" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">RESOURCES</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal);margin-bottom:20px">Learning Center</h2>
+    <p class="section-subtitle reveal">40+ articles on restaurant intelligence, certified operations, and revenue recovery. Research, guides, and real operator perspectives.</p>
+
+    <div class="res-categories reveal" id="resCats">
+      <button class="res-category-btn active" data-cat="all">All</button>
+      <button class="res-category-btn" data-cat="research">Research</button>
+      <button class="res-category-btn" data-cat="store">Store-Level Stories</button>
+      <button class="res-category-btn" data-cat="corporate">Above-Store Intel</button>
+      <button class="res-category-btn" data-cat="guide">Guides</button>
+      <button class="res-category-btn" data-cat="ai">Restaurant AI</button>
+    </div>
+
+    <div class="res-grid" id="resGrid"></div>
+
+    <div class="reveal" style="text-align:center;margin-top:8px">
+      <a href="#" style="font-family:var(--f-body);font-size:14px;color:var(--red);font-weight:600">View all 40+ articles →</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANY — BENTO BOX -->
+<section class="section" id="company" style="background:var(--light-gray)">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">COMPANY</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Building the Trust Layer for Restaurant Intelligence</h2>
+
+    <div class="bento-grid reveal">
+      <!-- Large card: About -->
+      <div class="bento-card large" style="background:#fff;border:1px solid var(--mid-gray)">
+        <span class="bento-label" style="color:var(--red)">ABOUT FOHBOH</span>
+        <h3 style="font-size:24px;color:var(--charcoal);line-height:1.2;margin-bottom:14px">We don't build AI tools.<br>We build <span style="color:var(--red)">intelligence infrastructure</span>.</h3>
+        <p style="font-size:14.5px;color:var(--text-gray);margin-bottom:20px">FohBoh was founded on a simple observation: every AI tool in the restaurant industry generates answers, but none can prove they're correct. We built the certification layer that makes AI trustworthy — not by improving the AI, but by making the data deterministic.</p>
+        <p style="font-size:14.5px;color:var(--text-gray);margin-bottom:20px">Our MGE (Machine Governed Enterprise) framework is the industry's first deterministic governance core. It doesn't guess. It doesn't hallucinate. It certifies — with legally defensible, auditable outputs that hold up under legal scrutiny.</p>
+        <div style="display:flex;gap:24px;margin-top:24px">
+          <div><div class="bento-stat" style="color:var(--red)">10</div><div style="font-family:var(--f-body);font-size:12px;color:var(--text-gray)">Variance Categories</div></div>
+          <div><div class="bento-stat" style="color:var(--charcoal)">198</div><div style="font-family:var(--f-body);font-size:12px;color:var(--text-gray)">MGE Rule Registry</div></div>
+          <div><div class="bento-stat" style="color:var(--cert-green)">11</div><div style="font-family:var(--f-body);font-size:12px;color:var(--text-gray)">Trust Gates</div></div>
+        </div>
+      </div>
+
+      <!-- Vision -->
+      <div class="bento-card" style="background:var(--charcoal);color:#fff">
+        <span class="bento-label" style="color:var(--amber)">VISION</span>
+        <h3 style="font-size:18px;color:#fff;margin-bottom:10px">Make every restaurant data point provable.</h3>
+        <p style="font-size:13.5px;color:rgba(255,255,255,.5)">We envision a world where no operator makes a decision on unverified data. Where every KPI has a Trust Score. Where AI earns trust through certification, not marketing.</p>
+        <div style="margin-top:20px;padding:14px 16px;border-radius:10px;background:rgba(255,255,255,.06)">
+          <p style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px">OUR THESIS</p>
+          <p style="font-family:var(--f-body);font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;line-height:1.5">"You're not SaaS — you're IaaS for intelligence. You're not analytics — you're certification."</p>
+        </div>
+      </div>
+
+      <!-- Approach -->
+      <div class="bento-card" style="background:#fff;border:1px solid var(--mid-gray)">
+        <span class="bento-label" style="color:var(--cert-green)">APPROACH</span>
+        <h3 style="font-size:18px;color:var(--charcoal)">100% Deterministic</h3>
+        <p style="font-size:13.5px;color:var(--text-gray)">We reject probabilistic AI for operational decisions. Every output follows human-written rules, certified data, and auditable logic. Same input → same output, every time.</p>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cert-green);font-size:12px">✓</span><span style="font-family:var(--f-body);font-size:12.5px;color:var(--text-gray)">Rules-based, not probabilistic</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cert-green);font-size:12px">✓</span><span style="font-family:var(--f-body);font-size:12.5px;color:var(--text-gray)">Legally defensible architecture</span></div>
+          <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cert-green);font-size:12px">✓</span><span style="font-family:var(--f-body);font-size:12.5px;color:var(--text-gray)">SHA-256 immutable audit trail</span></div>
+        </div>
+      </div>
+
+      <!-- Team — Expandable -->
+      <div class="bento-card" id="leadershipCard" style="background:#fff;border:1px solid var(--mid-gray);grid-column:2/4;cursor:pointer;overflow:hidden" onclick="document.getElementById('leadershipCard').classList.toggle('leadership-open')">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <span class="bento-label" style="color:var(--charcoal)">LEADERSHIP</span>
+            <h3 style="font-size:22px;color:var(--charcoal);margin-bottom:0">Built by operators, for operators.</h3>
+          </div>
+          <div id="leadershipArrow" style="font-size:18px;color:var(--text-gray);transition:transform .3s;flex-shrink:0;margin-left:16px">▾</div>
+        </div>
+        <p style="font-family:var(--f-body);font-size:13px;color:var(--text-gray);margin-top:6px;margin-bottom:0">Decades of restaurant operations and technology experience. <span style="color:var(--red);font-weight:600">Learn more →</span></p>
+
+        <div id="leadershipDetails" style="max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)" onclick="event.stopPropagation()">
+          <div style="border-top:1px solid var(--light-gray);margin-top:20px;padding-top:20px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:0">
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,var(--red),#FF6B6B)">JD<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">Founder & CEO</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">Restaurant Operations × AI</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">20+ years building and operating multi-unit restaurant brands. Saw firsthand how operators make critical decisions on unverified data — and built the certification layer the industry was missing. Previously scaled a QSR concept to 35+ locations before identifying the systemic revenue leakage problem that became FohBoh.</p>
+                </div>
+              </div>
+
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,var(--charcoal),#444)">CTO<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">Chief Technology Officer</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">Enterprise Systems × Deterministic AI</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">Architect of the MGE framework and 198-rule deterministic engine. Background in enterprise data systems where "probably correct" isn't an acceptable standard. Led data infrastructure teams at Fortune 500 companies before bringing that rigor to an industry that needed it most.</p>
+                </div>
+              </div>
+
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,var(--cert-green),#69F0AE)">VP<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">VP Partnerships</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">POS Integration × OEM Architecture</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">15+ years in restaurant technology partnerships. Led POS integration programs at scale and designed the white-label architecture that makes FohBoh invisible inside partner platforms. Previously BD lead at a major POS provider serving 10,000+ restaurant locations.</p>
+                </div>
+              </div>
+
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,var(--blue),#64B5F6)">CPO<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">Chief Product Officer</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">Product Strategy × Operator Experience</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">Translates operator pain into product architecture. Background in enterprise SaaS product management with a focus on making complex systems feel simple. Obsessed with ensuring every FohBoh feature delivers measurable ROI within the first certification cycle.</p>
+                </div>
+              </div>
+
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,var(--amber),#FFB74D)">CRO<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">Chief Revenue Officer</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">Enterprise Sales × Revenue Operations</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">Specializes in enterprise sales cycles where trust, compliance, and measurable ROI are non-negotiable. Built revenue engines at infrastructure companies where the product sells on proof, not promises. Designed FohBoh's dual-fee pricing architecture to align incentives with certification accuracy.</p>
+                </div>
+              </div>
+
+              <div class="leader-card" style="text-align:left;padding:16px;background:var(--light-gray);border-radius:12px;cursor:pointer" onclick="event.stopPropagation();this.classList.toggle('leader-open')">
+                <div style="display:flex;align-items:center;justify-content:space-between">
+                  <div class="leader-headshot" style="background:linear-gradient(135deg,#9C27B0,#CE93D8)">CMO<div class="headshot-placeholder">PHOTO</div></div>
+                  <span class="leader-arrow" style="font-size:14px;color:var(--text-gray);transition:transform .3s">▾</span>
+                </div>
+                <div style="font-family:var(--f-display);font-size:13px;font-weight:700;color:var(--charcoal);margin-top:10px">Chief Marketing Officer</div>
+                <div style="font-family:var(--f-body);font-size:10.5px;color:var(--text-gray);margin-bottom:0">Category Creation × Brand Architecture</div>
+                <div class="leader-bio" style="max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)">
+                  <p style="font-family:var(--f-body);font-size:12px;color:var(--text-gray);line-height:1.5;margin-top:10px;padding-top:10px;border-top:1px solid var(--mid-gray)">Category creation specialist who positions infrastructure companies as market leaders. Built the "Certified Intelligence" positioning framework and content engine (40+ articles). Background in B2B marketing for enterprise platforms where credibility and thought leadership drive pipeline.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:20px;padding:20px 24px;border-radius:12px;background:var(--charcoal);color:#fff">
+              <div style="display:flex;align-items:flex-start;gap:20px">
+                <div style="flex:1">
+                  <span style="font-family:var(--f-mono);font-size:10px;color:var(--amber);letter-spacing:1px;font-weight:600">OUR VISION</span>
+                  <h4 style="font-family:var(--f-display);font-size:16px;font-weight:700;color:#fff;margin-top:6px;margin-bottom:8px">Make every restaurant data point provable.</h4>
+                  <p style="font-family:var(--f-body);font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.55">We envision a world where no operator makes a decision on unverified data. Where every KPI carries a Trust Score. Where AI earns trust through deterministic certification — not marketing claims. We're not building another analytics tool. We're building the trust infrastructure that makes all analytics tools trustworthy.</p>
+                </div>
+                <div style="flex:1">
+                  <span style="font-family:var(--f-mono);font-size:10px;color:var(--cert-green);letter-spacing:1px;font-weight:600">WHY IT MATTERS</span>
+                  <h4 style="font-family:var(--f-display);font-size:16px;font-weight:700;color:#fff;margin-top:6px;margin-bottom:8px">The industry runs on unverified numbers.</h4>
+                  <p style="font-family:var(--f-body);font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.55">Every restaurant operator today makes decisions on data they can't prove is correct. Processors overcharge. DSPs miscalculate. AI tools hallucinate. We built FohBoh because we believe operators deserve certified truth — and the industry deserves infrastructure, not another dashboard.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS — EXPANDED WITH CATEGORIES -->
+<section class="section" id="partners" style="background:var(--dark-bg);color:#fff">
+  <div class="section-inner">
+    <div class="oem-grid">
+      <div>
+        <p class="section-label reveal" style="color:var(--red);text-align:left">FOR PARTNERS</p>
+        <h2 class="reveal" style="font-family:var(--f-display);font-size:38px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-1.2px;line-height:1.12">Built to Be Embedded</h2>
+        <p class="reveal" style="font-family:var(--f-body);font-size:16px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:28px">White-label architecture. API-first. Invisible infrastructure. <strong style="color:rgba(255,255,255,.8)">Stripe for restaurant intelligence</strong>.</p>
+        <div class="oem-features reveal">
+          <div><div class="oem-feat-title">White-Label</div><div class="oem-feat-desc">Your brand, our engine</div></div>
+          <div><div class="oem-feat-title">API-First</div><div class="oem-feat-desc">RESTful, documented</div></div>
+          <div><div class="oem-feat-title">Invisible</div><div class="oem-feat-desc">Users never see us</div></div>
+        </div>
+        <a href="#contact" class="reveal" style="display:inline-flex;padding:12px 24px;border-radius:10px;background:var(--red);color:#fff;font-family:var(--f-body);font-size:14px;font-weight:600">Become a Partner</a>
+      </div>
+      <div class="reveal">
+        <svg viewBox="0 0 440 280" fill="none" style="width:100%">
+          <rect x="20" y="20" width="120" height="44" rx="10" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)"/><text x="80" y="46" text-anchor="middle" font-family="DM Sans" font-size="10" fill="rgba(255,255,255,.4)">POS System</text>
+          <rect x="160" y="20" width="120" height="44" rx="10" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)"/><text x="220" y="46" text-anchor="middle" font-family="DM Sans" font-size="10" fill="rgba(255,255,255,.4)">Delivery Platform</text>
+          <rect x="300" y="20" width="120" height="44" rx="10" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)"/><text x="360" y="46" text-anchor="middle" font-family="DM Sans" font-size="10" fill="rgba(255,255,255,.4)">Payments App</text>
+          <line x1="80" y1="68" x2="80" y2="105" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <line x1="220" y1="68" x2="220" y2="105" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <line x1="360" y1="68" x2="360" y2="105" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <rect x="50" y="110" width="340" height="70" rx="14" fill="rgba(214,48,49,.06)" stroke="var(--red)"/><text x="220" y="142" text-anchor="middle" font-family="Outfit" font-size="14" font-weight="700" fill="#fff">FohBoh Deterministic Engine</text><text x="220" y="162" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="rgba(255,255,255,.3)">Sentry · MGE · Cortex</text>
+          <line x1="140" y1="185" x2="140" y2="215" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <line x1="220" y1="185" x2="220" y2="215" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <line x1="300" y1="185" x2="300" y2="215" stroke="rgba(255,255,255,.12)" stroke-dasharray="4 3"><animate attributeName="stroke-dashoffset" from="14" to="0" dur="2s" repeatCount="indefinite"/></line>
+          <rect x="55" y="220" width="100" height="38" rx="8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)"/><text x="105" y="243" text-anchor="middle" font-family="DM Sans" font-size="9" fill="rgba(255,255,255,.3)">Location 1</text>
+          <rect x="175" y="220" width="100" height="38" rx="8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)"/><text x="225" y="243" text-anchor="middle" font-family="DM Sans" font-size="9" fill="rgba(255,255,255,.3)">Location 2</text>
+          <rect x="295" y="220" width="100" height="38" rx="8" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.06)"/><text x="345" y="243" text-anchor="middle" font-family="DM Sans" font-size="9" fill="rgba(255,255,255,.3)">Location N</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Partner Categories -->
+    <div class="partner-cat-grid" id="partnerCats">
+    </div>
+
+    <p class="reveal" style="font-family:var(--f-body);font-size:13px;color:rgba(255,255,255,.3);text-align:center;margin-top:36px;font-style:italic">"Currently in pilot with multi-unit operators and leading POS partners including AdoraPOS and Marco's Pizza."</p>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="section" id="demo" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">SEE IT IN ACTION</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal);margin-bottom:16px">Two Products. Two Demos.</h2>
+    <p class="section-subtitle reveal" style="margin-bottom:44px">Watch how Cortex answers questions on certified data and how Sentry finds money you didn't know you were losing.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <!-- Cortex Demo -->
+      <div class="reveal">
+        <div class="demo-mock" style="margin-bottom:16px">
+          <div class="demo-mock-header">
+            <div class="demo-mock-brand">FohBoh | <span>Cortex</span></div>
+            <div style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.3)">v8.6.1</div>
+          </div>
+          <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);cursor:pointer;position:relative" id="cortexDemoArea">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;box-shadow:0 6px 24px rgba(255,152,0,.25)">▶</div>
+            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.8px">CORTEX DEMO · CERTIFIED AI</span>
+          </div>
+        </div>
+        <h3 style="font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:6px">Cortex: Certified Intelligence</h3>
+        <p style="font-family:var(--f-body);font-size:13px;color:var(--text-gray);line-height:1.5">Watch Cortex answer "Why did margins drop 4% last Tuesday?" with a fully sourced, trust-scored response traceable to the KPI Vault.</p>
+      </div>
+
+      <!-- Sentry Demo -->
+      <div class="reveal">
+        <div class="demo-mock" style="margin-bottom:16px">
+          <div class="demo-mock-header">
+            <div style="font-family:'Alkaline',var(--f-display);font-size:16px;font-weight:700;color:#fff">FohBoh | <span style="color:var(--red)">Sentry</span></div>
+            <div style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.3)">v4.4</div>
+          </div>
+          <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);cursor:pointer;position:relative" id="sentryDemoArea">
+            <div style="width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;box-shadow:0 6px 24px rgba(214,48,49,.25)">▶</div>
+            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.8px">SENTRY DEMO · REVENUE RECOVERY</span>
+          </div>
+        </div>
+        <h3 style="font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:6px">Sentry: Revenue Recovery</h3>
+        <p style="font-family:var(--f-body);font-size:13px;color:var(--text-gray);line-height:1.5">Watch Sentry detect a $3,200 processor overcharge and generate a certified CAAR with full evidence ExportPack.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background:var(--light-gray)">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">PRICING</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal);margin-bottom:16px">Certified restaurant intelligence,<br>priced to scale.</h2>
+    <p class="section-subtitle reveal" style="margin-bottom:44px">Start with AI operations intelligence, add certified revenue recovery, or deploy the full bundle. Enterprise and platform partnerships are custom-scoped.</p>
+
+    <div class="pricing-grid">
+      <!-- Cortex -->
+      <div class="pricing-card reveal">
+        <div class="pricing-plan">Cortex</div>
+        <div class="pricing-price">$249 <small>/ location / month</small></div>
+        <p class="pricing-meta">Minimum 10 locations</p>
+        <ul class="pricing-features">
+          <li>AI operations assistant for restaurant teams</li>
+          <li>Real-time KPI insights across labor, sales, and margin</li>
+          <li>Alerts, benchmarking, and trend visibility</li>
+          <li>Includes 150 Cortex Conversations per month</li>
+        </ul>
+        <a class="pricing-cta outline" href="https://form.jotform.com/251395452618159">Request Demo</a>
+      </div>
+
+      <!-- Sentry -->
+      <div class="pricing-card reveal">
+        <div class="pricing-plan">Sentry</div>
+        <div class="pricing-price">$199 <small>/ location / month</small></div>
+        <p class="pricing-meta">+ 10% per certified report with Trust Score ≥ 85</p>
+        <ul class="pricing-features">
+          <li>Includes two revenue recovery modules</li>
+          <li>Detects fee discrepancies and revenue leakage</li>
+          <li>Generates certified CAAR reports</li>
+          <li>Produces audit-ready supporting documentation</li>
+        </ul>
+        <a class="pricing-cta outline" href="https://form.jotform.com/251395452618159">Talk to Sales</a>
+      </div>
+
+      <!-- Bundle -->
+      <div class="pricing-card featured reveal">
+        <div class="pricing-badge">Recommended</div>
+        <div class="pricing-plan">Cortex + Sentry</div>
+        <div class="pricing-price">$329 <small>/ location / month</small></div>
+        <p class="pricing-meta">Minimum 10 locations · + 10% per certified report with Trust Score ≥ 85</p>
+        <ul class="pricing-features">
+          <li>Everything in Sentry, plus:</li>
+          <li>Includes 150 Cortex Conversations per month</li>
+          <li>Combines AI intelligence with certified revenue certification</li>
+          <li>One suite for operational insight and financial verification</li>
+          <li>Best value for multi-unit operators</li>
+        </ul>
+        <a class="pricing-cta accent" href="https://form.jotform.com/251395452618159">Get Started</a>
+      </div>
+    </div>
+
+    <!-- Volume Pricing -->
+    <div style="margin-top:48px">
+    <!-- Simulator CTA -->
+    <div class="reveal" style="margin-top:28px;margin-bottom:28px;padding:24px 28px;background:#fff;border-radius:14px;border:1px solid var(--mid-gray);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <div>
+        <div style="font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:4px">How much are you losing?</div>
+        <div style="font-family:var(--f-body);font-size:13px;color:var(--text-gray)">Try the Sentry Recovery Simulator — estimate your DFR and MFR variance in 60 seconds.</div>
+      </div>
+      <a href="sentry-simulator.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;background:var(--charcoal);color:#fff;font-family:var(--f-body);font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;transition:opacity .2s" target="_blank">⚡ Open Recovery Simulator</a>
+    </div>
+
+    <!-- Volume Pricing -->
+      <h3 class="reveal" style="font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--charcoal);margin-bottom:8px;letter-spacing:-.8px">Volume pricing for operators</h3>
+      <p class="reveal" style="font-family:var(--f-body);font-size:15px;color:var(--text-gray);margin-bottom:20px;line-height:1.5">All operator plans begin at 10 locations. Bundle pricing scales by location count for growing restaurant groups.</p>
+      <div class="tier-grid reveal">
+        <div class="tier-card"><h4>Tier 1</h4><p><strong>10–19 locations</strong><br>$329 per location / month</p></div>
+        <div class="tier-card"><h4>Tier 2</h4><p><strong>20–34 locations</strong><br>$309 per location / month</p></div>
+        <div class="tier-card"><h4>Tier 3</h4><p><strong>35–49 locations</strong><br>$289 per location / month</p></div>
+      </div>
+    </div>
+
+    <!-- Custom Plans -->
+    <div style="margin-top:48px">
+      <h3 class="reveal" style="font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--charcoal);margin-bottom:8px;letter-spacing:-.8px">Custom plans for larger deployments</h3>
+      <p class="reveal" style="font-family:var(--f-body);font-size:15px;color:var(--text-gray);margin-bottom:20px;line-height:1.5">For 50+ locations, multi-brand environments, or embedded deployments, we scope pricing around data complexity, integration needs, and service requirements.</p>
+      <div class="custom-grid reveal">
+        <div class="pricing-card" style="background:#fff">
+          <div class="pricing-plan">Enterprise</div>
+          <div class="pricing-price">Custom</div>
+          <p class="pricing-meta">For restaurant groups with 50+ locations</p>
+          <ul class="pricing-features">
+            <li>Bundle deployment of Cortex + Sentry</li>
+            <li>Onboarding, integrations, and dedicated support</li>
+            <li>Built for large-scale operators and complex environments</li>
+          </ul>
+          <a class="pricing-cta outline" href="https://form.jotform.com/251395452618159">Contact Sales</a>
+        </div>
+        <div class="pricing-card" style="background:#fff">
+          <div class="pricing-plan">White Label</div>
+          <div class="pricing-price">Custom</div>
+          <p class="pricing-meta">For POS, back-office, and platform partners</p>
+          <ul class="pricing-features">
+            <li>Annual licensing for branded platform deployment</li>
+            <li>Semi-custom implementation and additional services available</li>
+            <li>Includes scoping for API access, integrations, and customization</li>
+          </ul>
+          <a class="pricing-cta outline" href="https://form.jotform.com/251395452618159">Request Partnership</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:var(--light-gray)">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">WHAT OPERATORS ARE SAYING</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Trusted by Operators Who Demand Proof</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">"We thought we had reconciliation covered internally. FohBoh found $4,200 per month per location in processor overcharges we had no idea existed. The certified evidence made the dispute with our processor a conversation, not a fight."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TBA</div>
+          <div><div class="testimonial-name">Name TBA</div><div class="testimonial-role">Multi-Unit Operator · 12 Locations</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">"Every other AI tool we tried gave us answers we couldn't verify. Cortex gives us answers with a Trust Score and a full chain of custody. Our CFO finally trusts the numbers — because they're certified, not generated."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TBA</div>
+          <div><div class="testimonial-name">Name TBA</div><div class="testimonial-role">VP Operations · Enterprise Chain</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">"We embedded FohBoh's engine into our POS platform in under 30 days. Our restaurant clients now get certified fee recovery without ever knowing it's FohBoh underneath. The white-label architecture just works."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">TBA</div>
+          <div><div class="testimonial-name">Name TBA</div><div class="testimonial-role">CTO · POS Platform Partner</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-label reveal" style="color:var(--red)">FAQ</p>
+    <h2 class="section-title reveal" style="color:var(--charcoal)">Questions We Hear Most</h2>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact-form" style="background:var(--dark-bg);color:#fff">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <p class="section-label reveal" style="color:var(--red);text-align:left">GET IN TOUCH</p>
+        <h2 class="reveal" style="font-family:var(--f-display);font-size:36px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:-1.2px;line-height:1.12;text-align:left">Let's Talk About<br>Your Data.</h2>
+        <p class="reveal" style="font-family:var(--f-body);font-size:15px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:28px;text-align:left">Whether you're a multi-unit operator, enterprise chain, or POS partner — we'll show you what certified intelligence looks like for your business.</p>
+        <div class="reveal" style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:10px"><span style="color:var(--cert-green);font-size:13px">✓</span><span style="font-family:var(--f-body);font-size:14px;color:rgba(255,255,255,.5)">30-minute personalized demo</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><span style="color:var(--cert-green);font-size:13px">✓</span><span style="font-family:var(--f-body);font-size:14px;color:rgba(255,255,255,.5)">See certified variance for your actual data</span></div>
+          <div style="display:flex;align-items:center;gap:10px"><span style="color:var(--cert-green);font-size:13px">✓</span><span style="font-family:var(--f-body);font-size:14px;color:rgba(255,255,255,.5)">No commitment — recovery guarantee on first month</span></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="contact-form" id="contactFormFields">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <input class="form-input" type="text" id="cf-name" placeholder="Full name *" required>
+            <input class="form-input" type="text" id="cf-company" placeholder="Company name *" required>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <input class="form-input" type="email" id="cf-email" placeholder="Work email *" required>
+            <input class="form-input" type="tel" id="cf-phone" placeholder="Phone (optional)">
+          </div>
+          <select class="form-input" id="cf-tier" style="appearance:auto">
+            <option value="" disabled selected style="color:rgba(255,255,255,.3)">Select your plan interest...</option>
+            <option>Cortex — $249/location/month</option>
+            <option>Sentry — $199/location/month</option>
+            <option>Cortex + Sentry Bundle — $329/location/month</option>
+            <option>Enterprise (50+ locations) — Custom</option>
+            <option>White Label / OEM Partner — Custom</option>
+            <option>Not sure yet — tell me more</option>
+          </select>
+          <select class="form-input" id="cf-size" style="appearance:auto">
+            <option value="" disabled selected style="color:rgba(255,255,255,.3)">How many locations?</option>
+            <option>5–10 locations</option>
+            <option>11–25 locations</option>
+            <option>26–50 locations</option>
+            <option>51–100 locations</option>
+            <option>100+ locations</option>
+            <option>POS / Platform Partner</option>
+            <option>Investor / Analyst</option>
+          </select>
+          <textarea class="form-input form-textarea" id="cf-message" placeholder="Tell us about your situation... (optional)"></textarea>
+          <button class="form-submit" onclick="submitContactForm()">Book a Demo</button>
+          <p style="font-family:var(--f-body);font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-top:4px">We'll respond within one business day. No spam, ever.</p>
+        </div>
+        <!-- Thank You State -->
+        <div id="contactThankYou" style="display:none;text-align:center;padding:48px 24px">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(0,200,83,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px">✓</div>
+          <h3 style="font-family:var(--f-display);font-size:24px;font-weight:700;color:#fff;margin-bottom:10px">Thank you! We'll be in touch shortly.</h3>
+          <p style="font-family:var(--f-body);font-size:15px;color:rgba(255,255,255,.5);line-height:1.6;max-width:400px;margin:0 auto">A member of our team will reach out within one business day to schedule your personalized demo. In the meantime, feel free to explore the site or chat with our AI assistant.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="contact">
+  <div class="final-cta-grid"></div>
+  <div style="max-width:650px;margin:0 auto;position:relative">
+    <h2 class="reveal">See What Your Data Is Actually Worth.</h2>
+    <p class="reveal">Whether you're recovering revenue, embedding intelligence, or evaluating a platform investment.</p>
+    <div class="final-cta-btns reveal">
+      <a href="#" class="cta-red">Book Demo</a>
+      <a href="#" class="cta-ghost">Talk to Us</a>
+      <a href="#" class="cta-ghost">Partner With Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="section-inner">
+    <div class="footer-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAACvCAYAAABU3PRqAAABXGlDQ1BJQ0MgUHJvZmlsZQAAKJFtkL1LA0EQxV/0JBo/SCGCYHEWgkr84DSIZQyigkVIIsZ0d5tLIl7icjlRa1sbG1vFwr9AiIWFWGkt+NkLCqYR0uixziZqEnVgmN8+HrOPAZoUnXNLAZDLO3Z0bkZNrCRV7zMUtKITvfDrrMBDkcgiWfA9G6t8A4+c1yNy12u8p//gJdGWfPLNG+7V3l9/Q/lSZoHR/KAeZtx2AM8gcWTT4ZK3iLttCkW8KzlT5UPJRpVPKp54NEx8SexnWT1FfEccMOr0TB3nrA32lUGm7zDzSzGaXdR9iEHDFGYRxDTG6Tb/eycr3jDWwbENG6vIIAsHKkKkcFgwiReQB8MoAsQabdMQlDf+fbuaZp7S6h366r6mrZWAsyOKV6ppA2P0fgQu0ly39Z+LespKIT2hVbm9CLTsC/G2DHiHAPdWiPeiEO4x0PwAnJc/AdDnY2TDt4ZcAAAAVmVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAADkoYABwAAABIAAABEoAIABAAAAAEAAAC0oAMABAAAAAEAAACvAAAAAEFTQ0lJAAAAU2NyZWVuc2hvdEwlwHIAAAHWaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA2LjAuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjE3NTwvZXhpZjpQaXhlbFlEaW1lbnNpb24+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xODA8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpVc2VyQ29tbWVudD5TY3JlZW5zaG90PC9leGlmOlVzZXJDb21tZW50PgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KaSs85gAAGUNJREFUeAHtXQm4FMW1PtXdM1wVjbighi1GAooKCipqBIlRQVxQFrfkiyIoqOCnohHlJe/lGRLFJYKaKALRRECUTREwAiYiAuYp4BZZFAmCGyoEFLkzvbxz+nIv13vn3umqru6uXs73DTO3p5ZTp35qqk6dhTlIkFEmgYRIQEvIOLJhZBJwJZABOgNCoiSQATpR05kNJgN0hoFESSADdKKmMxtMBugMA4mSQAboRE1nNpgM0BkGEiWBDNCJms5sMBmgMwwkSgIZoBM1ndlgjEwEkiVgWeD85z8AW7eCs20bONvxc2UBoICvIr6IcnmAfA5fTYDttx+wZs0A9t8fGL5A16vKZP8KSSADtIjYbBucjRvBXrMGHHzZH3wAzqZN4GzG16efApimSKsumNmhhwJr2RJYi5agHXEEsPbtQGvXHlibNhnYPUiVZdZ25aVEK6392mtgr1iBrzfAfvNNgJ07y1eUWWKvvUDr2Am0Lp1B64yvridXrewy+0hAWxmgS00irsD2//0TrH+8DPbixWC//RYAPlOKGAPt2GNB69Yd9B49QDvppGwFxwnKAF2NUtwm2K8uAWvuPLBe/Bs4X3xR/U0s3tkBB4Desydo5/QGvXt3ACOdu8nUA9peuwasp58Ga8ZMcLZ8HgvwlmOSHXgg6H37gX7xxaAddVS54on6Pp2AxtXYmjsXzEkTwX7jjURNaN3BaJ2OA2PwINDPvyAVq3a6AL1jB5hPPA7m449XaSPqzn6C/2bNm4NxxZWgDxzoqgqTOtRUANrZvh2sCRPAnPAY6oW3J3UuPY2LNd0X9EFXgXH1NVV6b0+14lMo2YCurATzsfFgPvwwOLg6Z7RHAqxpUzCGDAVj6FAAVAkmhZIJaHRkt2bNhOJdd4Hz8cdJmatAxsEOOQRyt40EvX9/AC3+lhCJA7S9ejUUb/tl4g97stFNh8fc3XeDdswxspsOtb3kAPrbb6H4hz+AOf5R8avnUEWvYGdoR2IMGgS5EbcA7LOPggyWZykRgLZXroTC8GHgbNhQfsRZibISYK1bQ/6BsVW3j2VLq1Ug3oBGfXJx7ANgjhsHgFZuGUmUAO6njWuvg9wtuFrn0DIwJhRbQNNhrzB0iGswFBNZx5JNrWNHyD86HlirVrHgP5bHWvuVV6CyV88MzCFAzH7rLVfW1ksvhdCb/y5iB2jz4Yeg8meXg/PVV/5Hn7XgSQLksFC44hdg3n+/p/JRForPlgP3ywVUx1nTpkUpr9T3rV94EeQJ2Hn0ulGQYgFouq4uXD0YzTtfVVCEklnCA5gxbBga9jK+htFe2/rLX0L55SLb6/zESUo6GCgPaGfLFihcdinQhUkaSO99LuTHjxcaauHaoWDNmSNUl7cSa9sWmjw1DchlTCVSeg9NmozKfn1TA2YChnsFLYAQOlNYL7wgUFOsivP++1DZ9yLXt1KshWBqKQtoZ+O/qwS2fn0wI1ewVdcw/4wzhDizpk9Hr/KiUF3RSuQo7IIanYRVISUB7XzyCVReconrSa2KoMLgQ+9zobARvjllchgs1uuDvNwrL8W5+uijet9F8UA5QJMvn0oCCnNS9AEDhLojj3TaAkRFNQvQZ59FxUJNv2oBGm2WC5dfBo5CP2E1kgr4g9b+SNeLW6Qbc3I0q3NtXmmLWKCVmoLsREjqAJr0zHSV/a9/RSiO6LoWPgwigKy5z0fHeK2e7XXroIDWemHv5WuxAMoAujhqFFgvv1ybt/R8RrNNvW9fofFaM/AwiJ45qpC9fBkUbkWDpohICUCbjz0G5uQnIxJB9N3qp3UD8hwRIWvyFJFqgdYhjYv50IOB9tFQ45EDmg40xdG/bYi/VDwXPgxiCAZ7jZoXTsUxY4CMyMKmSAFNgV3odks4uGHY0gqiv33RC7tXL6GWo1LVeWIWr+ILw64H0oCESdEBmgZ83XXgfJ6MaEWik6afdx5ARQV/9a93gPXcc/z1QqzhfPmle9AP0/kiMkCbjz4K9rJlIYpXza4M8rYWIHPWbAD0o1SdKDKV+WB4++lIjJPs996Dyt7nRKreUQEIrFVrqFi6lN+yDpkn+ZHxfSwIA0c2efY50Dp1Cpzd8Fdo8gNEh9YodZWBS9VjB3r/fkJgJl19bMBMsqA7hhuGV2Ux8Cgb0WKhA9p85E+psp5rbGIMjBAqQtZU9VR15cZBt7/FB9GZOWAKdctB16O7yJps166Ah6V+89rxx0OTOQI3fHiJsqvz8ZFfMQtJGJ0XKhYsBLKlDopCXaGLd4zKwLx7Jil+swhZ8+fHE8w0WDRvLYwcKTJsz3VCA7T195cwxcPfPTOW6IJ4SNL79BEaovnUVKF6qlSiq3Fr/rzA2AkH0BgExrzzzsAGEbeGKScKpZDgJTfzVgL8KoujRwd2mRYKoM2pU8Feu5Z3/hJbXnS7YU57CgAjq8adKGQbBZ4PgoI/FGLCyV2nnpK6iPkNThZede+1chX/7SD+yu06uWvoV8kNjsPnF+ygg6Bi2XLpsakDX6FpdXaTUfoUQFKq671784MZB0+mtWHbRQQpc/JMMjHsgmwKFtB4qqVIRxntkYC47jneh8E9Etjzie4kZKtwAwW0NWNGFkF/z/wBO+ww0E45pdYTbx/dEAULXvRWOEalKOaKKTkSVqCANidOiJF4g2eVwmiJpH2wZs8KTCsQ/Kgb74FS68k86AYGaLKkIyOkjPZIQNRvkBKDJpXoSlzm/URggDYn4v+8jGokoHXoAFr79jV/e/3gGiK9847X4rEsZ036szS+AwE0nWCthQukMZmEhkR1z0lenavn1Xr5H9I0OIEA2pqV3D1f9SRwvWN6B/0i3D/zEppdUnq6xBNFTp3+jJRhBgNoutHKqEYC2o9/LOTVbS1cCOTGlAYyJZ0TpAPaXrsms3eug0Bh3fMzyT0M1hEROB9+KMVpQT6g582vy2u6/0YHWP0cdDfjJPccsmgRZ614F7fm+bfCkw5oa97ceEtVMvd6z54AmFebl9y9M+6h00QyzEqlAppCqqY1Nl1DwMu0Gw1Jpv5z0kk7GB/PD0kFtLU4pbHpGpgBN4D56ac38G3Dj13dc0ovpfxiSCqg7cWLG56lFH6jX3CBUABzNwBjCuVFQ/aLIXmARl2ivWRJSqeh9LD1fgJ+g2j37OrxSzeZ+KfWcrSR9nF2kAZoe82a+DpvBgAT9sMfgnbc8dwt06KQ6vBo33wD9ttvc8utuoI8QK94o7rN7B0lIKp7NtHkNu1k+8CSRECvSPs87Bk/Js0UCmC+cyemZsv0+PYKcSxJA7RDfnIZuRLQTjgBWOvW3NJw9bAI6iCIAtvEhWwfWJIDaNzE2+vVyVUX9cSJ2j0Hsd3QOh0H+b/+VSxKU0SCdD7aCCD4H9uQwbP9AaYU83EylcGDMm1gUnf9fFTXcZKDKdGkaYkwZwsZRBkDrwL9rLM4OVGgOIZqoAREItFKpQDaWZPF3KiGAQGI7bdf9Z+e311VHao+hQlNVLWuXUG/oA+QZzld6sSZHNSagUD4XTmARkupjKokoPcXS57pGjCZRbBXvYmvlY2HfsBQYqxlS9A6dgTtmGPdd4afRf4jqTpvNmJKF2BODqA3bRLoOnlV3Kvun/xEaGCsTRswhmEM5WrCEBBuEkvMQ+hg+gnINwH2ve+5L9hnn+pSiX13BDElBdD25gzQhCw/ubrrIRNDz1J0IcAXq/dl8h84H28WGqQULYezWaxzIY4VriSank3hIUXGmiimpAAavvoqsoGr0rF2pHiublXGoBIfoq5n/gGNKpaoE5arMBH6xZeowEZyeKAMXxjok5d8A9rZvh1t/nyom3g5VrE8BTAX8epWcSwK8eRs28bNjW9AAwE65aSjZoMdfHDKpRDA8AWw5V/LgeqltJN25plKi8BevRqsmTOV5rEUcw5ii1fD4xvQTpF/n1OK+Tg/0044UTn2SUtgPTvbBTIBOpZUqORm2zegoZDuFdq9rROIWVdqpor33QtaC7wBPPVUPms9XMnsd98Be+VKfK2qummk29u4p68o8nu9+wc02hCkmfQBF0sbvn56D6js1xfD9VvA9t8fWPNDAJof7L6zAzHJkJHD/N47wdm6FdwDE73T69NPk5mZVwBbvgHN8EYrtYRj1y+8UNrwyY7aGDYMzLFjXcC6oMVIVKklAWz5X16bNEmtvPWzzgbWrJnU8eduulnIbFIqE6o0ludfLDNA+5g8/WJ5240aNlCnnfv1f9f8meYPrEkF9/B9A5oswNJIpHemBJpBENk1a6edFkTT8WpTAFu+AQ177YWmjfl4CUoCt+7NIK6mQVFuxC1BNR2PdtHRWGSx9A9oFI/sfWQcJK7368/NZvGeMZ7raCeeCFr37p7LJ62g66wgoOWQA+jmzZMmz0bHw370I9COPrrRMvW+rKwEc9IkrhjIxpAh9ZpJywMmiCk5gMbLgDSRQenZOMlatBBgxw6wXvyb55r6ad2qjPw910hOQSaIKUmAbpEcSXoYiYju2Zo1223ZfpEjgSZ6b4t4kHsYgvJFWEsxTMkBdKv0rNAUsIX8/3jIoZWZVmgkCpXL4y+XVrNUcgIWISmA1nBPmRYSWZ3tuZjVoJaxOtlceCWtc2e06+D7D+S1bZXLsbZimJICaNauvcqykccbbQEo5jMnmZTauBbZ6/jimOinp0/bQS5tIiQH0JiUne27r0j/sapDiefZwXwaHQqNay9d+p1xOmv5AE0qvFQRmlOIxAYkGUkBNDXEOnCqsahSzEjvfS43x9ac5+q5qDlr13G1o514Elf5uBfWjjwKkSkGTbFaJSSmdelc4mmCHqGA9V69uAdkPf98vTr2h+u5YgGyVq2EEnfW6zgmD+jcIEryAO2DCVHmw6yndemCdsmc2w20U7Zff70+m2iQ72zYUP95I0/StO3wszhKBHSXRqYj/l/p5/TmHoQ1F1fnBrxGeA+GrF077v7jWkHrLI4laYCm1Yu1bRtXGZblWyQbrDVnToPtOh9/3OB3pb7QWrUu9Thxz0j/LHogJGFIAzQ1pndLpnpJO/ZYoH0sDzmffAL2G43kndnxNU9z2L/YRQNXJwoU1ruf7osLqYBOqnWY3os/V3dj2w2aMecbXkCnY4X2iyGpgNbRWxkS6JKlCYTILaXd+M7Sg9fhPMRQ1w8B2l/z8BJYWRyf1q2br+alApriFusCqYB9jSDgyuSZQlsOHiq73cDGnK+/4WnS1cuSJ3iSyQ3fIOClUlsmcgGNLYtoA2ozpNpnrUcPvDXii99jkUVdA9qNmvFREHNequD3sePtIsryIhdXdfmVDmjt7LMT9dOon/HTujIr+7e9YEHZMtwrNLWYwO1cjaDITqZnz5o/RT9IBzT5gelnniXKj1r1KJsU7xYKU/taS18tPw4MGMNLLMGAJg2ZjICX0gFNkxSIez/v7Eso75pucma0sl5Z/B1T0QbZqEDnYl5K8JZDv0ROfO1gAH3GGVL+t/HOt+zydEjhJcvDdoPaZPs25W2aey/P30E0NdxfdQnbDeI+EECTeikJEe31rifzzTAGfrcXLfJWp6mAuS3nZYw3RqIv5cYHlBQKIxhAo4yMK6+M9+GQdKIYa46H7FWrwPniC09V2H78gHZ2bPfUdqwKoRWjcdVAaSwHBmi6CKCMpnElV/e8995c7FsLy2s3ahoUWKHd9B81DSTjg47B4mW6mAUGaBK3cfU1sZW6dvIp3Lzby5Z5rsO9QmOIXUANStLIuEYuRgIFNHlI+72bj2oCtZM4vUR27cJA46u8s8u5Qicx05gbw09g4WhMyIECmjqm8LBxJN7rbteyDg33vRJrw2ds5CQwn3ruxpu8istzucAB7cZoi1kkTcrZzQ491LMQqaC1bClXee3oY7jKOx98wFVe9cJ04PZriFRqjIEDmjrN3X5HrHSo7Bg+sNEY7WXL6c0T0Y0YrzuX/f77ntqOS6HcHaMCYTUUQGudOmHqBv54cIGM2EOjvKsnBZGxV67w0HJVEU3AQ95Zn5wVmoyQuM8oHqUbCqCJl9zIkbExruGNLGq/+6636+7dk8J4I5diPZszlsfurtR7w7wpuVHBrM402NAAzVq0gNyw4eoJuARH7Ac/KPG04UcO53aA9z+Ms2ULOOvXN8xAjL4xhgzljg3IM7zQAE1MUYanODjS8voP2pwHNtqC8VDdyEs8dVUqSxcouRtvDJSlUAEN+HOTv+sutQ+IeDvIDjiAS+g8GggKls77C5AUQOd//zuAgC0GwwU0woRu4Iyf/5wLMGEW1lq24u6OB9D6uQLhxF5dws2TahX0AQPQtrxH4GyFDmgaUe5XvwZ2+OGBD06og8P49M/kamVv+NBbV+jKZfS50FvZ3aWcjRu5oyxxdRBCYYq1kf/fO0PoKcRD4XdGgz/r+XEPKmmNx/be5zuslv2D/A093hDq6D1OWw4esmbM4CmuXlm0pstjZlwIKTptJCs0SZ3sPHI3j1BvAihNHS95TOFrXH89X8u4+pvPPMNXR7HSpAjQeO3KfYwhMkATz8bw4aD/lN8J1cd4y1ZlIoD2YJxOe2feibX/+Ro4G/9dlmdVC9DVdu6WW0NlL1JAU3iAHG49/MQyky4tAUdUVgbQZBuS+93vuVk1n36au44qFcgePv/Qw/hTHC7Ewu2thLTJnyz/2ASgIDUqkCMQL4N16NAg65RAMv/4E0Cg5iHns8/AevZZnirqlEXVXH7CBO4xyxhA5ICmQdDNWf6Pf0J3cV3GmPy1sW0bd33jor4l67AjjoD808+454WSBRp5aI59AABtrGNH+KubHzcOtE7HRcK6EoCmkdNeOvc/v4lECLU7FTGkp7AN+nnnuc3QpQntl3P33AMVi14CTcByj/bN5pQptdmKzWeyopMRAUl0wMFlXxfgyBg4ECgunPlH3HtFRM7mzfw906r0yKNVyYGaNgWtY0f+NmrVKN57H1fKilpVI/1oXDUIjGuvjZQH5iBFykGJzouj7gDziSdKfBPOo4qVqyKLK2K/9hpUDuhfL9FQOCMX78W49FL8Vbo3crMGZbYctUWZ++1ooKvSqIgnMaZMHmm7Uxg+LHZgptyNuTH3RA5mmgslAU3qvDz+7MoKD8ULOvtVD7HpeBv1UL54663Am6rCQ7OBFiHHDffWN2T1XEODUhPQxC1qPAjUxsCrGuI9sOfWdLyd+/bbwNov1bD55JNgzZtb6itlnxmX/8zVaKgUiF1dQNM00sXLnXeCccMNoU4q/fSbs2aG1qc1ezbQuSFOZAwZgtuMMaFfnJSTkZKHwlJMm1MmQ/EOnHTTLPW19Gd009VkwUIIOmq+NX06FG5Gd36MixcLwl9OUq+SRkpFig2gSXj24sVQwEg7Ird5IsKnZEF04xUUmZOfhOLtt8cHzHibSxdgqtnf1J6fWAGaGHfWrYPKqwcDrx9f7UHzfKZQVbn/+pXUn1Zny+f4azMKrPnzeFiJtCxdGOUnTATtyCMj5aNc52rvoUtwT/bEFXPngX7++SW+lf/IHD8eCgOvBFmBEq2nnoJKzAoQJzBTjvMm819QHsw0+7FboWtD1pw0EYqjRwNUVtZ+HMhnMjLScd9oDBrM73OIt58WHjJN3C87cQpHQCEHbhsJxtChgcg0iEZjDWgSiL12DRTRrtqNjRGEhOq2iaai2vGd0Teyqxs/mjU/xD04ktUgOQE7n3+OuuTNrj6ZrtGtJUuqrsTjcujbPV6tfXvIPfgQaI1YEtYVjQp/xx7QrhDRBap4331gPoIWeyFpQVSYvEB4QC2GMXiwuzJDGTvvQPr32WgyAL1bCPZ770Hxl7diWK6VPsWSzupkVJW7627fxlVRSi9RgHYFiT/tdOtmjrkbHAHb5ignI6q+6XxgjBiBaURQt6yCTboPQSQP0LuFQVoJMpI3J03y7JXtQ47xrIp5ZIxfXAHGTTcBa9YsnmOow3ViAV09TjKWL953P1izZ2EQZ6v6cbrf0ZDItZAbcQuwww9PlCwSD+jq2XI2bIDiuLFgzUQbjbQeHHE7oWOgmxzaxsQhxmD13PG8pwbQ1UJxNm0C8/E/gzV1Koi4W1W3E6d3hvlc9MsuQ/uLK6VmnFJRBqkDdM0k7NwJJkYlsqZOAfutt2oeJ+kD6ZD1yy4HA30eVfGqD1q+6QV0Lcnaq1eDNW0a7rNnA9lZxJnYQQfh/riP6xzBG4c6zuOu5j0DdLUk6J1SG7/+OtpZzAfrhfngfPRR7W+V/cy+/30gy0D93N6gnYjp6BTxHolCYBmgG5E6hcm10GTVfgVfy5dLM1BqpEtPX9GeWOt6kpsDUu/WHVi7dp7qpaFQBmivs4zO8WSyaq9Y4SYIoltJZ83awG2zGYZFIAtD7agObsAa1gXtSNpiBNMUr8KNTVkG6Mak4+E7cmqllZy0J/bmTeDG9fjiS3C2bsWbyq0AeMFDWbIcsgisVhfihQbZSbgx8fCWjjU7oMoz5iDMj4i5aDSMp8xa4AsjL9HfGXmXQAZo77LKSsZAArEz8I+BTDMWI5RABugIhZ91LV8CGaDlyzRrMUIJZICOUPhZ1/IlkAFavkyzFiOUQAboCIWfdS1fAhmg5cs0azFCCWSAjlD4WdfyJZABWr5MsxYjlEAG6AiFn3UtXwIZoOXLNGsxQgn8P8aIzv5EKti9AAAAAElFTkSuQmCC" alt="FohBoh" style="width:32px;height:32px;border-radius:50%;object-fit:cover"><span style="font-family:'Alkaline',Outfit,sans-serif;font-weight:700;font-size:18px;color:#fff">FohBoh</span><span style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.3)">.ai</span></div>
+        <p style="font-family:var(--f-body);font-size:12px;line-height:1.6;max-width:180px;color:rgba(255,255,255,.28)">Certified Intelligence Infrastructure for restaurants.</p>
+      </div>
+      <div class="footer-col"><h5>Platform</h5><a href="#">Sentry™</a><a href="#">Cortex™</a><a href="#">MGE™</a><a href="#">Architecture</a></div>
+      <div class="footer-col"><h5>Solutions</h5><a href="#">Revenue Recovery</a><a href="#">AI Operations</a><a href="#">Certification</a><a href="#pricing">Pricing</a><a href="sentry-simulator.html" target="_blank">Recovery Simulator</a></div>
+      <div class="footer-col"><h5>Developers</h5><a href="#">API Docs</a><a href="#">SDKs</a><a href="#">Webhooks</a></div>
+      <div class="footer-col"><h5>Resources</h5><a href="#">Blog</a><a href="#">Learning Center</a><a href="#">Case Studies</a></div>
+      <div class="footer-col"><h5>Company</h5><a href="#">About</a><a href="#">Team</a><a href="#faq">FAQ</a><a href="#contact-form">Contact</a></div>
+    </div>
+    <div class="footer-bottom" style="flex-wrap:wrap;gap:12px">
+      <span>© 2026 FohBoh.ai, Inc.</span>
+      <div style="display:flex;align-items:center;gap:16px">
+        <a href="https://www.linkedin.com/company/fohboh" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh.ai LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Company</a>
+        <a href="https://www.linkedin.com/groups/42031/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh Network Group"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Network</a>
+        <a href="https://twitter.com/fohboh" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
+      </div>
+      <span style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.5px">Patent Pending</span>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT WIDGET -->
+<div class="chatbot-widget" id="chatbotWidget">
+  <div class="chatbot-tooltip" id="chatTooltip">👋 Have questions about certified intelligence? Ask me anything.</div>
+  
+  <!-- Chat Panel -->
+  <div id="chatPanel" style="display:none;width:380px;height:520px;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.2),0 0 0 1px rgba(0,0,0,.06);overflow:hidden;flex-direction:column;position:relative">
+    <!-- Header -->
+    <div style="padding:16px 18px;background:var(--charcoal);display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:14px">💬</div>
+        <div>
+          <div style="font-family:var(--f-display);font-size:14px;font-weight:700;color:#fff">FohBoh Assistant</div>
+          <div style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:4px"><div style="width:5px;height:5px;border-radius:50%;background:var(--cert-green)"></div>Powered by Certified AI</div>
+        </div>
+      </div>
+      <button onclick="toggleChat()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;padding:4px">✕</button>
+    </div>
+    
+    <!-- Messages -->
+    <div id="chatMessages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;height:380px">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#fff">f</div>
+        <div style="background:var(--light-gray);border-radius:12px 12px 12px 0;padding:12px 14px;max-width:85%">
+          <p style="font-family:var(--f-body);font-size:13px;color:var(--charcoal);line-height:1.5;margin:0">Hi! I'm the FohBoh assistant. I can answer questions about our certified intelligence platform, Sentry revenue recovery, Cortex AI, the MGE engine, pricing, and how we help restaurant operators. What would you like to know?</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick questions -->
+    <div id="quickQuestions" style="padding:0 16px 8px;display:flex;gap:6px;flex-wrap:wrap">
+      <button class="chat-quick-btn" onclick="sendQuick(this.textContent)" style="padding:5px 12px;border-radius:16px;border:1px solid var(--mid-gray);background:#fff;font-family:var(--f-body);font-size:11px;color:var(--text-gray);cursor:pointer;transition:all .2s">How does Sentry find money?</button>
+      <button class="chat-quick-btn" onclick="sendQuick(this.textContent)" style="padding:5px 12px;border-radius:16px;border:1px solid var(--mid-gray);background:#fff;font-family:var(--f-body);font-size:11px;color:var(--text-gray);cursor:pointer;transition:all .2s">What is the Trust Score?</button>
+      <button class="chat-quick-btn" onclick="sendQuick(this.textContent)" style="padding:5px 12px;border-radius:16px;border:1px solid var(--mid-gray);background:#fff;font-family:var(--f-body);font-size:11px;color:var(--text-gray);cursor:pointer;transition:all .2s">Pricing?</button>
+    </div>
+    
+    <!-- Input -->
+    <div style="padding:12px 16px;border-top:1px solid var(--mid-gray);display:flex;gap:8px;align-items:center">
+      <input id="chatInput" type="text" placeholder="Ask about FohBoh..." style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--mid-gray);font-family:var(--f-body);font-size:13px;outline:none" onkeydown="if(event.key==='Enter')sendMessage()">
+      <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:var(--red);color:#fff;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">→</button>
+    </div>
+  </div>
+  
+  <button class="chatbot-btn" id="chatToggleBtn" onclick="toggleChat()">💬</button>
+</div>
+
+<script>
+// === Chatbot ===
+const chatHistory = [];
+const SYSTEM_PROMPT = `You are the FohBoh.ai sales assistant — knowledgeable, helpful, and concise. You answer questions about FohBoh's certified intelligence platform for restaurants. Key facts:
+
+COMPANY: FohBoh.ai builds Certified Intelligence Infrastructure for the restaurant industry. Not SaaS — IaaS for intelligence. Not analytics — certification. Not chatbot — deterministic system.
+
+PRODUCTS:
+- Sentry™: Dual revenue recovery engine. M01 (DFR) audits delivery platform fees (DoorDash, UberEats, Grubhub) across 5 variance categories (83 rules). M02 (MFR) audits merchant processor fees across 5 variance categories (107 rules). M03 (Beta) audits franchise royalty payments. Every finding is a CAAR (Certified Analytics & Audit Report) — hash-sealed, legally defensible evidence.
+- Cortex™: AI intelligence layer that ONLY operates on MGE-certified data. Cannot answer with uncertified data. Every answer traceable to a specific locked KPI Vault record and rule chain. Voice + text.
+- MGE™ (Metrics Governance Engine): 12-stage deterministic certification pipeline. 198 proprietary governance rules. 6-dimensional Trust Score across 11 weighted Trust Gates. Immutable KPI Vault with SHA-256 hashing, RSA signing, Merkle-tree evidence chain. NEVER uses ML in certification path. Same inputs = same outputs = legally defensible.
+
+TRUST SCORE: Measures process reliability, NOT outcome quality. Starts at 100, applies deterministic penalty deductions. Bad outcome + high score (95) = the number is real. Good outcome + low score (65) = don't trust it.
+
+PRICING: Three plans available (all require minimum 10 locations):
+- Cortex only: $249/location/month. Includes 150 Cortex Conversations/month, real-time KPI insights, alerts, benchmarking.
+- Sentry only: $199/location/month + 10% Certification Activation Fee per certified report with Trust Score ≥ 85. Includes two revenue recovery modules (DFR + MFR), certified CAAR reports.
+- Cortex + Sentry bundle (RECOMMENDED): $329/location/month + 10% per certified report. Best value. Everything in both products.
+Volume pricing for bundle: Tier 1 (10-19 locations) $329, Tier 2 (20-34) $309, Tier 3 (35-49) $289. Enterprise (50+) and White Label are custom-scoped.
+The 10% Certification Activation Fee attaches to certified variance, NOT recovery. It is invoiced when certified findings are delivered, due Net 45. Recovery Guarantee: if no variance certified in first 30 days, first month refunded.
+
+TARGET: Enterprise chains (100+ locations), multi-unit operators (5-100), POS/platform partners (OEM embed).
+
+DIFFERENTIATORS: Zero hallucination, legally defensible outputs, deterministic (not probabilistic), full audit trail, currently in pilot with AdoraPOS and Marco's Pizza.
+
+Keep answers concise (2-4 sentences unless detail is requested). Be confident but not pushy. If asked about something you don't know, suggest they book a demo. Never make up specific numbers not in your knowledge.`;
+
+function toggleChat() {
+  const panel = document.getElementById('chatPanel');
+  const btn = document.getElementById('chatToggleBtn');
+  const tooltip = document.getElementById('chatTooltip');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'flex';
+    btn.style.display = 'none';
+    tooltip.style.display = 'none';
+    document.getElementById('chatInput').focus();
+  } else {
+    panel.style.display = 'none';
+    btn.style.display = 'flex';
+  }
+}
+
+function sendQuick(text) {
+  document.getElementById('quickQuestions').style.display = 'none';
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+function addMessage(role, text) {
+  const container = document.getElementById('chatMessages');
+  const isUser = role === 'user';
+  const div = document.createElement('div');
+  div.style.cssText = `display:flex;gap:8px;align-items:flex-start;${isUser ? 'flex-direction:row-reverse' : ''}`;
+  div.innerHTML = isUser
+    ? `<div style="background:var(--charcoal);color:#fff;border-radius:12px 12px 0 12px;padding:12px 14px;max-width:85%"><p style="font-family:var(--f-body);font-size:13px;line-height:1.5;margin:0">${text}</p></div>`
+    : `<div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#fff">f</div><div style="background:var(--light-gray);border-radius:12px 12px 12px 0;padding:12px 14px;max-width:85%"><p style="font-family:var(--f-body);font-size:13px;color:var(--charcoal);line-height:1.5;margin:0">${text}</p></div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function addTypingIndicator() {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.id = 'typingIndicator';
+  div.style.cssText = 'display:flex;gap:8px;align-items:flex-start';
+  div.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:#fff">f</div><div style="background:var(--light-gray);border-radius:12px 12px 12px 0;padding:12px 14px"><div style="display:flex;gap:4px;align-items:center"><div style="width:6px;height:6px;border-radius:50%;background:var(--text-gray);animation:pulseDot 1s infinite"></div><div style="width:6px;height:6px;border-radius:50%;background:var(--text-gray);animation:pulseDot 1s infinite .2s"></div><div style="width:6px;height:6px;border-radius:50%;background:var(--text-gray);animation:pulseDot 1s infinite .4s"></div></div></div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  
+  addTypingIndicator();
+  
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: chatHistory.slice(-10)
+      })
+    });
+    
+    const data = await response.json();
+    const reply = data.content?.map(c => c.text || '').join('') || 'I apologize, I had trouble processing that. Could you try again?';
+    
+    const typing = document.getElementById('typingIndicator');
+    if (typing) typing.remove();
+    
+    chatHistory.push({ role: 'assistant', content: reply });
+    addMessage('assistant', reply);
+  } catch (err) {
+    const typing = document.getElementById('typingIndicator');
+    if (typing) typing.remove();
+    addMessage('assistant', 'I\'m having trouble connecting right now. Please try again in a moment, or <a href="#contact-form" style="color:var(--red);text-decoration:underline" onclick="toggleChat()">contact us directly</a>.');
+  }
+}
+// === Mobile menu ===
+function closeMobile(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// === Contact form ===
+function submitContactForm(){
+  const name=document.getElementById('cf-name').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const company=document.getElementById('cf-company').value.trim();
+  if(!name||!email||!company){alert('Please fill in your name, email, and company.');return;}
+  if(!email.includes('@')){alert('Please enter a valid email address.');return;}
+  document.getElementById('contactFormFields').style.display='none';
+  document.getElementById('contactThankYou').style.display='block';
+}
+
+// === Scroll header ===
+window.addEventListener('scroll',()=>{document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>20)},{passive:true});
+
+// === Reveal on scroll ===
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// === Trust Score animation ===
+setTimeout(()=>{let start=null;const target=94.7;const ring=document.getElementById('trustRing');const num=document.getElementById('trustNum');
+function anim(ts){if(!start)start=ts;const p=Math.min((ts-start)/2000,1);const e=1-Math.pow(1-p,3);const v=e*target;num.textContent=v.toFixed(1);ring.setAttribute('stroke-dasharray',`${(v/100)*226} 226`);if(p<1)requestAnimationFrame(anim)}
+requestAnimationFrame(anim)},800);
+
+// === Particle canvas ===
+(function(){const canvas=document.getElementById('particleCanvas');const ctr=canvas.parentElement;const ctx=canvas.getContext('2d');let w,h,sc;
+const nodes={data:{x:90,y:70,w:140,h:58},mge:{x:230,y:220,w:150,h:88},cortex:{x:420,y:70,w:130,h:58},sentry:{x:90,y:380,w:140,h:58},operator:{x:420,y:380,w:130,h:58}};
+const paths=[{from:'data',to:'mge',c:'#E5E5EA'},{from:'mge',to:'cortex',c:'#00C853'},{from:'cortex',to:'operator',c:'#2979FF'},{from:'sentry',to:'mge',c:'#D63031'},{from:'operator',to:'data',c:'#6B6B76'}];
+function resize(){const r=ctr.getBoundingClientRect();sc=r.width/620;w=r.width;h=r.height;canvas.width=w*2;canvas.height=h*2;canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(2,0,0,2,0,0)}
+resize();window.addEventListener('resize',resize);
+const pts=[];for(let i=0;i<28;i++){const pi=i%paths.length;const fn=nodes[paths[pi].from];const tn=nodes[paths[pi].to];pts.push({pi,p:Math.random(),sp:.003+Math.random()*.003,sz:2+Math.random()*2,fx:fn.x+fn.w/2,fy:fn.y+fn.h/2,tx:tn.x+tn.w/2,ty:tn.y+tn.h/2,c:paths[pi].c})}
+let time=0;
+function draw(){time+=.016;ctx.clearRect(0,0,w,h);
+paths.forEach(p=>{const fn=nodes[p.from];const tn=nodes[p.to];const fx=(fn.x+fn.w/2)*sc,fy=(fn.y+fn.h/2)*sc,tx=(tn.x+tn.w/2)*sc,ty=(tn.y+tn.h/2)*sc;ctx.beginPath();ctx.moveTo(fx,fy);ctx.quadraticCurveTo((fx+tx)/2,(fy+ty)/2-20*sc,tx,ty);ctx.strokeStyle=p.c+'22';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);ctx.lineDashOffset=-time*25;ctx.stroke();ctx.setLineDash([])});
+pts.forEach(pt=>{pt.p+=pt.sp;if(pt.p>1)pt.p=0;const t=pt.p;const fx=pt.fx*sc,fy=pt.fy*sc,tx=pt.tx*sc,ty=pt.ty*sc,mx=(fx+tx)/2,my=(fy+ty)/2-20*sc;const x=(1-t)*(1-t)*fx+2*(1-t)*t*mx+t*t*tx;const y=(1-t)*(1-t)*fy+2*(1-t)*t*my+t*t*ty;const g=ctx.createRadialGradient(x,y,0,x,y,pt.sz*3.5);g.addColorStop(0,pt.c+'35');g.addColorStop(1,pt.c+'00');ctx.beginPath();ctx.arc(x,y,pt.sz*3.5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.beginPath();ctx.arc(x,y,pt.sz,0,Math.PI*2);ctx.fillStyle=pt.c;ctx.fill()});
+requestAnimationFrame(draw)}
+requestAnimationFrame(draw)})();
+
+// === Platform Cards ===
+(function(){const grid=document.getElementById('platformGrid');
+const products=[
+{name:'Sentry™',badge:'DUAL REVENUE ENGINE',title:'Find the Money',accent:'#D63031',intro:'Two certification engines running continuously against every DSP and processor statement. Not a one-time audit — a permanent monitoring system.',details:[{h:'DFR Engine — Delivery Fee Recovery',p:'Certifies DSP compliance across 5 variance categories: commission overcharges, promotional fee misallocation, tax misapplication, unauthorized refund chargebacks, and dispute resolution manipulation.'},{h:'MFR Engine — Merchant Fee Recovery',p:'Certifies processor compliance across 5 variance categories: interchange downgrades, hidden markup creep, unauthorized fees, duplicate charges, and rate amendment violations.'},{h:'Why Both Matter',p:'A DSP that miscalculates its commission reduces your deposit. A processor that downgrades interchange reduces it further. You see one wrong bank deposit caused by two separately certifiable reasons.'}],icon:'◆',mock:'<div class="product-mock" style="margin-top:16px"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><span style="font-size:9px;color:rgba(255,255,255,.4);margin-left:8px;font-family:var(--f-mono)">Sentry™ · Hub & Spoke</span></div><div class="mock-body"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px"><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label">M01</div><div style="color:#fff;font-size:11px;font-weight:600">Delivery Fee Recovery</div><div style="margin-top:4px;font-size:9px"><span class="mock-highlight">83 DFR rules</span></div></div><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label">M02</div><div style="color:#fff;font-size:11px;font-weight:600">Merchant Fee Recovery</div><div style="margin-top:4px;font-size:9px"><span class="mock-highlight">107 MFR rules</span></div></div><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label">M03 <span class="mock-badge" style="background:rgba(255,152,0,.2);color:#FF9800">Beta</span></div><div style="color:#fff;font-size:11px;font-weight:600">Royalty Fee Recovery</div><div style="margin-top:4px;font-size:9px">FDD compliance</div></div></div><div style="display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(255,255,255,.06);font-size:9px"><span><span style="color:#D63031;font-weight:700">198</span> rules</span><span><span style="color:#00C853;font-weight:700">≥85</span> Trust Score</span><span><span style="color:#FF9800;font-weight:700">$0</span> until we find money</span></div></div></div>'},
+{name:'Cortex™',badge:'CERTIFIED AI',title:'Answer Anything',accent:'#1A1A1F',intro:'Voice and text AI that operates exclusively on MGE-certified data. Every answer is sourced, trust-scored, and audit-ready — never generated from probability.',details:[{h:'Certified-Only Responses',p:'Cortex will not answer with uncertified data. If the Trust Score is below threshold, it tells you why instead of guessing.'},{h:'Natural Language Operations',p:'Ask "Why did margins drop 4% last Tuesday?" and get a deterministic, sourced answer with full chain of custody.'},{h:'Evidence-Grade Output',p:'Every response links to the underlying certified data, Trust Score, and MGE rule. Suitable for board presentations and legal proceedings.'}],icon:'◉',mock:'<div class="product-mock" style="margin-top:16px"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><span style="font-size:9px;color:rgba(255,255,255,.4);margin-left:8px;font-family:var(--f-mono)">Cortex™ · Constrained by Design</span></div><div class="mock-body"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px"><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label" style="color:#D63031">EVERY OTHER AI</div><div style="font-size:10px;line-height:1.5;color:rgba(255,255,255,.35)">LLM on raw POS exports. Confident outputs, no auditability. A liability dressed as a product.</div></div><div style="padding:8px;border:1px solid rgba(0,200,83,.15);border-radius:6px"><div class="mock-label" style="color:#00C853">FOHBOH CORTEX</div><div style="font-size:10px;line-height:1.5;color:rgba(255,255,255,.5)">Every answer traceable to a deterministic rule chain and locked KPI Vault record. <span class="mock-highlight">Certified truth.</span></div></div></div><div style="font-size:9px;font-style:italic;color:rgba(255,255,255,.3);text-align:center;padding-top:6px;border-top:1px solid rgba(255,255,255,.06)">The AI platform built on evidence, not assumptions</div></div></div>'},
+{name:'MGE™',badge:'CORE IP · DETERMINISTIC',title:'Certify the Truth',accent:'#00C853',intro:'The Deterministic Governance Core. A dual-loop framework that certifies data integrity, gates low-confidence outputs, and executes certified recovery.',details:[{h:'Trust Loop — Assess Data Integrity',p:'Source multi-triangulation: POS, statements, and bank deposits must all agree. Every data point checked for freshness, completeness, validity, and process integrity.'},{h:'Trust Gate — Decision Firewall',p:'Prevents any action from firing on low-trust scores. If the Trust Score falls below 80, the output is blocked — not delivered with a warning.'},{h:'Action Loop — Execute Performance',p:'Executes profit recovery via automated triggers and staff-led workflows based on pre-authorized human policy on certified facts.'}],icon:'◈',mock:'<div class="product-mock" style="margin-top:16px"><div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><span style="font-size:9px;color:rgba(255,255,255,.4);margin-left:8px;font-family:var(--f-mono)">MGE™ · 12-Stage Pipeline</span></div><div class="mock-body"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px"><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label">UNTRUSTED SOURCES</div><div style="color:rgba(255,255,255,.4);font-size:10px;line-height:1.5">POS transactions<br>DSP settlements<br>Processor statements<br>Bank deposits</div></div><div style="padding:8px;border:1px solid rgba(0,200,83,.15);border-radius:6px;background:rgba(0,200,83,.03)"><div class="mock-label" style="color:#00C853">THE ENGINE</div><div style="color:#fff;font-size:11px;font-weight:600;margin-bottom:4px">12-stage pipeline</div><div style="font-size:10px;color:rgba(255,255,255,.4);line-height:1.5"><span class="mock-highlight">198 rules</span> · no ML<br>SHA-256 + DCLS<br>Waterfall reconciliation</div></div><div style="padding:8px;border:1px solid rgba(255,255,255,.08);border-radius:6px"><div class="mock-label" style="color:#FF9800">CERTIFIED OUTPUT</div><div style="color:rgba(255,255,255,.4);font-size:10px;line-height:1.5"><span class="mock-highlight">Trust Score 0–100</span><br>7 certification states<br>KPI Vault record<br>CAAR ExportPack</div></div></div><div style="display:flex;gap:4px;flex-wrap:wrap;padding-top:6px;border-top:1px solid rgba(255,255,255,.06)">' + Array.from({length:11},(_, i)=>`<div style="padding:2px 6px;border-radius:3px;font-size:8px;${i===6?'background:rgba(0,200,83,.15);color:#00C853':'background:rgba(255,255,255,.05);color:rgba(255,255,255,.3)'}">TG${String(i+1).padStart(2,"0")} ${i===6?"25%":["8%","6%","5%","12%","7%","8%","25%","9%","8%","6%","6%"][i]}</div>`).join('') + '</div></div></div>'}
+];
+products.forEach((p,i)=>{
+const card=document.createElement('div');card.className='platform-card reveal';
+card.innerHTML=`<div class="pc-header"><div class="pc-glow" style="background:${p.accent}"></div><div style="font-size:40px;margin-bottom:14px;color:${p.accent}">${p.icon}</div><div class="pc-badge" style="color:${p.accent};background:${p.accent}15">${p.badge}</div><div class="pc-name" style="color:${p.accent}">${p.name}</div><h3 class="pc-title">${p.title}</h3><p class="pc-intro">${p.intro}</p></div><div class="pc-toggle" style="color:${p.accent}"><span class="pc-toggle-text">Learn more</span><span class="pc-toggle-arrow">▾</span></div><div class="pc-details"><div class="pc-details-inner">${p.details.map(d=>`<div class="pc-detail-block"><h4>${d.h}</h4><p>${d.p}</p></div>`).join('')}${p.mock}</div></div>`;
+card.addEventListener('click',()=>{const isOpen=card.classList.contains('open');document.querySelectorAll('.platform-card').forEach(c=>c.classList.remove('open'));if(!isOpen)card.classList.add('open');card.querySelector('.pc-toggle-text').textContent=card.classList.contains('open')?'Show less':'Learn more'});
+grid.appendChild(card);io.observe(card)})})();
+
+// === MGE Architecture ===
+(function(){const grid=document.getElementById('mgeGrid');
+const loops=[
+{label:'TRUST LOOP',color:'#2979FF',title:'Assess Data Integrity',sub:'Source Multi-Triangulation',desc:'Certifies metrics by auditing source correlation (API, POS, Bank) before release. Every data point checked for freshness, completeness, validity, and process integrity.',items:['Data freshness timestamps','Completeness boolean checks','Statistical plausibility analysis','Formula version verification']},
+{label:'TRUST GATE',color:'#FF9800',title:'Decision Firewall',sub:'Policy Active',desc:'Prevents performance actions from firing on low-trust scores. Nothing passes below TS ≥ 80. Human-written business rules only.',items:['Blocks low-trust outputs','Pre-authorized policy execution','Human-written business rules','Deterministic — never probabilistic']},
+{label:'ACTION LOOP',color:'#00C853',title:'Execute Performance',sub:'Autonomous Triggering',desc:'Executes profit recovery via automated triggers and staff-led workflows. Remediates logic issues and measures performance for optimization.',items:['Automated recovery triggers','Staff-led workflow execution','Root cause navigation','Rule performance analytics']}
+];
+loops.forEach(l=>{
+const card=document.createElement('div');card.className='mge-card reveal';
+card.innerHTML=`<div class="mge-loop-label" style="background:${l.color}20;color:${l.color}">${l.label}</div><h3>${l.title}</h3><div class="mge-sub">${l.sub}</div><p>${l.desc}</p><div>${l.items.map(it=>`<div class="mge-list-item"><div class="mge-list-dot" style="background:${l.color}"></div><span class="mge-list-text">${it}</span></div>`).join('')}</div>`;
+grid.appendChild(card);io.observe(card)})})();
+
+// === Use Cases ===
+(function(){const grid=document.getElementById('ucGrid');
+const cases=[
+{title:'Recover Processor Overcharges',kpi:'2–4% recovered',engine:'MFR Engine',short:'Interchange downgrades, hidden markups, and unauthorized fees.',detail:'Your contracted interchange rate assumes transactions settle at proper tier. When a batch downgrades, you pay the higher rate. MGE certifies the dollar delta per batch.',impact:'For a 5-location group processing $150K/month in cards, a 2% interchange variance means $3,000/month in overcharges.'},
+{title:'Detect Delivery Fee Discrepancies',kpi:'$800–2K/mo saved',engine:'DFR Engine',short:'Commission overcharges, promotional misallocation, refund chargebacks.',detail:'DSPs apply commission rates to every order. When the rate exceeds the contract — even by fractions — it compounds across volume and locations.',impact:'A DSP overcharging 0.5% across 2,000 orders at $35 avg = $350/month per location. Across 10 locations: $3,500/month.'},
+{title:'Explain Margin Drops Instantly',kpi:'90% faster answers',engine:'Cortex + MGE',short:'Certified, sourced root-cause analysis in natural language.',detail:'Ask "Why did margins drop 4%?" and get a deterministic answer sourced from certified data with full Trust Score context.',impact:'Instead of 3 days and two analysts pulling reports, get a certified answer in seconds. Audit-ready for board presentations.'},
+{title:'Monitor Labor in Real Time',kpi:'15% cost visibility',engine:'MGE Certified',short:'Overtime tracking, scheduling gaps, compliance monitoring.',detail:'Real-time labor monitoring certified against your business rules. Overtime thresholds and compliance risks flagged with Trust Score context.',impact:'For $80K/month labor spend, 15% improved visibility means identifying $12,000/month in addressable inefficiency.'},
+{title:'Certify Financial Reporting',kpi:'100% audit-ready',engine:'MGE + CAAR',short:'Legally defensible Certified Analytics & Audit Reports.',detail:'Every metric verified with SHA-256 hashing, rule-to-evidence mapping, and immutable audit trail. Trust Score starts at 100, applies deterministic penalties.',impact:'When a DSP disputes your finding, you have legally defensible documentation. A CAAR with months of certified variance changes the negotiation entirely.'},
+{title:'Identify Revenue Leakage Patterns',kpi:'3–7% found',engine:'DFR + MFR',short:'Cross-engine pattern detection across locations and platforms.',detail:'DFR and MFR affect the same cash flow. MGE certifies each variance against its own contract, then aggregates into one Monthly Recovery Report.',impact:'One wrong bank deposit, two separately certifiable reasons — one from DSP, one from processor. Without both engines, you find half the problem.'}
+];
+cases.forEach((c,i)=>{
+const card=document.createElement('div');card.className='uc-card reveal';
+card.innerHTML=`<div class="uc-header"><div class="uc-top"><div style="flex:1"><div class="uc-title-row"><span class="uc-title">${c.title}</span><span class="uc-kpi">${c.kpi}</span></div><p class="uc-short">${c.short}</p></div><div class="uc-meta"><span class="uc-engine">${c.engine}</span><span class="uc-arrow">▾</span></div></div></div><div class="uc-details"><div class="uc-details-inner"><div class="uc-how"><h5>How It Works</h5><p>${c.detail}</p></div><div class="uc-impact"><h5>What This Means to Your Restaurant</h5><p>${c.impact}</p></div></div></div>`;
+card.addEventListener('click',()=>{const isOpen=card.classList.contains('open');document.querySelectorAll('.uc-card').forEach(c=>c.classList.remove('open'));if(!isOpen)card.classList.add('open')});
+grid.appendChild(card);io.observe(card)})})();
+
+// === Resources Articles ===
+(function(){const grid=document.getElementById('resGrid');
+const articles=[
+{cat:'research',catLabel:'RESEARCH',color:'var(--red)',title:'Why Deterministic AI Is the Future of Restaurant Intelligence',date:'Apr 2026',read:'8 min'},
+{cat:'ai',catLabel:'RESTAURANT AI',color:'var(--blue)',title:'Hallucination Risk in Restaurant AI: What Operators Need to Know',date:'Apr 2026',read:'6 min'},
+{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'How a 12-Unit Pizza Chain Recovered $4,200/Month Per Location',date:'Mar 2026',read:'5 min'},
+{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Regional Benchmarking with Certified Data: A GM\'s Perspective',date:'Mar 2026',read:'7 min'},
+{cat:'guide',catLabel:'GUIDE',color:'var(--charcoal)',title:'Understanding Trust Scores: A Technical Deep Dive for Operators',date:'Mar 2026',read:'10 min'},
+{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'Night Shift Labor Leakage: One Manager\'s Discovery Through Sentry',date:'Mar 2026',read:'4 min'},
+{cat:'research',catLabel:'RESEARCH',color:'var(--red)',title:'Legally Defensible AI: What CAAR Means for Compliance and Disputes',date:'Feb 2026',read:'9 min'},
+{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Multi-Unit P&L Certification: How Corporate Teams Use MGE',date:'Feb 2026',read:'6 min'},
+{cat:'ai',catLabel:'RESTAURANT AI',color:'var(--blue)',title:'The $47B Leakage Problem Nobody Is Solving',date:'Feb 2026',read:'7 min'},
+{cat:'guide',catLabel:'GUIDE',color:'var(--charcoal)',title:'DSP Fee Reconciliation: A Step-by-Step Certification Walkthrough',date:'Jan 2026',read:'12 min'},
+{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'From Spreadsheets to Certified Reports: A Kitchen Manager\'s Story',date:'Jan 2026',read:'4 min'},
+{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Interchange Downgrades at Scale: What Your CFO Needs to See',date:'Jan 2026',read:'8 min'},
+];
+let activeCat='all';
+function renderArticles(){grid.innerHTML='';const filtered=activeCat==='all'?articles:articles.filter(a=>a.cat===activeCat);
+filtered.slice(0,8).forEach(a=>{const card=document.createElement('div');card.className='res-card reveal';
+card.innerHTML=`<div class="res-cat" style="color:${a.color}">${a.catLabel}</div><h4>${a.title}</h4><div class="res-card-meta">${a.date} · ${a.read} read</div>`;
+grid.appendChild(card);io.observe(card)})}
+renderArticles();
+document.getElementById('resCats').addEventListener('click',e=>{if(e.target.classList.contains('res-category-btn')){document.querySelectorAll('.res-category-btn').forEach(b=>b.classList.remove('active'));e.target.classList.add('active');activeCat=e.target.dataset.cat;renderArticles()}})})();
+
+// === Partner Categories ===
+(function(){const grid=document.getElementById('partnerCats');
+const cats=[
+{icon:'🏪',title:'POS Partners',color:'var(--red)',desc:'Embed certified intelligence directly into your POS platform. Your operators get revenue recovery and certified AI without leaving your ecosystem.',features:['White-label certification engine','Branded Trust Score integration','Sentry DFR/MFR as native module','Revenue share on certified variance']},
+{icon:'🚚',title:'Delivery & Platform Partners',color:'var(--blue)',desc:'Integrate FohBoh\'s certification into delivery management and marketplace tools. Give your restaurant clients proof of DSP compliance.',features:['DSP fee reconciliation API','Certified commission audit feed','Real-time variance alerts','Evidence ExportPack integration']},
+{icon:'🏢',title:'Enterprise & Consulting Partners',color:'var(--cert-green)',desc:'Offer FohBoh\'s certified intelligence as part of your advisory practice. Bring deterministic, legally defensible evidence to your restaurant clients.',features:['Co-branded CAAR reports','Managed service resale licensing','Client portfolio dashboards','Priority onboarding & training']},
+];
+cats.forEach(c=>{const card=document.createElement('div');card.className='partner-cat reveal';
+card.innerHTML=`<div class="partner-cat-icon" style="background:${c.color}15">${c.icon}</div><h4>${c.title}</h4><p>${c.desc}</p><div class="partner-cat-features">${c.features.map(f=>`<div class="partner-cat-feat"><div class="partner-cat-feat-dot" style="background:${c.color}"></div>${f}</div>`).join('')}</div>`;
+grid.appendChild(card);io.observe(card)})})();
+
+// === FAQ ===
+(function(){const list=document.getElementById('faqList');
+const faqs=[
+{q:"We already get audited by our accountants. Why do we need this?",a:"An accountant's audit verifies that your books are accurate. It does not certify whether your DSP paid you what your contract requires, or whether your processor applied the correct interchange tier. FohBoh certifies vendor compliance against contracted terms — at the transaction and batch level — which your accountants are neither tasked nor equipped to do."},
+{q:"What if you don't find any overcharges?",a:"If FohBoh certifies no variance in the first 30 days across both DFR and MFR engines, the first month is refunded. That's our Recovery Guarantee. At industry-average overcharge rates, this guarantee is almost never triggered. We guarantee we will certify at least 2× the subscription fee in overcharges within 30 days."},
+{q:"We handle reconciliation internally. Why switch?",a:"Then you're already spending time on this. The question isn't whether reconciliation gets done — it's whether it reaches certification grade. An internal spreadsheet is not legally defensible, has no Trust Score, generates no CAAR ExportPack, and can't identify interchange downgrades at the batch level. If the DSP disputes your finding, what evidence do you have?"},
+{q:"What makes this different from other restaurant AI tools?",a:"Every other restaurant AI runs a language model on raw POS exports and produces confident-sounding outputs with no auditability. FohBoh Cortex runs exclusively on MGE-certified data. That constraint — only operating on certified data — is not a limitation. It is the product. Every answer is traceable to a specific locked vault record and rule chain."},
+{q:"Can we just do a one-time audit instead of a subscription?",a:"You can't 'do it once' for a problem that generates new overcharges every billing cycle. DSPs reset fee logic every period. Processors apply fees to every batch. A one-time audit tells you what was wrong in a past period. It does nothing about next month. Three months of certified variance is a dispute. Eighteen months is litigation leverage."},
+{q:"How does the Trust Score work?",a:"The Trust Score measures how reliably a result was calculated — not whether the result is good or bad. It starts at 100 and applies deterministic deductions for missing data, stale inputs, or process gaps. A bad outcome with a high Trust Score (95) means the number is real. A good outcome with a low score (65) means the number can't be trusted. MGE certifies the process, not the outcome."},
+];
+faqs.forEach(f=>{const item=document.createElement('div');item.className='faq-item reveal';
+item.innerHTML=`<div class="faq-q">${f.q}<span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>`;
+item.addEventListener('click',()=>{const wasOpen=item.classList.contains('faq-open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('faq-open'));if(!wasOpen)item.classList.add('faq-open')});
+list.appendChild(item);io.observe(item)})})();
+</script>
+</body>
+</html>
