@@ -907,7 +907,7 @@ body{font-family:var(--ff-body);background:var(--bg);color:var(--t0);line-height
       <button class="stab" id="stab-permissions" onclick="switchView('permissions',this)"><span class="stab-icon">🔐</span><span class="tip">Permissions<span class="tip-icon">?</span><div class="tip-panel "><div class="tip-uc">SIDEBAR · SETTINGS</div><div class="tip-s"><div class="tip-lbl">WHAT IT IS</div><div class="tip-txt">Team access management. Three roles: Admin (full read/write), Manager (limited write, cannot seal), Viewer (read-only).</div></div><div class="tip-s"><div class="tip-lbl">WHAT IT DOES</div><div class="tip-txt">Assign roles per user. Role-based controls are enforced at the architecture level — not just UI display.</div></div><div class="tip-s"><div class="tip-lbl">WHY IT MATTERS</div><div class="tip-txt">The WGS Manager role must be separately approved. Sealing Contract Config is architecturally restricted to WGS Manager and above.</div></div><div class="tip-bar"><div class="tip-bar-lbl">Role enforcement</div><div class="tip-bar-val">Architecture-level, not UI-only</div></div></div></span></button>
       <button class="stab" id="stab-userguide" onclick="switchView('userguide',this)"><span class="stab-icon">📖</span><span class="tip">User Guide<span class="tip-icon">?</span><div class="tip-panel "><div class="tip-uc">SIDEBAR · HELP</div><div class="tip-s"><div class="tip-lbl">WHAT IT IS</div><div class="tip-txt">Step-by-step platform guide — onboarding, modules, certification, CAAR, and ExportPack.</div></div><div class="tip-s"><div class="tip-lbl">WHAT IT DOES</div><div class="tip-txt">Walks you through every stage of the certification workflow with context on what each step does and why.</div></div><div class="tip-s"><div class="tip-lbl">WHY IT MATTERS</div><div class="tip-txt">New operators and WGS Advisors use this as their primary reference before their first live certification run.</div></div></div></span></button>
       <button class="stab" id="stab-faq" onclick="switchView('faq',this)"><span class="stab-icon">💡</span><span class="tip">FAQ<span class="tip-icon">?</span><div class="tip-panel "><div class="tip-uc">SIDEBAR · HELP</div><div class="tip-s"><div class="tip-lbl">WHAT IT IS</div><div class="tip-txt">Answers to common questions about Trust Scores, CAAR generation, module unlock requirements, and the WGS onboarding process.</div></div><div class="tip-s"><div class="tip-lbl">WHAT IT DOES</div><div class="tip-txt">Search by keyword or scroll by topic. Answers are written by the FohBoh WGS team based on actual operator questions.</div></div><div class="tip-s"><div class="tip-lbl">WHY IT MATTERS</div><div class="tip-txt">Answering a Trust Score or CAAR question correctly avoids delays in the certification cycle. Read the FAQ before calling support.</div></div><div class="tip-bar"><div class="tip-bar-lbl">Coverage</div><div class="tip-bar-val">Trust Score · CAAR · Modules · WGS</div></div></div></span></button>
-      <button class="stab" onclick="openSupport()"><span class="stab-icon">💬</span><span class="tip">Contact Support<span class="tip-icon">?</span><div class="tip-panel "><div class="tip-uc">SIDEBAR · HELP</div><div class="tip-s"><div class="tip-lbl">WHAT IT IS</div><div class="tip-txt">Opens a support request to your dedicated WGS Advisor. Not a generic helpdesk — your named advisor owns your account.</div></div><div class="tip-s"><div class="tip-lbl">WHAT IT DOES</div><div class="tip-txt">Creates a timestamped ticket logged in the WGS Support Queue. Priority is assigned automatically based on Trust Score urgency.</div></div><div class="tip-s"><div class="tip-lbl">WHY IT MATTERS</div><div class="tip-txt">If your Trust Score dropped or a certification failed, contact support before your next upload so the WGS team can triage before processing new data.</div></div><div class="tip-bar"><div class="tip-bar-lbl">Response target</div><div class="tip-bar-val">Next business day (High: same day)</div></div></div></span></button>
+      <button class="stab" onclick="window.open('https://calendly.com/fohboh/new-meeting','_blank')"><span class="stab-icon">📅</span><span class="tip">Book a Meeting</span></button>
 
       <div class="sidebar-section">ADVANCED</div>
       <button class="stab stab-locked" id="stab-diy" onclick="switchView('diy',this)">
@@ -3009,58 +3009,6 @@ function toggleFAQ(i) {
   const open = body.style.display === 'block';
   body.style.display = open ? 'none' : 'block';
   arrow.textContent = open ? '+' : '×';
-}
-
-// ═══════════════════════════════════════════════
-// SUPPORT CHATBOT
-// ═══════════════════════════════════════════════
-const CHAT_RESPONSES = {
-  'caar': 'A CAAR (Certified Amount-At-Risk Report) is your court-admissible evidence document. It details each fee overcharge, the rule violated, and is sealed with a SHA-256 hash. Download it from the CAARs tab.',
-  'certification': 'To run a certification: go to Location Waterfall, expand a location, and click "Run Cert" (Admin or WGS Manager role required). The engine applies all 198 deterministic rules against your uploaded data.',
-  'm03': 'M03 Royalty Recovery unlocks after M01 + M02 have been active for 90+ days with Trust Scores ≥ 85 on both modules. It\'s shown as locked in your location rows until those conditions are met.',
-  'trust score': 'Your Trust Score (0–100) reflects how completely your data has been validated. Above 90 is excellent. Below 70 usually means missing statements or unresolved contract gaps — contact your WGS Advisor.',
-  'upload': 'Managers and Admins can upload data from the Location Waterfall. Click "Upload Data" on any location row. Accepted formats: CSV, PDF statements. Your WGS Advisor configured the exact schema during setup.',
-  'wgs': 'WGS (White Glove Services) Advisors are your dedicated FohBoh specialists. They seal your Contract Config, configure your Schema Registry, and handle onboarding. Reach them at wgs@fohboh.ai.',
-  'password': 'Use the "Forgot password?" link on the sign-in page. If you\'re locked out, contact wgs@fohboh.ai and your advisor will restore access.',
-};
-
-function openSupport() {
-  document.getElementById('supportChatOverlay').style.display = 'block';
-  document.getElementById('chatInput').focus();
-}
-
-function closeSupport() {
-  document.getElementById('supportChatOverlay').style.display = 'none';
-}
-
-function addChatMessage(text, fromUser) {
-  const msgs = document.getElementById('chatMessages');
-  const div = document.createElement('div');
-  div.style.cssText = `background:${fromUser?'rgba(214,48,49,0.06)':'#F4F4F6'};border:1px solid ${fromUser?'rgba(214,48,49,0.15)':'#E5E5EA'};border-radius:${fromUser?'12px 2px 12px 12px':'2px 12px 12px 12px'};padding:10px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:#3A3A45;line-height:1.6;max-width:90%;align-self:${fromUser?'flex-end':'flex-start'}`;
-  div.textContent = text;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function quickChat(q) {
-  document.getElementById('chatInput').value = q;
-  sendChat();
-}
-
-function sendChat() {
-  const input = document.getElementById('chatInput');
-  const q = input.value.trim();
-  if (!q) return;
-  addChatMessage(q, true);
-  input.value = '';
-  setTimeout(() => {
-    const lower = q.toLowerCase();
-    let response = 'I\'m not sure about that specific question. For detailed help, email wgs@fohboh.ai and your advisor will respond within 1 business day.';
-    for (const [key, val] of Object.entries(CHAT_RESPONSES)) {
-      if (lower.includes(key)) { response = val; break; }
-    }
-    addChatMessage(response, false);
-  }, 600);
 }
 
 // ═══════════════════════════════════════════════
@@ -7223,68 +7171,6 @@ function deactivateWGSUser(userId, name) {
 <div id="toast"></div>
 
 
-<!-- ═══════════════════════════════════
-     SUPPORT CHATBOT — Standalone widget
-═══════════════════════════════════════ -->
-<div id="supportChatOverlay" style="display:none;position:fixed;bottom:88px;right:24px;width:360px;z-index:99000;font-family:'DM Sans',sans-serif;">
-  <div style="background:#FFFFFF;border:1px solid #E5E5EA;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,0.12),0 4px 16px rgba(0,0,0,0.06);overflow:hidden;">
-    <!-- Header -->
-    <div style="padding:14px 16px;background:#F4F4F6;border-bottom:1px solid #E5E5EA;display:flex;justify-content:space-between;align-items:center;">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="width:8px;height:8px;border-radius:50%;background:#00C853;box-shadow:0 0 6px rgba(0,200,83,0.5);"></div>
-        <span style="font-size:13px;font-weight:600;color:#1A1A1F;">FohBoh Support</span>
-      </div>
-      <button onclick="closeSupport()" style="background:none;border:none;color:#9999A8;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;border-radius:4px;transition:background 0.15s;" onmouseover="this.style.background=\'#E5E5EA\'" onmouseout="this.style.background=\'none\'">×</button>
-    </div>
-    <!-- Messages -->
-    <div id="chatMessages" style="height:280px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#FAFAFA;">
-      <div style="background:#F4F4F6;border-radius:4px 12px 12px 12px;padding:10px 13px;font-size:13px;color:#3A3A45;line-height:1.6;max-width:90%;align-self:flex-start;">
-        👋 Hi! I'm your Sentry support assistant. Ask me anything about your portal, your CAARs, or how certification works.
-      </div>
-    </div>
-    <!-- Quick chips -->
-    <div style="padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid #E5E5EA;background:#FFFFFF;">
-      <button onclick="quickChat('How do I run a certification?')" style="font-size:11px;padding:4px 10px;background:#F4F4F6;border:1px solid #E5E5EA;border-radius:12px;color:#6B6B76;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor=\'#D63031\';this.style.color=\'#D63031\'" onmouseout="this.style.borderColor=\'#E5E5EA\';this.style.color=\'#6B6B76\'">Run certification</button>
-      <button onclick="quickChat('What is a CAAR?')" style="font-size:11px;padding:4px 10px;background:#F4F4F6;border:1px solid #E5E5EA;border-radius:12px;color:#6B6B76;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor=\'#D63031\';this.style.color=\'#D63031\'" onmouseout="this.style.borderColor=\'#E5E5EA\';this.style.color=\'#6B6B76\'">What is a CAAR?</button>
-      <button onclick="quickChat('Why is my Trust Score low?')" style="font-size:11px;padding:4px 10px;background:#F4F4F6;border:1px solid #E5E5EA;border-radius:12px;color:#6B6B76;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;" onmouseover="this.style.borderColor=\'#D63031\';this.style.color=\'#D63031\'" onmouseout="this.style.borderColor=\'#E5E5EA\';this.style.color=\'#6B6B76\'">Trust Score low?</button>
-    </div>
-    <!-- Input -->
-    <div style="padding:12px;border-top:1px solid #E5E5EA;display:flex;gap:8px;background:#FFFFFF;">
-      <input id="chatInput" placeholder="Ask a question…" style="flex:1;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid #E5E5EA;border-radius:8px;outline:none;background:#FAFAFA;color:#1A1A1F;" onkeydown="if(event.key==='Enter')sendChat()" onfocus="this.style.borderColor=\'#1A1A1F\'" onblur="this.style.borderColor=\'#E5E5EA\'">
-      <button onclick="sendChat()" style="padding:9px 16px;background:#1A1A1F;color:#FFFFFF;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s;" onmouseover="this.style.background='#D63031'" onmouseout="this.style.background='#1A1A1F'">Send</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════
-     FLOATING CHAT BUTTON — always visible
-═══════════════════════════════════════ -->
-<button id="chatFloatBtn"
-  onclick="(function(){var o=document.getElementById('supportChatOverlay');if(o.style.display==='none'||o.style.display===''){o.style.display='block';var i=document.getElementById('chatInput');if(i)i.focus();}else{o.style.display='none';}})()"
-  style="
-    position:fixed;
-    bottom:24px;
-    right:24px;
-    z-index:98999;
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    background:#1A1A1F;
-    border:none;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 20px rgba(0,0,0,0.18),0 2px 8px rgba(0,0,0,0.10);
-    transition:background 0.15s, transform 0.15s;
-    font-size:22px;
-    line-height:1;
-  "
-  onmouseover="this.style.background='#D63031';this.style.transform='scale(1.08)'"
-  onmouseout="this.style.background='#1A1A1F';this.style.transform='scale(1)'"
-  title="FohBoh Support"
->💬</button>
 
 </body>
 </html>
