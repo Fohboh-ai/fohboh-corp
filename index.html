@@ -345,6 +345,20 @@ button{border:none;outline:none;cursor:pointer;font-family:var(--f-body)}
 .demo-chip{padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-family:var(--f-body);font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:6px}
 .demo-chip-icon{font-size:12px;color:var(--amber)}
 
+/* Demo video lightbox */
+.demo-video-trigger:hover > div:first-of-type{background:linear-gradient(180deg,rgba(15,15,18,.15) 0%,rgba(15,15,18,.45) 100%)}
+.demo-video-trigger:hover > div:nth-of-type(2){transform:scale(1.08)}
+.demo-video-trigger:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.video-lightbox{position:fixed;inset:0;background:rgba(10,10,12,.88);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;padding:24px;opacity:0;transition:opacity .2s ease}
+.video-lightbox.open{display:flex;opacity:1}
+.video-lightbox-frame{position:relative;width:90vw;max-width:1400px;aspect-ratio:16/9;max-height:90vh;background:#000;border-radius:14px;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.6);transform:scale(.96);transition:transform .25s ease}
+.video-lightbox.open .video-lightbox-frame{transform:scale(1)}
+.video-lightbox-frame iframe{width:100%;height:100%;border:0;display:block}
+.video-lightbox-close{position:fixed;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--f-body);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;z-index:10}
+.video-lightbox-close:hover{background:rgba(255,255,255,.22);transform:scale(1.06)}
+.video-lightbox-close:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(max-width:700px){.video-lightbox-frame{width:96vw}.video-lightbox-close{top:14px;right:14px;width:38px;height:38px;font-size:18px}}
+
 @media(max-width:900px){
   .hero-inner,.platform-grid,.metric-grid,.mge-grid,.trust-examples,.uc-grid,.oem-grid,.demo-grid,.sentry-whw,.trust-checks,.footer-grid,.bento-grid,.res-grid,.partner-cat-grid,.testimonial-grid,.contact-grid,.pricing-grid,.tier-grid,.custom-grid{grid-template-columns:1fr!important}
   .hero h1{font-size:36px}.section-title{font-size:30px}
@@ -861,9 +875,10 @@ button{border:none;outline:none;cursor:pointer;font-family:var(--f-body)}
             <div class="demo-mock-brand">FohBoh | <span>Cortex</span></div>
             <div style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.3)">v8.6.1</div>
           </div>
-          <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);cursor:pointer;position:relative" id="cortexDemoArea">
-            <div style="width:56px;height:56px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;box-shadow:0 6px 24px rgba(255,152,0,.25)">▶</div>
-            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.8px">CORTEX DEMO · CERTIFIED AI</span>
+          <div class="demo-video-trigger" id="cortexDemoArea" role="button" tabindex="0" aria-label="Play Cortex demo video" data-vimeo-id="1187039030" data-title="Cortex Demo · Certified AI" style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:#0f0f12 url('https://vumbnail.com/1187039030.jpg') center/cover no-repeat">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,18,.25) 0%,rgba(15,15,18,.55) 100%);transition:background .2s"></div>
+            <div style="position:relative;width:64px;height:64px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;padding-left:4px;box-shadow:0 8px 32px rgba(255,152,0,.45);transition:transform .2s">▶</div>
+            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.8px;z-index:1">CORTEX DEMO · CERTIFIED AI</span>
           </div>
         </div>
         <h3 style="font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:6px">Cortex: Certified Intelligence</h3>
@@ -877,9 +892,10 @@ button{border:none;outline:none;cursor:pointer;font-family:var(--f-body)}
             <div style="font-family:'Alkaline',var(--f-display);font-size:16px;font-weight:700;color:#fff">FohBoh | <span style="color:var(--red)">Sentry</span></div>
             <div style="font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.3)">v4.4</div>
           </div>
-          <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);cursor:pointer;position:relative" id="sentryDemoArea">
-            <div style="width:56px;height:56px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;box-shadow:0 6px 24px rgba(214,48,49,.25)">▶</div>
-            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.8px">SENTRY DEMO · REVENUE RECOVERY</span>
+          <div class="demo-video-trigger" id="sentryDemoArea" role="button" tabindex="0" aria-label="Play Sentry demo video" data-vimeo-id="1187039003" data-title="Sentry Demo · Revenue Recovery" style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;background:#0f0f12 url('https://vumbnail.com/1187039003.jpg') center/cover no-repeat">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,18,.25) 0%,rgba(15,15,18,.55) 100%);transition:background .2s"></div>
+            <div style="position:relative;width:64px;height:64px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;padding-left:4px;box-shadow:0 8px 32px rgba(214,48,49,.45);transition:transform .2s">▶</div>
+            <span style="position:absolute;bottom:12px;left:16px;font-family:var(--f-mono);font-size:9px;color:rgba(255,255,255,.7);letter-spacing:.8px;z-index:1">SENTRY DEMO · REVENUE RECOVERY</span>
           </div>
         </div>
         <h3 style="font-family:var(--f-display);font-size:18px;font-weight:700;color:var(--charcoal);margin-bottom:6px">Sentry: Revenue Recovery</h3>
@@ -1143,6 +1159,14 @@ button{border:none;outline:none;cursor:pointer;font-family:var(--f-body)}
   <button class="chatbot-btn" id="chatToggleBtn" onclick="toggleChat()">💬</button>
 </div>
 
+<!-- Demo video lightbox -->
+<div class="video-lightbox" id="videoLightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Demo video">
+  <button type="button" class="video-lightbox-close" aria-label="Close video">✕</button>
+  <div class="video-lightbox-frame">
+    <iframe id="videoLightboxIframe" src="" title="Demo video" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
 <script>
 // === Chatbot ===
 const chatHistory = [];
@@ -1373,6 +1397,36 @@ faqs.forEach(f=>{const item=document.createElement('div');item.className='faq-it
 item.innerHTML=`<div class="faq-q">${f.q}<span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>`;
 item.addEventListener('click',()=>{const wasOpen=item.classList.contains('faq-open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('faq-open'));if(!wasOpen)item.classList.add('faq-open')});
 list.appendChild(item);io.observe(item)})})();
+
+// === Demo video lightbox ===
+(function(){
+  const lightbox=document.getElementById('videoLightbox');
+  if(!lightbox)return;
+  const frame=document.getElementById('videoLightboxIframe');
+  const closeBtn=lightbox.querySelector('.video-lightbox-close');
+  const prevOverflow=document.body.style.overflow;
+  function open(id,title){
+    frame.src=`https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
+    if(title)frame.setAttribute('title',title);
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden','true');
+    frame.src='';
+    document.body.style.overflow=prevOverflow;
+  }
+  document.querySelectorAll('.demo-video-trigger').forEach(el=>{
+    const handler=()=>open(el.dataset.vimeoId,el.dataset.title);
+    el.addEventListener('click',handler);
+    el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler()}});
+  });
+  closeBtn.addEventListener('click',close);
+  lightbox.addEventListener('click',e=>{if(e.target===lightbox)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lightbox.classList.contains('open'))close()});
+})();
 </script>
 </body>
 </html>
