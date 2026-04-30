@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FohBoh | MGE — Deterministic Use Cases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#d63031;--red-dim:rgba(214,48,49,.12);--red-bdr:rgba(214,48,49,.28);
+  --green:#00c853;--green-dim:rgba(0,200,83,.10);--green-bdr:rgba(0,200,83,.28);
+  --gold:#f5c842;--gold-dim:rgba(245,200,66,.11);--gold-bdr:rgba(245,200,66,.28);
+  --ink:#07090f;--card:#0d1017;--card2:#111520;
+  --bdr:rgba(255,255,255,.07);--bdr-hi:rgba(255,255,255,.13);
+  --t0:#f8faff;--t1:#e8ecf4;--t2:#8892a4;--t3:#4a5568;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',system-ui,sans-serif;background:var(--ink);color:var(--t0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ── Layout ── */
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.sec{padding:72px 0}
+hr.div{border:none;border-top:1px solid var(--bdr);margin:0}
+
+/* ── Top bar ── */
+.topbar{padding:22px 0;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:10;background:rgba(7,9,15,.85);backdrop-filter:blur(14px)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--t0);letter-spacing:-.01em;text-decoration:none}
+.brand .pipe{color:var(--t3);margin:0 8px}
+.brand .product{color:var(--red)}
+.brand-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:4px}
+.topnav{display:flex;gap:6px;align-items:center}
+.topnav a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:7px 14px;border-radius:6px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s}
+.topnav a:hover{color:var(--t0);border-color:var(--bdr-hi);background:rgba(255,255,255,.03)}
+.topnav a.active{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+
+/* ── Type ── */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.kicker::before{content:'';width:20px;height:1px;background:var(--red);flex-shrink:0}
+.kicker.green{color:var(--green)}.kicker.green::before{background:var(--green)}
+.kicker.gold{color:var(--gold)}.kicker.gold::before{background:var(--gold)}
+h1{font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--t0)}
+h1 em{font-style:normal;color:var(--red)}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--t0)}
+h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
+.lead{font-size:1rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:580px}
+
+/* ── Tag atoms ── */
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid}
+.tag-r{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+.tag-g{color:var(--green);border-color:var(--green-bdr);background:var(--green-dim)}
+.tag-n{color:var(--t2);border-color:var(--bdr-hi);background:rgba(255,255,255,.04)}
+
+/* ── Header ── */
+.header{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden}
+.header-bg{position:absolute;inset:0;pointer-events:none}
+.header-bg::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:680px;height:480px;background:radial-gradient(ellipse,rgba(214,48,49,.13) 0%,transparent 65%)}
+.header-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--red-dim);border:1px solid var(--red-bdr);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:28px}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);animation:gp 2s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:1}50%{opacity:.3}}
+.header h1{max-width:800px;margin:0 auto 20px}
+.header .lead{margin:0 auto 36px;text-align:center}
+.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+
+/* ── Use Case grid ── */
+.uc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:38px}
+.uc-card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:30px 28px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s}
+.uc-card:hover{border-color:var(--bdr-hi);transform:translateY(-2px)}
+.uc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
+.uc-card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.uc-card.gold::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.uc-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.uc-title{font-family:'Sora',sans-serif;font-size:15.5px;font-weight:700;color:var(--t0);letter-spacing:.04em;text-transform:uppercase;line-height:1.25}
+.uc-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);background:var(--red-dim);border:1px solid var(--red-bdr);padding:4px 9px;border-radius:6px;flex-shrink:0;white-space:nowrap}
+.uc-card.green .uc-num{color:var(--green);background:var(--green-dim);border-color:var(--green-bdr)}
+.uc-card.gold .uc-num{color:var(--gold);background:var(--gold-dim);border-color:var(--gold-bdr)}
+.uc-section{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.uc-trace{font-size:14.5px;color:var(--t1);font-weight:300;line-height:1.65;font-style:italic;border-left:2px solid var(--red);padding-left:14px;margin-bottom:22px}
+.uc-card.green .uc-trace{border-left-color:var(--green)}
+.uc-card.gold .uc-trace{border-left-color:var(--gold)}
+.uc-impact-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-top:18px;border-top:1px solid var(--bdr)}
+.uc-impact-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.uc-impact-val{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--red);letter-spacing:-.01em;text-align:right}
+.uc-card.green .uc-impact-val{color:var(--green)}
+.uc-card.gold .uc-impact-val{color:var(--gold)}
+
+/* ── Firewall callout ── */
+.firewall{background:linear-gradient(135deg,rgba(214,48,49,.07),rgba(0,200,83,.05));border:1px solid var(--red-bdr);border-radius:20px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
+.firewall::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(ellipse,rgba(214,48,49,.1),transparent 70%);pointer-events:none}
+.firewall-quote{font-family:'Sora',sans-serif;font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.18;color:var(--t0);max-width:780px;margin:0 auto;position:relative;z-index:1}
+.firewall-quote em{font-style:normal;color:var(--red)}
+.firewall-mark{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.firewall-cta{display:inline-flex;align-items:center;gap:10px;margin-top:32px;padding:14px 26px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none;border:1px solid var(--red);transition:transform .2s,box-shadow .2s,background .2s;position:relative;z-index:1}
+.firewall-cta::after{content:'→';font-family:'Sora',sans-serif;font-size:14px}
+.firewall-cta:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(214,48,49,.35);background:#e63a3b}
+
+/* ── Footer ── */
+.footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
+.footer p{font-size:12px;color:var(--t3);line-height:2}
+.footer strong{color:var(--t2)}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;margin-top:6px}
+.footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--red)}
+
+/* ── Responsive ── */
+@media(max-width:780px){
+  .uc-grid{grid-template-columns:1fr}
+  .firewall{padding:44px 26px}
+  .topnav{gap:2px}
+  .topnav a{padding:6px 10px;font-size:9px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="index.html" class="brand">
+      FohBoh<span class="pipe">|</span><span class="product">MGE</span>
+      <span class="brand-sub">MVP · Revenue Recovery &amp; Certification</span>
+    </a>
+    <nav class="topnav">
+      <a href="fohboh-mge.html">Modules</a>
+      <a href="fohboh-usecases.html" class="active">Use Cases</a>
+      <a href="index.html#faq">Help</a>
+      <a href="fohboh-api-docs-page.html">API Docs</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-bg"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="eyebrow">Deterministic Use Cases</div>
+    <h1>Operational <em>Recovery Cases.</em></h1>
+    <p class="lead">Quantifiable outcomes driven by the MGE Governance Logic. Every case is rule-based, evidence-backed, and reproducible — no AI, no estimation.</p>
+    <div class="header-tags">
+      <span class="tag tag-r">Deterministic</span>
+      <span class="tag tag-g">Rule-Based</span>
+      <span class="tag tag-r">Evidence-Backed</span>
+      <span class="tag tag-g">Reproducible</span>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── USE CASES GRID ── -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker">The Cases</p>
+    <h2>Six Recovery Patterns. One Engine.</h2>
+    <p class="lead">Each case below is governed by the MGE rule registry. The narrative trace is a real pattern caught in production. The impact target is the variance band typically certified.</p>
+
+    <div class="uc-grid">
+
+      <!-- 01 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-title">Merchant Fee Recovery</div>
+          <div class="uc-num">Use Case 01</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Recovered $32k annually after exposing hidden interchange padding in processor statements."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">0.2% – 0.8% of card volume</div>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-title">Delivery Fee Recovery</div>
+          <div class="uc-num">Use Case 02</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Detected a 6% commission drift caused by unmapped aggregator marketing fee line items."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">3% – 10% of delivery sales</div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="uc-card gold">
+        <div class="uc-head">
+          <div class="uc-title">Prime Cost Governance</div>
+          <div class="uc-num">Use Case 03</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Flagged inventory reclassifications where premium proteins were moved into non-COGS categories."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">4% Margin Gain</div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="uc-card">
+        <div class="uc-head">
+          <div class="uc-title">Revenue Recovery</div>
+          <div class="uc-num">Use Case 04</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Flagged a server-level reopen/delete pattern linked to abnormal void and comp behavior."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">2% Gross Recovery</div>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="uc-card green">
+        <div class="uc-head">
+          <div class="uc-title">Labor Productivity</div>
+          <div class="uc-num">Use Case 05</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Identified shift overlap during low-traffic windows and reduced labor waste by 12%."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">10% Efficiency Gain</div>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="uc-card green">
+        <div class="uc-head">
+          <div class="uc-title">Shrinkage Detection</div>
+          <div class="uc-num">Use Case 06</div>
+        </div>
+        <div class="uc-section">Narrative Trace</div>
+        <div class="uc-trace">"Found 9% steak variance tied to prep-yield loss that never hit formal waste logs."</div>
+        <div class="uc-impact-row">
+          <div class="uc-impact-label">Impact Target</div>
+          <div class="uc-impact-val">15% Waste Reduction</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── FIREWALL CALLOUT ── -->
+<div class="sec">
+  <div class="wrap">
+    <div class="firewall">
+      <div class="firewall-mark">Architectural Posture</div>
+      <p class="firewall-quote">"The MGE is a <em>financial firewall</em> for your enterprise."</p>
+      <a href="index.html#contact-form" class="firewall-cta">Execute Audit Protocol</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div class="wrap">
+    <p><strong>© 2026 FohBoh.ai, Inc.</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; US Patent Pending</p>
+    <div class="footer-links">
+      <a href="index.html">Admin Portal</a>
+      <a href="index.html#contact-form">Contact Us</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="#">API Docs</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
