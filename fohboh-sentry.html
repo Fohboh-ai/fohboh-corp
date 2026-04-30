@@ -177,6 +177,8 @@ h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;lin
 .footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
 .footer p{font-size:12px;color:var(--t3);line-height:2}
 .footer strong{color:var(--t2)}
+.footer a{color:var(--t2);text-decoration:none;transition:color .2s}
+.footer a:hover{color:var(--red)}
 
 @media(max-width:780px){
   .stats-row,.mq6-grid,.evidence-grid,.problem-grid,.module-grid{grid-template-columns:1fr 1fr}
@@ -188,9 +190,13 @@ h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;lin
 @media(max-width:480px){
   .stats-row,.mq6-grid,.evidence-grid,.problem-grid,.module-grid,.pipeline-grid,.artifact-grid{grid-template-columns:1fr}
 }
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
 </style>
 </head>
 <body>
+
+<a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
 
 <div class="header">
   <div class="hbg"></div>
@@ -416,7 +422,7 @@ h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;lin
 <div class="footer">
   <div class="wrap">
     <p><strong>© 2026 FohBoh.ai, Inc</strong></p>
-    <p>FohBoh | Sentry™ &nbsp;·&nbsp; FohBoh | Cortex™ &nbsp;·&nbsp; FohBoh | MGE™ &nbsp;·&nbsp; Patent Pending</p>
+    <p>FohBoh | <a href="fohboh-sentry.html">Sentry™</a> &nbsp;·&nbsp; FohBoh | <a href="fohboh-cortext.html">Cortex™</a> &nbsp;·&nbsp; FohBoh | <a href="fohboh-mge.html">MGE™</a> &nbsp;·&nbsp; <a href="fohboh-architecture.html">Architecture</a> &nbsp;·&nbsp; Patent Pending</p>
     <p>Zero AI · Deterministic · Court-Admissible · CAAR FRE 803(6) · 902(11) · 1002</p>
   </div>
 </div>

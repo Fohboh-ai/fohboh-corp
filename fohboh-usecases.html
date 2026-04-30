@@ -114,9 +114,13 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
   .topnav{gap:2px}
   .topnav a{padding:6px 10px;font-size:9px}
 }
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
 </style>
 </head>
 <body>
+
+<a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
 
 <!-- ── TOP BAR ── -->
 <div class="topbar">
@@ -267,10 +271,14 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
   <div class="wrap">
     <p><strong>© 2026 FohBoh.ai, Inc.</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; US Patent Pending</p>
     <div class="footer-links">
+      <a href="fohboh-sentry.html">Sentry™</a>
+      <a href="fohboh-cortext.html">Cortex™</a>
+      <a href="fohboh-mge.html">MGE™</a>
+      <a href="fohboh-architecture.html">Architecture</a>
       <a href="index.html">Admin Portal</a>
       <a href="index.html#contact-form">Contact Us</a>
       <a href="terms.html">Terms &amp; Conditions</a>
-      <a href="#">API Docs</a>
+      <a href="fohboh-api-docs-page.html">API Docs</a>
     </div>
   </div>
 </div>
