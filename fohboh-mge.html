@@ -149,6 +149,31 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 @media(max-width:480px){
   .steps-row{grid-template-columns:1fr}
 }
+/* ── Use Cases (collapsible) ── */
+.uc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.uc-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.uc-card:hover{border-color:var(--bdr-hi)}
+.uc-card[open]{border-color:var(--green-bdr);background:linear-gradient(180deg,var(--card2),var(--card))}
+.uc-summary{display:flex;align-items:center;gap:14px;padding:20px 22px;cursor:pointer;list-style:none;user-select:none}
+.uc-summary::-webkit-details-marker{display:none}
+.uc-summary:hover{background:rgba(255,255,255,.02)}
+.uc-meta{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.uc-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;color:var(--green);text-transform:uppercase}
+.uc-title{font-size:14.5px;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
+.uc-impact{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-bdr);padding:5px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.uc-chev{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--t2);transition:transform .25s,color .2s;flex-shrink:0}
+.uc-card[open] .uc-chev{transform:rotate(180deg);color:var(--green)}
+.uc-body{padding:18px 22px 22px;border-top:1px solid var(--bdr);display:flex;flex-direction:column;gap:16px}
+.uc-block{display:flex;flex-direction:column;gap:6px}
+.uc-label{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
+.uc-quote{font-size:12.5px;color:var(--t1);font-style:italic;font-weight:400;line-height:1.65}
+.uc-text{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.7}
+@media(max-width:780px){
+  .uc-grid{grid-template-columns:1fr}
+  .uc-summary{flex-wrap:wrap}
+  .uc-impact{order:3}
+}
+
 .back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
 .back-home:hover{background:rgba(0,200,83,.85);transform:translateX(-2px)}
 </style>
@@ -156,6 +181,7 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 <body>
 
 <a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
 
 <!-- ── HEADER ── -->
 <div class="header">
@@ -383,6 +409,173 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
     </div>
   </div>
 </div>
+
+<hr class="div">
+
+<!-- ── USE CASES ── -->
+<div class="sec" id="use-cases">
+  <div class="wrap">
+    <p class="kicker green">Deterministic Use Cases</p>
+    <h2>Operational <em style="color:var(--green)">Recovery</em> Cases.</h2>
+    <p class="lead" style="margin-bottom:32px">Quantifiable outcomes driven by the MGE Governance Logic. Click any card to expand.</p>
+
+    <div class="uc-grid">
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 01</span>
+            <span class="uc-title">Merchant Fee Recovery</span>
+          </div>
+          <span class="uc-impact">0.2% – 0.8% of card volume</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Recovered $32k annually after exposing hidden interchange padding in processor statements."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">A forensic audit layer that scans Shift4 and other processor statements for hidden interchange markups, downgrades, and non-compliant overrides.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">Most operators never validate processor math. A single "Interchange Padding" line item can quietly drain an average of 0.5% or up to $32k+ annually without triggering any alert in the POS.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 02</span>
+            <span class="uc-title">Delivery Fee Recovery</span>
+          </div>
+          <span class="uc-impact">3% – 10% of delivery sales</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Detected a 6% commission drift caused by unmapped aggregator marketing fee line items."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">Commission logic validation across DoorDash, Uber Eats, and first-party delivery channels to detect fee drift and unmapped marketing line items.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">Aggregators frequently update fee structures without notifying merchants. An average of 6% or up to $100k metric drift is invisible in P&amp;L summaries but erodes margin on every single order.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 03</span>
+            <span class="uc-title">Prime Cost Governance</span>
+          </div>
+          <span class="uc-impact">4% Margin Gain</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Flagged inventory reclassifications where premium proteins were moved into non-COGS categories."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">A control mechanism that flags inventory reclassifications, recipe manipulation, and "meal transfers" used to artificially deflate reported cost of goods sold.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">When a store manager reclasses 40lbs. of ribeye as a "marketing meal," food cost improves on paper — but real cash left the building. This closes the fiction gap.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 04</span>
+            <span class="uc-title">Revenue Recovery</span>
+          </div>
+          <span class="uc-impact">2% Gross Recovery</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Flagged a server-level reopen/delete pattern linked to abnormal void and comp behavior."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">POS transaction-logic auditing that detects void/delete patterns, server-driven comps, and unauthorized discount stacking at the employee ID level.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">A 15% void rate from a single server ID is not hospitality — it is either theft or process failure. Flagging the "re-open and delete" pattern stops the bleed at the source.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 05</span>
+            <span class="uc-title">Labor Productivity</span>
+          </div>
+          <span class="uc-impact">10% Efficiency Gain</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Identified shift overlap during low-traffic windows and reduced labor waste by 12%."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">Intraday scheduling logic that compares actual employee clock-ins against interval-level sales forecasts and historical utilization curves.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">Overlapping shifts during 9–11 AM dead zones create labor waste that P&amp;L summaries smooth over. 12% reduction is achieved not by cutting heads, but by aligning bodies to traffic.</p>
+          </div>
+        </div>
+      </details>
+
+      <details class="uc-card">
+        <summary class="uc-summary">
+          <div class="uc-meta">
+            <span class="uc-num">Use Case 06</span>
+            <span class="uc-title">Shrinkage Detection</span>
+          </div>
+          <span class="uc-impact">15% Waste Reduction</span>
+          <span class="uc-chev" aria-hidden="true">▾</span>
+        </summary>
+        <div class="uc-body">
+          <div class="uc-block">
+            <span class="uc-label">Narrative Trace</span>
+            <p class="uc-quote">"Found 9% steak variance tied to prep-yield loss that never hit formal waste logs."</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">What It Is</span>
+            <p class="uc-text">Yield-driven waste tracking that reconciles raw ingredient purchases against finished good sales, flagging variance not logged as formal spoilage or trim.</p>
+          </div>
+          <div class="uc-block">
+            <span class="uc-label">Why It Matters</span>
+            <p class="uc-text">If 9% of steaks disappear before they hit the guest check, the problem is not theft — it is prep execution. Capturing yield loss at the table level converts waste into training ROI.</p>
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</div>
+
+<hr class="div">
 
 <!-- ── FOOTER ── -->
 <div class="footer">

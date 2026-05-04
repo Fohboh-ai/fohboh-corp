@@ -71,14 +71,24 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 .uc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:38px}
 .uc-card{background:var(--card);border:1px solid var(--bdr);border-radius:18px;padding:30px 28px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s}
 .uc-card:hover{border-color:var(--bdr-hi);transform:translateY(-2px)}
-.uc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent)}
+.uc-card[open]{border-color:var(--bdr-hi)}
+.uc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),transparent);z-index:1}
 .uc-card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
 .uc-card.gold::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.uc-card > summary{display:block;list-style:none;cursor:pointer;outline:none}
+.uc-card > summary::-webkit-details-marker{display:none}
+.uc-card > summary::marker{display:none}
 .uc-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.uc-head-l{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
 .uc-title{font-family:'Sora',sans-serif;font-size:15.5px;font-weight:700;color:var(--t0);letter-spacing:.04em;text-transform:uppercase;line-height:1.25}
 .uc-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);background:var(--red-dim);border:1px solid var(--red-bdr);padding:4px 9px;border-radius:6px;flex-shrink:0;white-space:nowrap}
 .uc-card.green .uc-num{color:var(--green);background:var(--green-dim);border-color:var(--green-bdr)}
 .uc-card.gold .uc-num{color:var(--gold);background:var(--gold-dim);border-color:var(--gold-bdr)}
+.uc-chev{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:8px;transition:transform .25s,color .2s,border-color .2s;flex-shrink:0}
+.uc-card:hover .uc-chev{color:var(--t1);border-color:var(--bdr-hi)}
+.uc-card[open] .uc-chev{transform:rotate(180deg);color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+.uc-card.green[open] .uc-chev{color:var(--green);border-color:var(--green-bdr);background:var(--green-dim)}
+.uc-card.gold[open] .uc-chev{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim)}
 .uc-section{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
 .uc-trace{font-size:14.5px;color:var(--t1);font-weight:300;line-height:1.65;font-style:italic;border-left:2px solid var(--red);padding-left:14px;margin-bottom:22px}
 .uc-card.green .uc-trace{border-left-color:var(--green)}
@@ -88,6 +98,9 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 .uc-impact-val{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--red);letter-spacing:-.01em;text-align:right}
 .uc-card.green .uc-impact-val{color:var(--green)}
 .uc-card.gold .uc-impact-val{color:var(--gold)}
+.uc-expand{margin-top:20px;padding-top:20px;border-top:1px dashed var(--bdr);display:flex;flex-direction:column;gap:16px}
+.uc-expand .uc-block{display:flex;flex-direction:column;gap:6px}
+.uc-expand .uc-text{font-size:13px;color:var(--t2);font-weight:300;line-height:1.7}
 
 /* ── Firewall callout ── */
 .firewall{background:linear-gradient(135deg,rgba(214,48,49,.07),rgba(0,200,83,.05));border:1px solid var(--red-bdr);border-radius:20px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
@@ -121,6 +134,7 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 <body>
 
 <a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
 
 <!-- ── TOP BAR ── -->
 <div class="topbar">
@@ -166,88 +180,178 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
     <div class="uc-grid">
 
       <!-- 01 -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-title">Merchant Fee Recovery</div>
-          <div class="uc-num">Use Case 01</div>
+      <details class="uc-card">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 01</div>
+              <div class="uc-title">Merchant Fee Recovery</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Recovered $32k annually after exposing hidden interchange padding in processor statements."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">0.2% – 0.8% of card volume</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">A forensic audit layer that scans Shift4 and other processor statements for hidden interchange markups, downgrades, and non-compliant overrides.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">Most operators never validate processor math. A single "Interchange Padding" line item can quietly drain an average of 0.5% or up to $32k+ annually without triggering any alert in the POS.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Recovered $32k annually after exposing hidden interchange padding in processor statements."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">0.2% – 0.8% of card volume</div>
-        </div>
-      </div>
+      </details>
 
       <!-- 02 -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-title">Delivery Fee Recovery</div>
-          <div class="uc-num">Use Case 02</div>
+      <details class="uc-card">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 02</div>
+              <div class="uc-title">Delivery Fee Recovery</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Detected a 6% commission drift caused by unmapped aggregator marketing fee line items."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">3% – 10% of delivery sales</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">Commission logic validation across DoorDash, Uber Eats, and first-party delivery channels to detect fee drift and unmapped marketing line items.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">Aggregators frequently update fee structures without notifying merchants. An average of 6% or up to $100k metric drift is invisible in P&amp;L summaries but erodes margin on every single order.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Detected a 6% commission drift caused by unmapped aggregator marketing fee line items."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">3% – 10% of delivery sales</div>
-        </div>
-      </div>
+      </details>
 
       <!-- 03 -->
-      <div class="uc-card gold">
-        <div class="uc-head">
-          <div class="uc-title">Prime Cost Governance</div>
-          <div class="uc-num">Use Case 03</div>
+      <details class="uc-card gold">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 03</div>
+              <div class="uc-title">Prime Cost Governance</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Flagged inventory reclassifications where premium proteins were moved into non-COGS categories."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">4% Margin Gain</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">A control mechanism that flags inventory reclassifications, recipe manipulation, and "meal transfers" used to artificially deflate reported cost of goods sold.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">When a store manager reclasses 40lbs. of ribeye as a "marketing meal," food cost improves on paper — but real cash left the building. This closes the fiction gap.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Flagged inventory reclassifications where premium proteins were moved into non-COGS categories."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">4% Margin Gain</div>
-        </div>
-      </div>
+      </details>
 
       <!-- 04 -->
-      <div class="uc-card">
-        <div class="uc-head">
-          <div class="uc-title">Revenue Recovery</div>
-          <div class="uc-num">Use Case 04</div>
+      <details class="uc-card">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 04</div>
+              <div class="uc-title">Revenue Recovery</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Flagged a server-level reopen/delete pattern linked to abnormal void and comp behavior."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">2% Gross Recovery</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">POS transaction-logic auditing that detects void/delete patterns, server-driven comps, and unauthorized discount stacking at the employee ID level.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">A 15% void rate from a single server ID is not hospitality — it is either theft or process failure. Flagging the "re-open and delete" pattern stops the bleed at the source.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Flagged a server-level reopen/delete pattern linked to abnormal void and comp behavior."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">2% Gross Recovery</div>
-        </div>
-      </div>
+      </details>
 
       <!-- 05 -->
-      <div class="uc-card green">
-        <div class="uc-head">
-          <div class="uc-title">Labor Productivity</div>
-          <div class="uc-num">Use Case 05</div>
+      <details class="uc-card green">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 05</div>
+              <div class="uc-title">Labor Productivity</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Identified shift overlap during low-traffic windows and reduced labor waste by 12%."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">10% Efficiency Gain</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">Intraday scheduling logic that compares actual employee clock-ins against interval-level sales forecasts and historical utilization curves.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">Overlapping shifts during 9–11 AM dead zones create labor waste that P&amp;L summaries smooth over. 12% reduction is achieved not by cutting heads, but by aligning bodies to traffic.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Identified shift overlap during low-traffic windows and reduced labor waste by 12%."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">10% Efficiency Gain</div>
-        </div>
-      </div>
+      </details>
 
       <!-- 06 -->
-      <div class="uc-card green">
-        <div class="uc-head">
-          <div class="uc-title">Shrinkage Detection</div>
-          <div class="uc-num">Use Case 06</div>
+      <details class="uc-card green">
+        <summary>
+          <div class="uc-head">
+            <div class="uc-head-l">
+              <div class="uc-num">Use Case 06</div>
+              <div class="uc-title">Shrinkage Detection</div>
+            </div>
+            <span class="uc-chev" aria-hidden="true">▾</span>
+          </div>
+          <div class="uc-section">Narrative Trace</div>
+          <div class="uc-trace">"Found 9% steak variance tied to prep-yield loss that never hit formal waste logs."</div>
+          <div class="uc-impact-row">
+            <div class="uc-impact-label">Impact Target</div>
+            <div class="uc-impact-val">15% Waste Reduction</div>
+          </div>
+        </summary>
+        <div class="uc-expand">
+          <div class="uc-block">
+            <div class="uc-section">What It Is</div>
+            <p class="uc-text">Yield-driven waste tracking that reconciles raw ingredient purchases against finished good sales, flagging variance not logged as formal spoilage or trim.</p>
+          </div>
+          <div class="uc-block">
+            <div class="uc-section">Why It Matters</div>
+            <p class="uc-text">If 9% of steaks disappear before they hit the guest check, the problem is not theft — it is prep execution. Capturing yield loss at the table level converts waste into training ROI.</p>
+          </div>
         </div>
-        <div class="uc-section">Narrative Trace</div>
-        <div class="uc-trace">"Found 9% steak variance tied to prep-yield loss that never hit formal waste logs."</div>
-        <div class="uc-impact-row">
-          <div class="uc-impact-label">Impact Target</div>
-          <div class="uc-impact-val">15% Waste Reduction</div>
-        </div>
-      </div>
+      </details>
 
     </div>
   </div>

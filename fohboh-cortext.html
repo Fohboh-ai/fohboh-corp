@@ -195,6 +195,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 <body>
 
 <a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
 
 <!-- HEADER -->
 <div class="header">
