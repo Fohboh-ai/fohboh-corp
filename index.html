@@ -495,7 +495,7 @@ a.pillar:hover{border-color:var(--charcoal);box-shadow:0 4px 14px rgba(0,0,0,.08
       </div>
       <div class="hero-ctas reveal">
         <a href="#demo" class="cta-main"><span style="font-size:11px">▶</span> Watch 90-sec Demo</a>
-        <a href="#how-it-works" class="cta-secondary">See How It Works</a>
+        <a href="#platform-section" class="cta-secondary">See How It Works</a>
         <a href="#partners" class="cta-text">For POS &amp; Partners →</a>
       </div>
     </div>
@@ -649,7 +649,7 @@ a.pillar:hover{border-color:var(--charcoal);box-shadow:0 4px 14px rgba(0,0,0,.08
   <div class="section-inner">
     <p class="section-label reveal" style="color:var(--red)">RESOURCES</p>
     <h2 class="section-title reveal" style="color:var(--charcoal);margin-bottom:20px">Learning Center</h2>
-    <p class="section-subtitle reveal">40+ articles on restaurant intelligence, certified operations, and revenue recovery. Research, guides, and real operator perspectives.</p>
+    <p class="section-subtitle reveal">Articles on restaurant intelligence, certified operations, and revenue recovery. Research, guides, and real operator perspectives.</p>
 
     <div class="res-categories reveal" id="resCats">
       <button class="res-category-btn active" data-cat="all">All</button>
@@ -663,7 +663,7 @@ a.pillar:hover{border-color:var(--charcoal);box-shadow:0 4px 14px rgba(0,0,0,.08
     <div class="res-grid" id="resGrid"></div>
 
     <div class="reveal" style="text-align:center;margin-top:8px">
-      <a href="#" style="font-family:var(--f-body);font-size:14px;color:var(--red);font-weight:600">View all 40+ articles →</a>
+      <a href="blog.html" style="font-family:var(--f-body);font-size:14px;color:var(--red);font-weight:600">View all 8 articles →</a>
     </div>
   </div>
 </section>
@@ -1168,6 +1168,7 @@ a.pillar:hover{border-color:var(--charcoal);box-shadow:0 4px 14px rgba(0,0,0,.08
   </div>
 </div>
 
+<script src="blog-data.js"></script>
 <script>
 // === Chatbot ===
 const chatHistory = [];
@@ -1349,25 +1350,12 @@ card.innerHTML=`<div class="uc-header"><div class="uc-top"><div style="flex:1"><
 card.addEventListener('click',()=>{const isOpen=card.classList.contains('open');document.querySelectorAll('.uc-card').forEach(c=>c.classList.remove('open'));if(!isOpen)card.classList.add('open')});
 grid.appendChild(card);io.observe(card)})})();
 
-// === Resources Articles ===
+// === Resources Articles === (teaser — full library lives at blog.html)
 (function(){const grid=document.getElementById('resGrid');
-const articles=[
-{cat:'research',catLabel:'RESEARCH',color:'var(--red)',title:'Why Deterministic AI Is the Future of Restaurant Intelligence',date:'Apr 2026',read:'8 min'},
-{cat:'ai',catLabel:'RESTAURANT AI',color:'var(--blue)',title:'Hallucination Risk in Restaurant AI: What Operators Need to Know',date:'Apr 2026',read:'6 min'},
-{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'How a 12-Unit Pizza Chain Recovered $4,200/Month Per Location',date:'Mar 2026',read:'5 min'},
-{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Regional Benchmarking with Certified Data: A GM\'s Perspective',date:'Mar 2026',read:'7 min'},
-{cat:'guide',catLabel:'GUIDE',color:'var(--charcoal)',title:'Understanding Trust Scores: A Technical Deep Dive for Operators',date:'Mar 2026',read:'10 min'},
-{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'Night Shift Labor Leakage: One Manager\'s Discovery Through Sentry',date:'Mar 2026',read:'4 min'},
-{cat:'research',catLabel:'RESEARCH',color:'var(--red)',title:'Legally Defensible AI: What CAAR Means for Compliance and Disputes',date:'Feb 2026',read:'9 min'},
-{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Multi-Unit P&L Certification: How Corporate Teams Use MGE',date:'Feb 2026',read:'6 min'},
-{cat:'ai',catLabel:'RESTAURANT AI',color:'var(--blue)',title:'The $47B Leakage Problem Nobody Is Solving',date:'Feb 2026',read:'7 min'},
-{cat:'guide',catLabel:'GUIDE',color:'var(--charcoal)',title:'DSP Fee Reconciliation: A Step-by-Step Certification Walkthrough',date:'Jan 2026',read:'12 min'},
-{cat:'store',catLabel:'STORE-LEVEL',color:'var(--cert-green)',title:'From Spreadsheets to Certified Reports: A Kitchen Manager\'s Story',date:'Jan 2026',read:'4 min'},
-{cat:'corporate',catLabel:'ABOVE-STORE',color:'var(--amber)',title:'Interchange Downgrades at Scale: What Your CFO Needs to See',date:'Jan 2026',read:'8 min'},
-];
+const articles=window.BLOG_ARTICLES||[];
 let activeCat='all';
 function renderArticles(){grid.innerHTML='';const filtered=activeCat==='all'?articles:articles.filter(a=>a.cat===activeCat);
-filtered.slice(0,8).forEach(a=>{const card=document.createElement('div');card.className='res-card reveal';
+filtered.slice(0,6).forEach(a=>{const card=document.createElement('a');card.className='res-card reveal';card.href='blog/'+a.slug+'.html';card.style.textDecoration='none';card.style.color='inherit';
 card.innerHTML=`<div class="res-cat" style="color:${a.color}">${a.catLabel}</div><h4>${a.title}</h4><div class="res-card-meta">${a.date} · ${a.read} read</div>`;
 grid.appendChild(card);io.observe(card)})}
 renderArticles();

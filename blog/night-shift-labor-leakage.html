@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading… — FohBoh.ai Learning Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#fff;--off-white:#FAFAFA;--light-gray:#F4F4F6;--mid-gray:#E5E5EA;
+  --text-gray:#6B6B76;--charcoal:#1A1A1F;--dark-bg:#0D0D11;
+  --red:#D63031;--red-glow:#D6303118;--cert-green:#00C853;
+  --blue:#2979FF;--amber:#FF9800;
+  --f-display:'Outfit',sans-serif;--f-body:'DM Sans',sans-serif;--f-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:var(--charcoal);font-family:var(--f-body);line-height:1.7}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.header{position:sticky;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--mid-gray);padding:0 24px}
+.header-inner{max-width:920px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo-text{font-family:'Alkaline',var(--f-display);font-weight:700;font-size:20px;color:var(--charcoal)}
+.logo-dot{font-family:var(--f-mono);font-size:11px;color:var(--text-gray);margin-left:4px}
+.header-right{font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--text-gray)}
+.header-right a{color:var(--text-gray);padding:6px 12px;border-radius:8px}
+.header-right a:hover{color:var(--charcoal);background:var(--light-gray);text-decoration:none}
+
+.post-hero{position:relative;padding:88px 24px 56px;overflow:hidden;color:#fff}
+.post-hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:18px 18px;opacity:.32;pointer-events:none}
+.post-hero-inner{max-width:820px;margin:0 auto;position:relative;z-index:1}
+.post-cat{display:inline-block;font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.4px;padding:5px 12px;border-radius:100px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);margin-bottom:20px}
+.post-hero h1{font-family:var(--f-display);font-size:clamp(30px,4.6vw,46px);font-weight:800;line-height:1.1;letter-spacing:-1.2px;margin-bottom:20px;max-width:760px}
+.post-meta{font-family:var(--f-mono);font-size:11.5px;color:rgba(255,255,255,.72);letter-spacing:.4px}
+.post-meta span{margin-right:14px}
+
+.post-body{max-width:720px;margin:0 auto;padding:56px 24px 64px;font-family:var(--f-body);font-size:17px;line-height:1.75;color:var(--charcoal)}
+.post-body p{margin-bottom:22px;color:#2c2c33}
+.post-body p.lede{font-size:19px;color:var(--charcoal);font-weight:500;line-height:1.6;margin-bottom:32px}
+.post-body h2{font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--charcoal);letter-spacing:-.5px;line-height:1.25;margin:40px 0 16px}
+.post-body h3{font-family:var(--f-display);font-size:19px;font-weight:600;color:var(--charcoal);letter-spacing:-.2px;margin:28px 0 10px}
+.post-body blockquote{margin:32px 0;padding:18px 24px;border-left:3px solid var(--red);background:var(--off-white);font-family:var(--f-display);font-size:19px;font-weight:500;color:var(--charcoal);line-height:1.5;font-style:italic}
+.post-body ul,.post-body ol{margin:0 0 22px 24px}
+.post-body li{margin-bottom:8px}
+.post-body code{font-family:var(--f-mono);font-size:14px;background:var(--light-gray);padding:2px 6px;border-radius:4px}
+.post-body .stub{color:var(--text-gray);font-style:italic}
+
+.post-foot{max-width:720px;margin:0 auto;padding:0 24px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--f-body);font-size:13px;color:var(--text-gray)}
+.post-foot a{color:var(--red);font-weight:600}
+
+.related{background:var(--off-white);border-top:1px solid var(--mid-gray);padding:56px 24px 72px}
+.related-inner{max-width:1100px;margin:0 auto}
+.related-eyebrow{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--red);text-align:center;margin-bottom:8px}
+.related h3{font-family:var(--f-display);font-size:26px;font-weight:700;color:var(--charcoal);letter-spacing:-.5px;text-align:center;margin-bottom:32px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.res-card{display:flex;flex-direction:column;background:#fff;border-radius:12px;border:1px solid var(--mid-gray);overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;text-decoration:none;color:inherit;height:100%}
+.res-card:hover{border-color:rgba(214,48,49,.25);transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.06);text-decoration:none}
+.res-card-thumb{aspect-ratio:16/9;width:100%;display:flex;align-items:flex-end;padding:14px;color:#fff;font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;position:relative;overflow:hidden}
+.res-card-thumb::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 1px,transparent 1px);background-size:14px 14px;opacity:.35;pointer-events:none}
+.res-card-body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
+.res-cat{font-family:var(--f-mono);font-size:9.5px;font-weight:600;letter-spacing:.8px;margin-bottom:8px}
+.res-card h4{font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--charcoal);line-height:1.3;margin-bottom:14px;flex:1}
+.res-card-meta{font-family:var(--f-body);font-size:11px;color:var(--text-gray)}
+
+.footer{background:var(--dark-bg);padding:44px 24px 28px;color:rgba(255,255,255,.4)}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-family:var(--f-body);font-size:12px}
+.footer-legal{display:flex;gap:16px;flex-wrap:wrap}
+.footer-legal a{color:rgba(255,255,255,.5);text-decoration:none}
+.footer-legal a:hover{color:#fff}
+
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(15,15,17,.85);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);font-family:ui-monospace,'SF Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.9);transform:translateX(-2px);text-decoration:none}
+
+@media (max-width: 880px){
+  .related-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 560px){
+  .post-hero{padding:64px 22px 44px}
+  .post-body{padding:40px 22px 48px;font-size:16px}
+  .post-body h2{font-size:22px}
+  .related-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-slug="night-shift-labor-leakage">
+
+<a href="../blog.html" class="back-home" aria-label="Back to Learning Center">← All articles</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','../index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="../index.html" style="display:flex;align-items:center;text-decoration:none">
+      <span class="logo-text">FohBoh</span><span class="logo-dot">.ai</span>
+    </a>
+    <div class="header-right"><a href="../blog.html">Learning Center</a></div>
+  </div>
+</header>
+
+<section class="post-hero" id="postHero">
+  <div class="post-hero-inner">
+    <span class="post-cat" id="postCat">…</span>
+    <h1 id="postTitle">Loading…</h1>
+    <div class="post-meta">
+      <span id="postDate">—</span>
+      <span id="postRead">— read</span>
+    </div>
+  </div>
+</section>
+
+<article class="post-body">
+  <p class="lede">Labor leakage is one of the most common—and overlooked—sources of lost profitability in restaurant operations. Unlike inventory or revenue discrepancies, labor issues often go unnoticed because they are embedded in daily operations.</p>
+
+  <p>This was the case for a store manager who used FohBoh | Sentry™ to analyze night shift performance. At first glance, everything appeared normal. Labor percentages were within acceptable ranges, and staffing levels seemed appropriate.</p>
+
+  <h2>The pattern Sentry found</h2>
+  <p>But Sentry identified a pattern:</p>
+  <ul>
+    <li>Labor costs consistently spiked during late-night hours</li>
+    <li>Sales volume did not justify the increase</li>
+    <li>Variances were recurring across multiple days</li>
+  </ul>
+
+  <p>Using deterministic analysis, the system traced the issue to overstaffing during low-demand periods, extended shift times beyond scheduled hours, and inefficient task allocation. These were not isolated incidents—they were systemic.</p>
+
+  <h2>Visibility made the difference</h2>
+  <p>What made the difference was visibility. Traditional reports showed aggregated data. Sentry provided granular, certified insights: hour-by-hour labor efficiency, the correlation between sales and staffing, and identifiable patterns across shifts.</p>
+
+  <p>The manager was able to take immediate action—adjusting staffing schedules, aligning labor with demand, and implementing accountability measures. The result was a measurable reduction in labor costs, without impacting service quality.</p>
+
+  <blockquote>Labor leakage is not always obvious. It often exists in small inefficiencies that accumulate over time.</blockquote>
+
+  <h2>The takeaway</h2>
+  <p>Without the right tools, these issues remain hidden. With certified intelligence, they become actionable. For operators, the takeaway is clear:</p>
+  <ul>
+    <li>Visibility drives efficiency</li>
+    <li>Certification drives confidence</li>
+    <li>Action drives results</li>
+  </ul>
+</article>
+
+<div class="post-foot">
+  <a href="../blog.html">← Back to all articles</a>
+  <a href="../index.html#contact-form">Talk to FohBoh →</a>
+</div>
+
+<section class="related">
+  <div class="related-inner">
+    <p class="related-eyebrow">KEEP READING</p>
+    <h3>Related articles</h3>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2026 FohBoh.ai, Inc.</span>
+    <div class="footer-legal">
+      <a href="../fohboh-sentry.html">Sentry™</a>
+      <a href="../fohboh-cortext.html">Cortex™</a>
+      <a href="../fohboh-mge.html">MGE™</a>
+      <a href="../fohboh-architecture.html">Architecture</a>
+      <a href="../fohboh-usecases.html">Use Cases</a>
+      <a href="../fohboh-api-docs-page.html">API Docs</a>
+      <a href="../about.html">About</a>
+      <a href="../blog.html">Learning Center</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../security.html">Security</a>
+      <a href="../index.html">Home</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../blog-data.js"></script>
+<script>
+(function(){
+  var slug = document.body.dataset.slug;
+  var articles = window.BLOG_ARTICLES || [];
+  var me = articles.find(function(a){return a.slug===slug});
+  if(!me){
+    document.getElementById('postTitle').textContent = 'Article not found';
+    document.getElementById('postCat').textContent = '404';
+    return;
+  }
+
+  var thumbMap = {
+    'var(--red)':         ['#D63031','#7a1c1d'],
+    'var(--blue)':        ['#2979FF','#1a3f7a'],
+    'var(--cert-green)':  ['#00C853','#005a26'],
+    'var(--amber)':       ['#FF9800','#7a4500'],
+    'var(--charcoal)':    ['#1A1A1F','#3a3a45'],
+  };
+  var stops = thumbMap[me.color] || thumbMap['var(--charcoal)'];
+  document.getElementById('postHero').style.background = 'linear-gradient(135deg,'+stops[0]+' 0%,'+stops[1]+' 100%)';
+  document.getElementById('postCat').textContent = me.catLabel;
+  document.getElementById('postTitle').textContent = me.title;
+  document.getElementById('postDate').textContent = me.date;
+  document.getElementById('postRead').textContent = me.read + ' read';
+  document.title = me.title + ' — FohBoh.ai Learning Center';
+
+  // Related: prefer same category, fill with most-recent others. Exclude self.
+  var pool = articles.filter(function(a){return a.slug!==slug});
+  var sameCat = pool.filter(function(a){return a.cat===me.cat});
+  var others  = pool.filter(function(a){return a.cat!==me.cat});
+  var related = sameCat.concat(others).slice(0,3);
+
+  var grid = document.getElementById('relatedGrid');
+  related.forEach(function(a){
+    var stops = thumbMap[a.color] || thumbMap['var(--charcoal)'];
+    var card = document.createElement('a');
+    card.className = 'res-card';
+    card.href = a.slug + '.html';
+    card.innerHTML =
+      '<div class="res-card-thumb" style="background:linear-gradient(135deg,'+stops[0]+' 0%,'+stops[1]+' 100%)">' + a.catLabel + '</div>' +
+      '<div class="res-card-body">' +
+        '<div class="res-cat" style="color:' + a.color + '">' + a.catLabel + '</div>' +
+        '<h4>' + a.title + '</h4>' +
+        '<div class="res-card-meta">' + a.date + ' · ' + a.read + ' read</div>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+})();
+</script>
+
+</body>
+</html>
