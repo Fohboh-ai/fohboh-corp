@@ -46,7 +46,7 @@ a:hover{text-decoration:underline}
 .res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .res-card{display:flex;flex-direction:column;background:#fff;border-radius:12px;border:1px solid var(--mid-gray);padding:0;cursor:pointer;transition:border-color .3s,transform .3s,box-shadow .3s;height:100%;overflow:hidden;text-decoration:none;color:inherit}
 .res-card:hover{border-color:rgba(214,48,49,.25);transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,0,0,.06);text-decoration:none}
-.res-card-thumb{aspect-ratio:16/9;width:100%;display:flex;align-items:flex-end;padding:14px;color:#fff;font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;position:relative;overflow:hidden;background-size:cover;background-position:center;background-blend-mode:multiply}
+.res-card-thumb{aspect-ratio:16/9;width:100%;display:flex;align-items:flex-end;padding:14px;color:#fff;font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;position:relative;overflow:hidden;background-size:cover;background-position:center;background-repeat:no-repeat}
 .res-card-thumb::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1px);background-size:14px 14px;opacity:.25;pointer-events:none}
 .res-card-thumb-label{position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.4)}
 .res-card-body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
@@ -139,29 +139,39 @@ a:hover{text-decoration:underline}
   </div>
 </footer>
 
-<script src="blog-data.js"></script>
+<script src="blog-data.js?v=20260518b"></script>
 <script>
 (function(){
   var articles = window.BLOG_ARTICLES || [];
   var grid = document.getElementById('resGrid');
   var activeCat = 'all';
 
-  // Category color → gradient stops. Stacked over the article photo with
-  // background-blend-mode:multiply so the hue tints the image while detail
-  // shows through.
+  // Translucent category tint layered on top of the photo. Light at the top
+  // (image reads clearly), darker at the bottom for label legibility.
   var tintMap = {
-    'var(--red)':         ['rgba(214,48,49,.78)',  'rgba(122,28,29,.92)'],
-    'var(--blue)':        ['rgba(41,121,255,.78)', 'rgba(26,63,122,.92)'],
-    'var(--cert-green)':  ['rgba(0,200,83,.78)',   'rgba(0,90,38,.92)'],
-    'var(--amber)':       ['rgba(255,152,0,.78)',  'rgba(122,69,0,.92)'],
-    'var(--charcoal)':    ['rgba(26,26,31,.55)',   'rgba(58,58,69,.85)'],
+    'var(--red)':         ['rgba(214,48,49,.18)',  'rgba(122,28,29,.78)'],
+    'var(--blue)':        ['rgba(41,121,255,.18)', 'rgba(26,63,122,.78)'],
+    'var(--cert-green)':  ['rgba(0,200,83,.18)',   'rgba(0,90,38,.78)'],
+    'var(--amber)':       ['rgba(255,152,0,.20)',  'rgba(122,69,0,.78)'],
+    'var(--charcoal)':    ['rgba(26,26,31,.20)',   'rgba(26,26,31,.78)'],
   };
   function thumbStyle(cssVar, image){
     var s = tintMap[cssVar] || tintMap['var(--charcoal)'];
-    var tint = 'linear-gradient(135deg,'+s[0]+' 0%,'+s[1]+' 100%)';
-    return image
-      ? 'background-image:'+tint+',url("'+image+'")'
-      : 'background:'+tint;
+    var tint = 'linear-gradient(180deg,'+s[0]+' 0%,'+s[1]+' 100%)';
+    if(image){
+      // Solid color fallback (in case the image fails to load) using the
+      // darker stop, so the card still has its brand color.
+      return 'background-color:'+s[1]+';background-image:'+tint+',url('+image+')';
+    }
+    // No image: render the original diagonal brand gradient (full opacity).
+    var solidMap = {
+      'var(--red)':        'linear-gradient(135deg,#D63031 0%,#7a1c1d 100%)',
+      'var(--blue)':       'linear-gradient(135deg,#2979FF 0%,#1a3f7a 100%)',
+      'var(--cert-green)': 'linear-gradient(135deg,#00C853 0%,#005a26 100%)',
+      'var(--amber)':      'linear-gradient(135deg,#FF9800 0%,#7a4500 100%)',
+      'var(--charcoal)':   'linear-gradient(135deg,#1A1A1F 0%,#3a3a45 100%)',
+    };
+    return 'background:'+(solidMap[cssVar]||solidMap['var(--charcoal)']);
   }
 
   function render(){
