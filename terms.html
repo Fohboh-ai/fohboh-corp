@@ -1,437 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms of Service — FohBoh.ai</title>
-<meta name="description" content="FohBoh.ai Terms of Service — governing access to and use of the FohBoh.ai restaurant intelligence platform, including MGE™, Sentry™, and Cortex™.">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="logo.png">
-<style>
-:root {
-  --white:#fff;--off-white:#FAFAFA;--light-gray:#F4F4F6;--mid-gray:#E5E5EA;
-  --text-gray:#6B6B76;--charcoal:#1A1A1F;--dark-bg:#0D0D11;
-  --red:#D63031;--red-glow:#D6303118;--cert-green:#00C853;--cert-green-lt:#00C85315;
-  --blue:#2979FF;--amber:#FF9800;--amber-lt:#FF980015;
-  --f-display:'Outfit',sans-serif;--f-body:'DM Sans',sans-serif;--f-mono:'JetBrains Mono',monospace;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:#fff;color:var(--charcoal);font-family:var(--f-body);line-height:1.6}
-a{color:var(--red);text-decoration:none}
-a:hover{text-decoration:underline}
-
-/* Header (matches index.html) */
-.header{position:fixed;top:0;left:0;right:0;z-index:100;height:72px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid transparent;transition:all .35s;padding:0 24px}
-.header.scrolled{background:rgba(255,255,255,.9);border-bottom-color:var(--mid-gray)}
-.header-inner{max-width:1200px;width:100%;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:8px;cursor:pointer;text-decoration:none}
-.logo-icon{width:40px;height:40px;border-radius:50%;object-fit:cover}
-.logo-text{font-family:'Alkaline',var(--f-display);font-weight:700;font-size:24px;color:var(--charcoal)}
-.logo-dot{font-family:var(--f-mono);font-size:12px;color:var(--text-gray)}
-.nav{display:flex;align-items:center;gap:4px}
-.nav-item{position:relative}
-.nav-link{font-size:14px;font-family:var(--f-body);font-weight:500;color:var(--text-gray);padding:8px 14px;border-radius:8px;transition:all .2s;display:flex;align-items:center;gap:4px;cursor:pointer;text-decoration:none}
-.nav-link:hover{color:var(--charcoal);background:var(--light-gray);text-decoration:none}
-.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:8px;z-index:200;display:none}
-.nav-item:hover .nav-dropdown{display:block}
-.dropdown-inner{background:#fff;border-radius:16px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);min-width:290px}
-.dropdown-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:10px;transition:background .15s;text-decoration:none}
-.dropdown-item:hover{background:var(--light-gray);text-decoration:none}
-.dropdown-item:not(:last-child){border-bottom:1px solid var(--light-gray)}
-.dd-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
-.dd-name{font-family:var(--f-display);font-size:13px;font-weight:600;color:var(--charcoal)}
-.dd-desc{font-family:var(--f-body);font-size:11.5px;color:var(--text-gray);margin-top:2px;line-height:1.4}
-.header-ctas{display:flex;align-items:center;gap:10px}
-.btn-primary{padding:9px 20px;border-radius:8px;background:var(--charcoal);color:#fff;font-family:var(--f-body);font-size:13px;font-weight:600;letter-spacing:.3px;text-decoration:none}
-.btn-outline{padding:9px 20px;border-radius:8px;border:1px solid var(--mid-gray);font-family:var(--f-body);font-size:13px;font-weight:500;color:var(--charcoal);text-decoration:none}
-.btn-primary:hover,.btn-outline:hover{text-decoration:none}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:101}
-.hamburger span{width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:all .3s}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-.mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;bottom:0;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);flex-direction:column;padding:24px;z-index:99;overflow-y:auto}
-.mobile-menu a{font-family:var(--f-display);font-size:20px;font-weight:600;color:var(--charcoal);padding:16px 0;border-bottom:1px solid var(--mid-gray);text-decoration:none;display:block}
-.mobile-menu a:last-child{border-bottom:none}
-.mobile-menu .mobile-cta{margin-top:20px;padding:14px 24px;border-radius:10px;background:var(--red);color:#fff;font-family:var(--f-body);font-size:15px;font-weight:600;text-align:center;display:block;text-decoration:none}
-
-/* Hero */
-.hero{background:linear-gradient(180deg,#fff 0%,var(--off-white) 100%);padding:120px 24px 48px;border-bottom:1px solid var(--mid-gray);position:relative;overflow:hidden}
-.hero-grid-bg{position:absolute;inset:0;background-image:radial-gradient(var(--mid-gray) 1px,transparent 1px);background-size:32px 32px;opacity:.3;pointer-events:none}
-.hero-inner{max-width:820px;margin:0 auto;position:relative}
-.hero-label{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:var(--amber-lt);border:1px solid rgba(255,152,0,.25);margin-bottom:18px}
-.hero-label-dot{width:6px;height:6px;border-radius:50%;background:var(--amber)}
-.hero-label-text{font-family:var(--f-mono);font-size:10px;font-weight:600;color:#B26A00;letter-spacing:.8px}
-.hero h1{font-family:var(--f-display);font-size:52px;font-weight:800;line-height:1.05;color:var(--charcoal);margin-bottom:14px;letter-spacing:-1.6px}
-.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.meta-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:18px;border:1px solid var(--mid-gray);background:#fff;font-family:var(--f-mono);font-size:11px;color:var(--text-gray);font-weight:500}
-.meta-chip strong{color:var(--charcoal);font-weight:600}
-
-/* Content */
-.content{max-width:820px;margin:0 auto;padding:56px 24px 80px}
-.intro{font-family:var(--f-body);font-size:17px;line-height:1.7;color:var(--text-gray);margin-bottom:32px}
-.intro strong{color:var(--charcoal);font-weight:600}
-.toc{background:var(--light-gray);border-radius:14px;padding:22px 26px;margin-bottom:48px;border:1px solid var(--mid-gray)}
-.toc-title{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.6px;color:var(--text-gray);text-transform:uppercase;margin-bottom:14px}
-.toc-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;list-style:none}
-.toc-list a{display:flex;gap:8px;font-family:var(--f-body);font-size:13.5px;color:var(--charcoal);font-weight:500;padding:4px 0;transition:color .15s}
-.toc-list a:hover{color:var(--red);text-decoration:none}
-.toc-num{font-family:var(--f-mono);font-size:11px;color:var(--text-gray);font-weight:600;min-width:22px}
-
-section.clause{margin-bottom:44px;scroll-margin-top:92px}
-section.clause h2{font-family:var(--f-display);font-size:24px;font-weight:700;color:var(--charcoal);letter-spacing:-.5px;margin-bottom:14px;display:flex;align-items:baseline;gap:12px}
-section.clause h2 .num{font-family:var(--f-mono);font-size:13px;font-weight:600;color:var(--red);letter-spacing:.5px;background:var(--red-glow);padding:3px 9px;border-radius:6px}
-section.clause p{font-family:var(--f-body);font-size:15.5px;line-height:1.7;color:var(--charcoal);margin-bottom:12px}
-section.clause p.lead{color:var(--text-gray)}
-section.clause strong{color:var(--charcoal);font-weight:600}
-section.clause ul{list-style:none;margin:8px 0 14px}
-section.clause ul li{position:relative;padding:8px 0 8px 22px;font-family:var(--f-body);font-size:15px;line-height:1.65;color:var(--charcoal);border-bottom:1px solid var(--light-gray)}
-section.clause ul li:last-child{border-bottom:none}
-section.clause ul li::before{content:"";position:absolute;left:4px;top:18px;width:6px;height:6px;border-radius:50%;background:var(--red);opacity:.7}
-
-.callout{background:#fff;border:1px solid var(--mid-gray);border-left:3px solid var(--red);border-radius:8px;padding:14px 18px;margin:14px 0;font-size:14.5px;color:var(--text-gray);line-height:1.6}
-.callout.warn{border-left-color:var(--amber);background:rgba(255,152,0,.04)}
-.callout.cert{border-left-color:var(--cert-green)}
-.callout strong{color:var(--charcoal)}
-
-.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
-.split-card{background:var(--light-gray);border:1px solid var(--mid-gray);border-radius:10px;padding:16px 18px}
-.split-card h4{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--red);margin-bottom:8px;text-transform:uppercase}
-.split-card.green h4{color:#008a3b}
-.split-card.amber h4{color:#B26A00}
-.split-card p{font-family:var(--f-body);font-size:13.5px;line-height:1.55;color:var(--charcoal);margin:0}
-
-.tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
-.tri-card{background:#fff;border:1px solid var(--mid-gray);border-radius:10px;padding:14px 16px}
-.tri-card .tri-name{font-family:var(--f-display);font-size:14px;font-weight:700;color:var(--charcoal);margin-bottom:4px}
-.tri-card .tri-tag{font-family:var(--f-mono);font-size:9.5px;font-weight:700;letter-spacing:1px;color:var(--red);text-transform:uppercase;margin-bottom:8px}
-.tri-card p{font-family:var(--f-body);font-size:13px;line-height:1.5;color:var(--text-gray);margin:0}
-
-/* Contact card */
-.contact-card{background:var(--dark-bg);color:#fff;border-radius:14px;padding:28px 30px;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.contact-card h4{font-family:var(--f-mono);font-size:10px;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,.5);margin-bottom:8px;text-transform:uppercase}
-.contact-card p{font-family:var(--f-body);font-size:14.5px;line-height:1.55;color:#fff;margin:0}
-.contact-card a{color:#fff;text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px}
-
-/* Footer (matches index.html) */
-.footer{background:var(--dark-bg);padding:64px 24px 32px;color:rgba(255,255,255,.4)}
-.footer .section-inner{max-width:1200px;margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:24px;margin-bottom:44px}
-.footer-col h5{font-family:var(--f-display);font-size:11.5px;font-weight:700;color:#fff;margin-bottom:12px;letter-spacing:.5px}
-.footer-col a{display:block;font-family:var(--f-body);font-size:12px;color:rgba(255,255,255,.32);margin-bottom:8px;transition:color .2s;text-decoration:none}
-.footer-col a:hover{color:rgba(255,255,255,.7);text-decoration:none}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:18px;display:flex;justify-content:space-between;align-items:center;font-family:var(--f-body);font-size:11px;flex-wrap:wrap;gap:12px}
-.footer-legal{display:flex;gap:16px}
-.footer-legal a{color:rgba(255,255,255,.28);text-decoration:none}
-.footer-legal a:hover{color:#fff;text-decoration:none}
-.footer-legal a.active{color:#fff}
-
-@media (max-width: 900px){
-  .nav{display:none}
-  .header-ctas{display:none}
-  .hamburger{display:flex!important}
-  .mobile-menu.open{display:flex!important}
-  .footer-grid{grid-template-columns:1fr}
-}
-@media (max-width: 760px){
-  .hero h1{font-size:36px;letter-spacing:-1px}
-  .hero{padding:96px 24px 36px}
-  .content{padding:40px 20px 60px}
-  .toc-list{grid-template-columns:1fr}
-  .split-grid,.contact-card{grid-template-columns:1fr}
-  .tri-grid{grid-template-columns:1fr}
-  section.clause h2{font-size:20px}
-}
-.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(15,15,17,.85);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);font-family:ui-monospace,'SF Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
-.back-home:hover{background:rgba(214,48,49,.9);transform:translateX(-2px);text-decoration:none}
-</style>
+<meta charset="utf-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20x%3D'6'%20y%3D'4'%20width%3D'48'%20height%3D'44'%20fill%3D'%230B1F3B'%2F%3E%3Crect%20x%3D'46'%20y%3D'52'%20width%3D'48'%20height%3D'44'%20fill%3D'%236D28D9'%2F%3E%3Crect%20x%3D'27'%20y%3D'29'%20width%3D'46'%20height%3D'42'%20fill%3D'%2300A7A7'%20stroke%3D'%23FAF9F6'%20stroke-width%3D'7'%2F%3E%3C%2Fsvg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FohBoh | Terms of Service</title>
+<meta name="description" content="The binding agreement between FohBoh.ai, Inc. and the person or organization accessing the FohBoh Services. Version 3.1, effective August 1, 2026.">
+<link rel="canonical" href="https://fohboh.ai/terms.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FohBoh.ai">
+<meta property="og:url" content="https://fohboh.ai/terms.html">
+<meta property="og:title" content="FohBoh | Terms of Service">
+<meta property="og:description" content="The binding agreement between FohBoh.ai, Inc. and the person or organization accessing the FohBoh Services. Version 3.1, effective August 1, 2026.">
+<meta property="og:image" content="https://fohboh.ai/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FohBoh | Terms of Service">
+<meta name="twitter:description" content="The binding agreement between FohBoh.ai, Inc. and the person or organization accessing the FohBoh Services. Version 3.1, effective August 1, 2026.">
+<meta name="twitter:image" content="https://fohboh.ai/assets/og-card.png">
+<script src="./support.js"></script>
 </head>
 <body>
-
-<a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
-<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
-
-<!-- HEADER -->
-<header class="header" id="mainHeader">
-  <div class="header-inner">
-    <a href="index.html" class="logo">
-      <img class="logo-icon" src="logo.png" alt="FohBoh">
-      <span class="logo-text">FohBoh</span>
-      <span class="logo-dot">.ai</span>
-    </a>
-    <nav class="nav">
-      <div class="nav-item">
-        <a class="nav-link">Platform <span style="font-size:10px;color:var(--text-gray)">▾</span></a>
-        <div class="nav-dropdown">
-          <div class="dropdown-inner">
-            <a href="index.html#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(214,48,49,.08);color:var(--red)">◆</div><div><div class="dd-name">Sentry™</div><div class="dd-desc">Dual-engine revenue recovery. DFR + MFR.</div></div></a>
-            <a href="index.html#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(26,26,31,.06);color:var(--charcoal)">◉</div><div><div class="dd-name">Cortex™</div><div class="dd-desc">Certified AI. Voice & text on verified data.</div></div></a>
-            <a href="index.html#platform-section" class="dropdown-item"><div class="dd-icon" style="background:rgba(0,200,83,.08);color:var(--cert-green)">◈</div><div><div class="dd-name">MGE™</div><div class="dd-desc">Deterministic governance core. Zero hallucination.</div></div></a>
-          </div>
-        </div>
-      </div>
-      <div class="nav-item"><a href="index.html#solutions" class="nav-link">Solutions</a></div>
-      <div class="nav-item"><a href="https://calendly.com/fohboh/30min" target="_blank" rel="noopener" class="nav-link">Pricing</a></div>
-      <div class="nav-item"><a href="index.html#partners" class="nav-link">Partners</a></div>
-      <div class="nav-item"><a href="index.html#resources" class="nav-link">Resources</a></div>
-      <div class="nav-item"><a href="index.html#contact" class="nav-link">Company</a></div>
-    </nav>
-    <div class="header-ctas">
-      <a href="index.html#demo" class="btn-primary">Watch Demo</a>
-      <a href="index.html#contact-form" class="btn-outline">Contact</a>
-    </div>
-    <div class="hamburger" id="hamburger" onclick="document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobileMenu').classList.toggle('open');document.body.style.overflow=document.getElementById('mobileMenu').classList.contains('open')?'hidden':''">
-      <span></span><span></span><span></span>
-    </div>
-  </div>
-</header>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html#platform-section" onclick="closeMobile()">Platform</a>
-  <a href="index.html#solutions" onclick="closeMobile()">Solutions</a>
-  <a href="https://calendly.com/fohboh/30min" target="_blank" rel="noopener" onclick="closeMobile()">Pricing</a>
-  <a href="index.html#partners" onclick="closeMobile()">Partners</a>
-  <a href="index.html#resources" onclick="closeMobile()">Resources</a>
-  <a href="index.html#company" onclick="closeMobile()">Company</a>
-  <a href="index.html#faq" onclick="closeMobile()">FAQ</a>
-  <a class="mobile-cta" href="index.html#contact-form" onclick="closeMobile()">Book a Demo</a>
-</div>
-
-<section class="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-inner">
-    <div class="hero-label">
-      <span class="hero-label-dot"></span>
-      <span class="hero-label-text">LEGAL · TERMS</span>
-    </div>
-    <h1>Terms of Service</h1>
-    <div class="hero-meta">
-      <span class="meta-chip"><strong>Version 2.1</strong></span>
-      <span class="meta-chip">Effective <strong>April 6, 2026</strong></span>
-      <span class="meta-chip">FohBoh.ai, Inc. · <strong>Delaware corporation</strong></span>
-    </div>
-  </div>
-</section>
-
-<main class="content">
-  <p class="intro">These Terms of Service (<strong>"Terms"</strong>) govern access to and use of the FohBoh.ai platform, including all related websites, applications, services, and pilot programs where no superseding signed agreement exists. FohBoh.ai is a <strong>restaurant intelligence infrastructure platform</strong> consisting of deterministic certification systems and AI-powered intelligence tools. By using the platform, you agree to these Terms.</p>
-
-  <nav class="toc" aria-label="Table of contents">
-    <div class="toc-title">On this page</div>
-    <ol class="toc-list">
-      <li><a href="#s1"><span class="toc-num">01</span>Overview</a></li>
-      <li><a href="#s2"><span class="toc-num">02</span>Platform Architecture</a></li>
-      <li><a href="#s3"><span class="toc-num">03</span>Certified vs. AI Outputs</a></li>
-      <li><a href="#s4"><span class="toc-num">04</span>Data Model</a></li>
-      <li><a href="#s5"><span class="toc-num">05</span>No Agency or Advisory Role</a></li>
-      <li><a href="#s6"><span class="toc-num">06</span>Data Rights</a></li>
-      <li><a href="#s7"><span class="toc-num">07</span>Confidentiality &amp; Security</a></li>
-      <li><a href="#s8"><span class="toc-num">08</span>Fees and Billing</a></li>
-      <li><a href="#s9"><span class="toc-num">09</span>Intellectual Property</a></li>
-      <li><a href="#s10"><span class="toc-num">10</span>Indemnification</a></li>
-      <li><a href="#s11"><span class="toc-num">11</span>Termination</a></li>
-      <li><a href="#s12"><span class="toc-num">12</span>Beta &amp; Pilot Features</a></li>
-      <li><a href="#s13"><span class="toc-num">13</span>Limitation of Liability</a></li>
-      <li><a href="#s14"><span class="toc-num">14</span>Governing Law &amp; Venue</a></li>
-      <li><a href="#s15"><span class="toc-num">15</span>Updates to Terms</a></li>
-      <li><a href="#s16"><span class="toc-num">16</span>General Provisions</a></li>
-    </ol>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+</helmet>
+<div style="background: #FAF9F6; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="index.html" aria-label="FohBoh.ai — Certified Intelligence" style="display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; white-space: nowrap;"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></a>
+    <a href="terms.html" style="font-size: 13px; color: #3c434d; text-decoration: none;">Terms of Service</a>
+    <a href="privacy.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Privacy Policy</a>
+    <a href="index.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Home</a>
   </nav>
+  <div style="padding: 56px 64px 72px; max-width: 880px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Legal · v3.1</span>
+    <h1 style="margin: 12px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px; letter-spacing: -0.02em;">Terms of Service</h1>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Version 3.1 | Effective August 1, 2026</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">These Terms of Service (these “Terms”) are a binding agreement between FohBoh.ai, Inc., a Delaware corporation (“FohBoh,” “we,” “us,” or “our”), and the person or organization accessing the Services (“you” or “Customer”). They govern the FohBoh.ai website, the Sentry and Cortex pages and applications, standalone or embedded MGE services, related APIs, documentation, pilots, and other services that link to these Terms (collectively, the “Services”).</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">1. Acceptance, authority, and contract hierarchy</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">By clicking an acceptance control, creating or using an account, accessing an authenticated Service, or otherwise using the Services, you agree to these Terms. If you use the Services for an organization, you represent that you are authorized to bind that organization. If you lack authority or do not agree, do not use the Services.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Signed agreements control.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">If Customer and FohBoh have executed an Order Form, master services or subscription agreement, data processing addendum (“DPA”), security addendum, API schedule, service-level agreement, pilot agreement, or other written agreement, that agreement controls to the extent of a conflict. The order of precedence is: (1) signed Order Form or master agreement; (2) DPA and Security Addendum for their subject matter; (3) signed product, API, CAAR, IUM, or service schedules; and (4) these Terms. Marketing materials and landing-page copy do not amend the agreement.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">The Privacy Policy describes our handling of personal information. Acceptance of these Terms includes acknowledgement that the Privacy Policy has been made available; it is not blanket consent to processing that requires separate consent under applicable law.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">2. The FohBoh architecture and Services</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Component</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Role</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Important boundary</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">MGE™</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Metrics Governance Engine; a deterministic rules and certification infrastructure layer that normalizes, reconciles, applies governed metrics and rules, scores data quality, and produces traceable outputs.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">MGE certifies only the defined data, calculations, rules, scope, and evidence stated in an output. It does not certify legal compliance, business judgment, forecasts, or truth outside that scope.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Sentry™</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Certified Loss Prevention Platform powered by MGE; identifies and documents financial leakage, discrepancies, and potentially recoverable value.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Sentry’s variance calculations use locked deterministic rules, not AI or machine-learning inference. Sentry does not guarantee recovery or third-party acceptance.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Cortex™</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Certified operational-intelligence interface that may use AI to interpret or communicate MGE-certified data and approved context.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Cortex responses are probabilistic and advisory. They may be incomplete or incorrect and require human review before action.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">CAAR™</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Certified Analytics &amp; Audit Report deliverable produced through the applicable Sentry/MGE workflow.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">A CAAR is evidence-grade, audit-ready documentation of defined reconciliation findings. It is not a legal opinion, independent audit, court-admissibility guarantee, judgment, invoice, or promise of recovery.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">The Services are designed primarily for read-only access to source systems. A connector or feature may perform a write or action only when expressly enabled and authorized by Customer in the applicable agreement or configuration.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">3. Accounts and authorized users</h2>
+<ul style="margin: 10px 0 0; padding-left: 22px; font-size: 14px; line-height: 1.7; color: #494952;">
+<li>You must be at least 18 and use the Services only for lawful business purposes.</li>
+<li>Registration information must be accurate, current, and associated with an authorized business user.</li>
+<li>Credentials, API keys, tokens, and service accounts are confidential. You are responsible for access through credentials issued to you, except to the extent caused by FohBoh’s breach of its obligations.</li>
+<li>Customer administrators control user access and must promptly disable users who no longer require access.</li>
+<li>You must notify FohBoh promptly of suspected unauthorized access or credential compromise.</li>
+</ul>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">4. Customer Data, Certification Records, and permissions</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">“Customer Data” means data, files, credentials, instructions, configurations, contracts, statements, records, and other content submitted to or made accessible through the Services by or for Customer. Customer Data does not include FohBoh Certification Records as defined below. Customer retains its rights in Customer Data.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Customer grants FohBoh and its authorized subprocessors a limited, non-exclusive right to host, copy, transmit, transform, analyze, and otherwise process Customer Data only to provide, secure, support, measure, and improve the Services as permitted by the applicable agreement and Privacy Policy. FohBoh does not acquire ownership of Customer Data.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">“FohBoh Certification Records” means the certified and uncertified records generated by operation of MGE, Sentry, or a headless trust-layer deployment, including certification-event logs, rule-execution and rule-failure records, certification status, Trust Score history, exception and override records, timestamps, event identifiers, hashes, signatures, lineage and provenance metadata, processing and performance telemetry, usage measurements, and the compilation, structure, and relationships among those records. FohBoh Certification Records exclude the readable content of Customer Data and do not transfer ownership of Customer’s underlying transactions, contracts, statements, or other source records.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">As between the parties, FohBoh owns all right, title, and interest in FohBoh Certification Records and Intelligence Under Management, including their compilation, structure, methods, derived know-how, and associated intellectual property. This ownership is subject to FohBoh’s confidentiality, security, privacy, and contractual obligations and does not authorize disclosure of Customer-identifiable information to another customer or partner.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">A partner in good standing may access or receive the FohBoh Certification Records generated through its authorized deployment only as provided in the applicable agreement. “Good standing” means the partner agreement remains active, required fees are current, access has not been suspended, and no uncured material breach exists. Log access is a limited, non-exclusive, non-transferable contractual right and does not convey ownership. Continuing access may be suspended or terminated when the partner is no longer in good standing. Previously delivered copies may be retained only as permitted by the applicable agreement or required by law and remain subject to confidentiality and use restrictions.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Customer represents and warrants that it has all rights, notices, consents, instructions, and lawful bases needed for FohBoh to process Customer Data, including data obtained from employees, franchisees, vendors, delivery service providers, payment processors, point-of-sale systems, and other third parties.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Do not submit full payment-card numbers, CVVs, Social Security numbers, protected health information, biometric identifiers, precise geolocation, or other regulated sensitive data unless the applicable written agreement expressly authorizes it and defines the required safeguards.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">5. Certification scope, Trust Scores, and CAARs</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Certification is scoped.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">A “certified” output means that specified inputs and calculations were processed under an identified version of MGE rules, KPI definitions, thresholds, and controls and achieved the stated certification status or Trust Score. Certification does not extend to omitted data, inaccurate source records, external events, human intent, forecasts, legal rights, regulatory compliance, or conclusions outside the output.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Source-data dependency.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Outputs depend on the completeness, accuracy, timeliness, and authorization of Customer Data and third-party source records. A deterministic process can reproduce a result from the same inputs without proving that the underlying inputs are complete or correct.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Human activity and overrides.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Authorized persons may enter contract terms, configure profiles, validate mappings, approve exceptions, or use governed override capabilities. Where applicable, the Services may preserve those activities in audit logs and evidence references. FohBoh does not represent that every pipeline step is free of human input.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">CAAR limitations.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">A CAAR documents vendor-billing or operational discrepancies identified through reconciliation. Every certified finding is intended to be traceable to identified source records and the applicable rule set. A CAAR is not legal, tax, accounting, investment, or forensic-audit advice. Admissibility and evidentiary weight depend on the facts, forum, foundation, applicable rules, and actions of the parties. FohBoh does not guarantee that a third party will accept a finding, issue a credit, pay an amount, or that any recovery will occur.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Forward-looking or annualized projections are estimates and must be identified separately from certified findings. A “Certified Recoverable Amount” or similar label is a calculation under the stated rules and evidence; it is not an adjudication of liability or assurance of collection.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">6. Cortex and AI-assisted outputs</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Cortex may use third-party or proprietary AI models to explain, summarize, query, or act upon certified data and approved context. AI-assisted responses (“AI Outputs”) are probabilistic, may vary, and may contain errors, omissions, bias, or outdated information.</p>
+<ul style="margin: 10px 0 0; padding-left: 22px; font-size: 14px; line-height: 1.7; color: #494952;">
+<li>Review AI Outputs and underlying certified data before making operational, employment, financial, safety, legal, or other material decisions.</li>
+<li>Do not use Cortex as the sole basis for decisions that produce legal or similarly significant effects on an individual.</li>
+<li>Do not treat Cortex as a substitute for professional advice or Customer’s internal controls.</li>
+<li>MGE certification of source metrics does not certify every statement generated by an AI model.</li>
+</ul>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">FohBoh will not use Customer Data to train a general-purpose model for unrelated customers unless Customer expressly authorizes that use in a written agreement. Service telemetry and de-identified or aggregated information may be used as described in the Privacy Policy and applicable agreement.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">7. APIs, connectors, and developer obligations</h2>
+<ul style="margin: 10px 0 0; padding-left: 22px; font-size: 14px; line-height: 1.7; color: #494952;">
+<li>Use APIs and connectors only within documented scopes, rate limits, authentication requirements, and Customer authorizations.</li>
+<li>Keep keys and tokens secure; do not embed secrets in public code or share credentials between unaffiliated customers.</li>
+<li>Do not bypass tenant isolation, access controls, certification gates, logging, usage meters, or technical limits.</li>
+<li>Do not misrepresent an uncertified, provisional, estimated, superseded, or AI-generated output as MGE-certified.</li>
+<li>Do not remove provenance, version, hash, status, Trust Score, disclaimer, or other integrity metadata from a certified artifact when that metadata is required to interpret it.</li>
+<li>API versions, schemas, endpoints, or dependencies may change. Contracted support, notice, deprecation, and availability commitments are governed only by an applicable signed agreement or SLA.</li>
+</ul>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Third-party integrations are provided subject to the third party’s terms and availability. Customer authorizes FohBoh to exchange data with each integration Customer enables. FohBoh is not responsible for changes, errors, outages, or acts of unaffiliated third-party systems.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">8. Intelligence Under Management and usage measurement</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">“Intelligence Under Management” or “IUM” is the FohBoh-owned intelligence asset and measurement framework created through the governance, certification, control, measurement, and operational application of certification activity across the Services. IUM includes the accumulated systems, methods, rule and performance intelligence, certification history, operational leverage, and non-customer-specific know-how reflected in FohBoh Certification Records.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">IUM may also serve as a contractual measure of the volume, value, scope, or operational leverage of intelligence governed, certified, accessed, or delivered through the Services. Depending on the Order Form, the measure may include certified economic activity, certification events, managed metrics, locations, transactions, API calls, governed reasoning or outputs, or another agreed unit.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">FohBoh owns IUM. Customer and partners receive no ownership interest in IUM, MGE, Sentry, FohBoh Certification Records, or FohBoh’s aggregated methods and know-how merely because Customer Data is processed through the Services. Conversely, FohBoh’s ownership of IUM does not transfer ownership of Customer Data, certified economic activity, Customer’s business, or the readable content of Customer source records.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">The applicable Order Form must define any billable IUM unit, exclusions, rate, measurement period, reporting method, and dispute process. FohBoh Certification Records and metering records will be used to calculate usage, subject to Customer’s right to raise a good-faith billing dispute under the applicable agreement.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">9. Security and shared responsibility</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">FohBoh maintains administrative, technical, and organizational safeguards designed for the nature of the Services and data processed. Security commitments—including encryption, access controls, tenant isolation, logging, incident notification, business continuity, vulnerability management, audit rights, and deletion—are governed by the applicable Security Addendum, DPA, and enterprise agreement.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">In a headless MGE or Sentry trust-layer deployment for a data platform, POS provider, or system of record, source data is processed automatically within the authorized technical pathway. FohBoh does not routinely inspect or use the readable content of that data for an independent purpose. Human access, if technically possible, is limited to personnel with a need to know and only for authorized support, security or incident response, legal compliance, or another purpose expressly permitted by the applicable agreement. A deployment expressly designated as “no-view” will use the technical access restrictions stated in its Security Addendum.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Customer is responsible for lawful data collection; endpoint and identity security; least-privilege user administration; connector authorization; secure configuration; backups of source systems; review of outputs; and timely notice of suspected misuse. No system is completely secure, and general website descriptions are not a warranty or expansion of negotiated security commitments.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">10. Acceptable use</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">You will not, and will not permit others to:</p>
+<ul style="margin: 10px 0 0; padding-left: 22px; font-size: 14px; line-height: 1.7; color: #494952;">
+<li>use the Services unlawfully, fraudulently, deceptively, or to violate another person’s rights;</li>
+<li>access data, tenants, systems, or accounts without authorization;</li>
+<li>introduce malware, probe or disrupt security, overload the Services, or evade rate limits;</li>
+<li>reverse engineer, decompile, discover source code or non-public rules, or extract model weights, except to the limited extent a prohibition is unenforceable by law;</li>
+<li>benchmark or use the Services to build or train a competing certification engine, loss-prevention platform, or AI service without written permission;</li>
+<li>use outputs to harass, discriminate against, exploit, or make unlawful decisions about individuals;</li>
+<li>remove proprietary notices or falsely imply endorsement, certification, partnership, audit opinion, or legal approval by FohBoh.</li>
+</ul>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">11. Intellectual property, outputs, and feedback</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">FohBoh and its licensors own the Services, MGE rules and architecture, KPI registry and vault structures, scoring methods, FohBoh Certification Records, IUM, software, documentation, interfaces, templates, trademarks, and all related intellectual property, including patents and provisional patents. Except for Customer Data, no rights are granted except the limited right to use the Services and authorized outputs during the applicable term.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Subject to payment and these Terms, Customer may use Customer-specific reports and outputs for its internal business purposes and, where permitted by the applicable agreement, in communications with its vendors, advisors, auditors, insurers, franchisees, or counsel. Integrity metadata and applicable disclaimers must remain with any CAAR or certified artifact.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">If you provide feedback, you grant FohBoh a perpetual, worldwide, royalty-free right to use it without identifying you or disclosing Customer Confidential Information.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">12. Confidentiality</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Each party may receive non-public information that a reasonable person would understand to be confidential. The receiving party will use it only to perform or receive the Services, protect it with reasonable care, and disclose it only to personnel and service providers with a need to know and confidentiality obligations. This section does not replace a signed nondisclosure or enterprise agreement, which controls if more protective.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">13. Fees, taxes, pilots, and suspension</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Fees, subscription periods, recovery-based fees, certification-event fees, IUM charges, location fees, implementation charges, and payment terms are stated in the applicable Order Form or pilot agreement. Unless that agreement states otherwise, fees are non-cancellable and non-refundable, and Customer is responsible for applicable taxes other than taxes on FohBoh’s net income.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Pilot, beta, preview, or evaluation features may be incomplete, changed, suspended, or discontinued and may have additional terms. FohBoh may suspend access for nonpayment, security risk, unlawful use, material breach, or conduct that threatens the Services or other customers, using reasonable notice where circumstances permit.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">14. Termination and data return</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">These Terms apply while you access the Services. Account, subscription, termination, export, retention, and deletion rights are governed by the applicable agreement. After termination, Customer’s access ends, but provisions concerning payment, intellectual property, confidentiality, disclaimers, liability, dispute resolution, and other terms that by nature should survive will survive.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Unless the applicable agreement states otherwise, a partner’s continuing access to FohBoh Certification Records ends when the partnership or authorized deployment ends or the partner ceases to be in good standing. FohBoh may retain FohBoh Certification Records, IUM, audit logs, hashes, billing records, and legal or security evidence as required by law, the applicable agreement, or legitimate operational, security, intellectual-property, and recordkeeping needs. Retention of a hash or audit record does not necessarily permit reconstruction of source data.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">15. Disclaimers</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SERVICES, WEBSITE, APIS, OUTPUTS, AND DOCUMENTATION ARE PROVIDED “AS IS” AND “AS AVAILABLE.” FOHBOH DISCLAIMS IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND ANY WARRANTY ARISING FROM COURSE OF DEALING OR USAGE.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">FOHBOH DOES NOT WARRANT UNINTERRUPTED OR ERROR-FREE OPERATION; COMPLETE OR ACCURATE THIRD-PARTY DATA; ANY PARTICULAR TRUST SCORE, FINDING, SAVINGS, RECOVERY, BUSINESS OUTCOME, LEGAL RESULT, OR EVIDENTIARY RULING; OR THAT AI OUTPUTS WILL BE ACCURATE OR SUITABLE FOR A PARTICULAR DECISION. CONTRACTED WARRANTIES OR SERVICE LEVELS IN A SIGNED AGREEMENT CONTROL.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">16. Limitation of liability</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">TO THE MAXIMUM EXTENT PERMITTED BY LAW, NEITHER PARTY WILL BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES, OR FOR LOST PROFITS, REVENUE, GOODWILL, OR BUSINESS INTERRUPTION, EVEN IF ADVISED OF THE POSSIBILITY. FOHBOH’S AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THE SERVICES WILL NOT EXCEED THE FEES PAID OR PAYABLE BY CUSTOMER FOR THE AFFECTED SERVICES DURING THE 12 MONTHS BEFORE THE EVENT GIVING RISE TO LIABILITY.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">The exclusions and cap do not apply to the extent prohibited by law or superseded by a signed agreement. Counsel should align carve-outs for confidentiality, data security, infringement, indemnity, gross negligence, and willful misconduct with the enterprise contract stack.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">17. Indemnification</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Customer will defend and indemnify FohBoh and its affiliates, officers, directors, and personnel from third-party claims arising from Customer Data; Customer’s lack of required rights, notices, or permissions; Customer’s unlawful or unauthorized use; or Customer’s material breach of these Terms. FohBoh will provide prompt notice and reasonable cooperation, and Customer may not settle a claim in a manner that admits fault by or imposes obligations on FohBoh without written consent. Any reciprocal FohBoh indemnity is governed by a signed enterprise agreement.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">18. Governing law and disputes</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">These Terms are governed by Texas law, without regard to conflict-of-law rules. Unless a signed agreement provides otherwise, the state and federal courts located in Dallas County, Texas have exclusive jurisdiction, and each party consents to personal jurisdiction and venue there. Before filing a claim, the parties will attempt in good faith for 30 days to resolve it through written notice and business-level discussion. Either party may seek immediate equitable relief for misuse of intellectual property, confidential information, credentials, or systems.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">19. Changes to these Terms</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">We may update these Terms prospectively. We will post the new version and effective date and provide additional notice when required by law or contract. We will not retroactively expand rights to use previously collected Customer Data in a materially different way without the notice or authorization required by applicable law and agreement. Material changes may require renewed clickwrap acceptance. Changes to negotiated enterprise terms require the amendment process in the applicable agreement.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">20. General terms</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Neither party may assign these Terms without the other’s consent, except in connection with a merger, reorganization, sale of substantially all assets, or assignment to an affiliate, provided the assignee assumes the obligations. FohBoh may use subcontractors while remaining responsible as stated in the applicable agreement. Neither party is liable for delay caused by events beyond reasonable control. If a provision is unenforceable, it will be modified to the minimum extent necessary and the remainder will continue. Failure to enforce is not a waiver. These Terms and incorporated agreements are the entire agreement concerning their subject matter.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">21. Contact and legal notices</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Questions about these Terms may be sent to privacy@fohboh.ai with the subject line “Terms Inquiry.” Formal notices must follow the notice provision in the applicable signed agreement. FohBoh.ai, Inc. is a Delaware corporation.</p>
+<h2 style="margin: 40px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.01em;">Appendix A — Required first-login clickwrap</h2>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">The Terms and Privacy Policy titles must be separate, conspicuous hyperlinks opening the exact accepted versions. The acceptance box must be unchecked by default; access to authenticated features remains blocked until acceptance.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Record to preserve</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Minimum content</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Acceptance identity</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">User ID, organization/customer ID, name or business email, and administrator/authority status if used.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Accepted instrument</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Exact checkbox text, Terms version and effective date, Privacy version and effective date, and immutable document URL or document hash.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Event evidence</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">UTC timestamp, IP address, user agent/device context, authentication method, product entry point (Sentry, Cortex, MGE/API), and success event.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Renewal</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Require reacceptance for material Terms changes; display notice and record acknowledgement for material Privacy changes. Preserve prior versions.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Appendix B — Agreements that must be aligned before launch</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Document</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Required revision</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Master Services / Subscription Agreement</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Adopt the architecture, CAAR, certification, AI-output, contract-hierarchy, limitation, and ownership language in these Terms.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Data Processing Addendum</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Define controller/processor roles; instructions; subprocessors; transfers; rights requests; retention/deletion; audit support; AI-provider restrictions; and Customer obligations.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Security Addendum</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">State implemented controls precisely; shared responsibility; tenant isolation; API/key management; logging; incident notice; vulnerability management; BCP/DR; audit evidence; and exclusions. Remove absolute security claims.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">MGE/API Schedule</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Define certification events, versioning, schemas, integrity metadata, usage meters, keys, rate limits, deprecation, support, and prohibited circumvention.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">CAAR Methodology &amp; Use Addendum</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Use “Certified Analytics &amp; Audit Report”; prohibit admissibility/recovery guarantees; document human entry/overrides; separate projections; require source citations and disclaimer retention.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">IUM Pricing Schedule</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Confirm FohBoh ownership of IUM and Certification Records; define partner access while in good standing; and state the exact billable unit, calculation, exclusions, rate, measurement period, reports, auditability, and billing-dispute process.</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Subprocessor List &amp; Retention Schedule</p>
+<p style="margin: 12px 0 0; font-size: 14px; line-height: 1.7; color: #494952;">Publish current providers, processing purpose/location, change notice, and product/data-class retention periods.</p>
 
-  <section class="clause" id="s1">
-    <h2><span class="num">01</span>Overview</h2>
-    <p>These Terms of Service (<strong>"Terms"</strong>) govern access to and use of the FohBoh.ai platform, including all related websites, applications, services, and pilot programs where no superseding signed agreement exists.</p>
-    <p>FohBoh.ai is a restaurant intelligence infrastructure platform consisting of deterministic certification systems and AI-powered intelligence tools. <strong>By using the platform, you agree to these Terms.</strong></p>
-  </section>
-
-  <section class="clause" id="s2">
-    <h2><span class="num">02</span>Platform Architecture</h2>
-    <p class="lead">The platform consists of three core components:</p>
-    <div class="tri-grid">
-      <div class="tri-card">
-        <div class="tri-tag">Deterministic</div>
-        <div class="tri-name">FohBoh | MGE™</div>
-        <p>A deterministic certification engine that validates and reconciles data using defined logic.</p>
-      </div>
-      <div class="tri-card">
-        <div class="tri-tag">Recovery</div>
-        <div class="tri-name">FohBoh | Sentry™</div>
-        <p>Modules that identify discrepancies and potential recoverable revenue.</p>
-      </div>
-      <div class="tri-card">
-        <div class="tri-tag">Intelligence</div>
-        <div class="tri-name">FohBoh | Cortex™</div>
-        <p>An AI-powered intelligence layer providing insights and recommendations.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="clause" id="s3">
-    <h2><span class="num">03</span>Certified vs. AI Outputs</h2>
-    <div class="split-grid">
-      <div class="split-card green">
-        <h4>Certified Outputs · MGE / Sentry</h4>
-        <p>Deterministic, reproducible, and based solely on input data and defined rules. Provided <strong>"as is"</strong> but will conform to the documented logic applicable at the time of processing.</p>
-      </div>
-      <div class="split-card amber">
-        <h4>AI Outputs · Cortex</h4>
-        <p>Probabilistic, interpretive, and may contain errors, omissions, or inaccuracies. Must be <strong>independently validated</strong> by Customer before any business decision or action is taken.</p>
-      </div>
-    </div>
-    <div class="callout warn"><strong>No Warranties for AI Outputs.</strong> To the fullest extent permitted by law, FohBoh disclaims all warranties, express or implied, regarding the accuracy, completeness, reliability, or fitness for a particular purpose of any AI Output.</div>
-  </section>
-
-  <section class="clause" id="s4">
-    <h2><span class="num">04</span>Data Model</h2>
-    <p>FohBoh operates as a <strong>read-only platform</strong> wherever possible and does not modify source system data. The platform is <strong>not a system of record</strong>. Customers remain solely responsible for maintaining official records, reporting, and compliance with all applicable laws.</p>
-  </section>
-
-  <section class="clause" id="s5">
-    <h2><span class="num">05</span>No Agency or Advisory Role</h2>
-    <p>FohBoh.ai is <strong>not</strong> an agent, auditor, fiduciary, or advisor. It does not initiate communications with third parties or act on behalf of Customers. <strong>No professional advice</strong> (financial, legal, or otherwise) is provided.</p>
-  </section>
-
-  <section class="clause" id="s6">
-    <h2><span class="num">06</span>Data Rights</h2>
-    <ul>
-      <li><strong>Customer retains all ownership rights</strong> to data provided to the platform.</li>
-      <li>FohBoh is granted a limited, non-exclusive, revocable license to process, store, and display Customer data solely to deliver the services, perform certification, identify recovery opportunities, and generate AI insights.</li>
-      <li>FohBoh will <strong>not use Customer business data to train or improve models</strong> that are made available to other customers without Customer's express opt-in consent.</li>
-    </ul>
-  </section>
-
-  <section class="clause" id="s7">
-    <h2><span class="num">07</span>Confidentiality &amp; Security</h2>
-    <ul>
-      <li>Each party agrees to protect the other's confidential information using reasonable safeguards (at least industry standard).</li>
-      <li>FohBoh will maintain a written information security program that includes encryption of data at rest and in transit, access controls, and audit logging.</li>
-      <li>Upon request, FohBoh will provide a summary of its SOC 2 (or equivalent) controls.</li>
-    </ul>
-    <p>For full details, see our <a href="security.html"><strong>Data Security Overview</strong></a>.</p>
-  </section>
-
-  <section class="clause" id="s8">
-    <h2><span class="num">08</span>Fees and Billing</h2>
-    <ul>
-      <li>Fees are defined in applicable order forms or agreements. Unless otherwise stated, <strong>all fees are non-refundable</strong>.</li>
-      <li>Failure to pay undisputed fees within <strong>15 days</strong> of notice may result in suspension or termination of access.</li>
-    </ul>
-  </section>
-
-  <section class="clause" id="s9">
-    <h2><span class="num">09</span>Intellectual Property</h2>
-    <p>FohBoh retains all rights, title, and interest in its platform, architecture, certification methods, algorithms, software, and outputs (<strong>except Customer data</strong>).</p>
-    <p>No rights or licenses are granted except as explicitly stated in these Terms.</p>
-  </section>
-
-  <section class="clause" id="s10">
-    <h2><span class="num">10</span>Indemnification</h2>
-    <div class="split-grid">
-      <div class="split-card">
-        <h4>Customer Indemnity</h4>
-        <p>Customer agrees to indemnify, defend, and hold harmless FohBoh and its officers, directors, and employees from any third-party claims, damages, or expenses arising out of: (a) Customer's use of AI Outputs <strong>without independent validation</strong>, (b) Customer's violation of applicable law, or (c) Customer's breach of these Terms.</p>
-      </div>
-      <div class="split-card green">
-        <h4>FohBoh Indemnity</h4>
-        <p>FohBoh will defend Customer against a third-party claim that <strong>Certified Outputs (MGE/Sentry)</strong> infringe a US copyright or trade secret, provided Customer promptly notifies FohBoh and grants sole control of the defense. Does <strong>not</strong> apply to AI Outputs (Cortex) or to modifications made by Customer.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="clause" id="s11">
-    <h2><span class="num">11</span>Termination</h2>
-    <p>Either party may terminate these Terms for <strong>material breach</strong> not cured within <strong>30 days</strong> of written notice.</p>
-    <p class="lead">Upon termination for any reason:</p>
-    <ul>
-      <li>FohBoh will delete or return Customer data within <strong>30 days</strong>, except where retention is required by law or for backup recovery (limited to <strong>90 days</strong>).</li>
-      <li>Sections on confidentiality, indemnification, limitation of liability, and governing law <strong>survive</strong>.</li>
-    </ul>
-  </section>
-
-  <section class="clause" id="s12">
-    <h2><span class="num">12</span>Beta &amp; Pilot Features</h2>
-    <p>From time to time, FohBoh may offer pilot, beta, or early-access features. Such features are provided <strong>"as is"</strong> with no uptime or performance guarantees. FohBoh may modify or discontinue them without liability.</p>
-  </section>
-
-  <section class="clause" id="s13">
-    <h2><span class="num">13</span>Limitation of Liability</h2>
-    <p class="lead">To the maximum extent permitted by law:</p>
-    <ul>
-      <li>FohBoh is <strong>not liable</strong> for indirect, incidental, special, consequential, or punitive damages (including lost profits or revenue).</li>
-      <li>Total aggregate liability for any claim arising out of or relating to these Terms or the platform is limited to the <strong>fees paid by Customer to FohBoh in the 12 months preceding the claim</strong>.</li>
-      <li>These limitations apply even if a remedy fails of its essential purpose and regardless of the theory of liability (contract, tort, negligence, etc.).</li>
-    </ul>
-    <div class="callout"><strong>Exceptions.</strong> Nothing in these Terms excludes or limits liability for fraud, gross negligence, willful misconduct, or death/personal injury caused by FohBoh's negligence.</div>
-  </section>
-
-  <section class="clause" id="s14">
-    <h2><span class="num">14</span>Governing Law &amp; Venue</h2>
-    <p>These Terms are governed by the laws of the <strong>State of Texas</strong>, without regard to conflict of laws principles. Any legal action or proceeding shall be brought exclusively in the state or federal courts located in <strong>Dallas County, Texas</strong>. The parties consent to personal jurisdiction there.</p>
-    <div class="callout"><strong>Note:</strong> FohBoh.ai is incorporated in Delaware, but its principal operations are in Dallas, Texas, making Texas law the appropriate governing law.</div>
-  </section>
-
-  <section class="clause" id="s15">
-    <h2><span class="num">15</span>Updates to Terms</h2>
-    <p>FohBoh may update these Terms at any time by posting the revised version on the platform or website. <strong>Continued use after the effective date constitutes acceptance.</strong> For material changes, FohBoh will provide reasonable advance notice (e.g., email).</p>
-  </section>
-
-  <section class="clause" id="s16">
-    <h2><span class="num">16</span>General Provisions</h2>
-    <ul>
-      <li>These Terms constitute the <strong>entire agreement</strong> between the parties.</li>
-      <li>If any provision is unenforceable, the remaining provisions remain in effect.</li>
-      <li>Failing to enforce a right does not waive that right.</li>
-      <li>Customer may not assign these Terms without FohBoh's written consent; FohBoh may assign in connection with a merger or acquisition.</li>
-    </ul>
-    <div class="contact-card">
-      <div>
-        <h4>Legal Inquiries</h4>
-        <p><a href="mailto:legal@fohboh.ai">legal@fohboh.ai</a></p>
-      </div>
-      <div>
-        <h4>Mail</h4>
-        <p>FohBoh.ai, Inc.<br>Dallas, Texas<br><span style="color:rgba(255,255,255,.5);font-size:13px">(full address available upon request)</span></p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<!-- FOOTER (matches index.html) -->
-<footer class="footer">
-  <div class="section-inner">
-    <div class="footer-grid">
-      <div>
-        <a href="index.html" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;text-decoration:none"><img src="logo.png" alt="FohBoh" style="width:32px;height:32px;border-radius:50%;object-fit:cover"><span style="font-family:'Alkaline',Outfit,sans-serif;font-weight:700;font-size:18px;color:#fff">FohBoh</span><span style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.3)">.ai</span></a>
-        <p style="font-family:var(--f-body);font-size:12px;line-height:1.6;max-width:180px;color:rgba(255,255,255,.28)">Certified Intelligence Infrastructure for restaurants.</p>
-      </div>
-      <div class="footer-col"><h5>Platform</h5><a href="https://fohbohsentry.com" target="_blank" rel="noopener">Sentry™</a><a href="fohboh-cortext.html">Cortex™</a><a href="fohboh-mge.html">MGE™</a><a href="fohboh-architecture.html">Architecture</a></div>
-      <div class="footer-col"><h5>Solutions</h5><a href="fohboh-usecases.html">Use Cases</a><a href="fohboh-mge.html">Certification</a><a href="https://calendly.com/fohboh/30min" target="_blank" rel="noopener">Pricing</a></div>
-      <div class="footer-col"><h5>Developers</h5><a href="fohboh-api-docs-page.html">API Docs</a></div>
-      <div class="footer-col"><h5>Resources</h5><a href="index.html#resources">Blog</a><a href="index.html#resources">Learning Center</a><a href="fohboh-usecases.html">Use Cases</a></div>
-      <div class="footer-col"><h5>Company</h5><a href="index.html#company">About</a><a href="index.html#company">Team</a><a href="index.html#faq">FAQ</a><a href="index.html#contact-form">Contact</a></div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 FohBoh.ai, Inc.</span>
-      <div style="display:flex;align-items:center;gap:16px">
-        <a href="https://www.linkedin.com/company/fohboh" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh.ai LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Company</a>
-        <a href="https://www.linkedin.com/groups/42031/" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh Network Group"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>Network</a>
-        <a href="https://twitter.com/fohboh" target="_blank" rel="noopener" style="color:rgba(255,255,255,.35);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px" title="FohBoh Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a>
-      </div>
-      <span style="font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.5px">Patent Pending</span>
-      <div class="footer-legal"><a href="privacy.html">Privacy</a><a href="terms.html" class="active">Terms</a></div>
-    </div>
   </div>
-</footer>
-
-<script>
-window.addEventListener('scroll',()=>{document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>20)},{passive:true});
-function closeMobile(){
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow='';
-}
-</script>
-
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 11px; white-space: nowrap;"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="sentry.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="cortex.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="mge.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="m04-scr.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · SCR Preview</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="pricing.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="roi-simulator.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="caar-example.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="for-vendors.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="terms.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="resources.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="resources.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="resources.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="about.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="partners.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="contact.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a> · LinkedIn · Twitter</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
 </body>
 </html>
