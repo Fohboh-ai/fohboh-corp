@@ -593,41 +593,73 @@
 }
 
 /* ==========================================================================
-   LAYER 4 — DESKTOP, not mobile. Separable from everything above.
+   LAYER 4 — DESKTOP page width. Separable from the mobile layers above.
 
-   Every layout container on the site declares a max-width (1280px on 15 of
-   them, plus 8 other widths) and NOT ONE declares auto margins. So the content
-   column is pinned to the left edge and everything to the right of it is dead
-   space on any display wider than the container. Meanwhile nav and footer
-   carry no max-width at all, so they run edge to edge — which is why the logo
-   and "Book a demo" sit at the far corners while the headline beneath them
-   starts a third of the way in.
+   Every layout container declares a max-width and none declares auto margins,
+   so content sat pinned to the left edge with dead space beside it. But the
+   sections split into THREE kinds, and treating them alike breaks two of them:
 
-   Centre the column, and align the nav/footer contents to it while leaving
-   their borders full-bleed.
+     COLUMN (44)  padding gutter, no background.  Constrain and centre.
+     BLEED  (8)   padding gutter + background, no radius. Full-bleed bands —
+                  the background must reach both window edges, so constrain
+                  the PADDING, never the width.
+     INSET  (9)   margin gutter + background + radius. Rounded panels that
+                  were always inset. Keep their inset at every width.
    ========================================================================== */
 
 @media (min-width: 901px) {
-  [style*="max-width: 1280px"],
-  [style*="max-width: 1220px"],
-  [style*="max-width: 1200px"],
-  [style*="max-width: 1152px"],
-  [style*="max-width: 1120px"],
-  [style*="max-width: 980px"],
-  [style*="max-width: 880px"],
-  [style*="max-width: 860px"],
-  [style*="max-width: 820px"] {
+
+  /* --- COLUMN. max-width is deliberately NOT !important so a section that
+         chose its own measure keeps it; only sections with no width at all
+         pick up the 1280 default. The auto margins ARE !important because
+         several carry inline side margins. */
+  [style*="px 64px"]:not([style*="background"]):not(nav):not(footer),
+  [style*="padding: 64px"]:not([style*="background"]):not(nav):not(footer) {
+    max-width: 1280px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Normalise the layout measures to one column. 880px is excluded on
+     purpose: privacy.html and terms.html use it as a prose measure for legal
+     copy, and widening that would push line length past readable. */
+  [style*="px 64px"][style*="max-width: 1120px"],
+  [style*="px 64px"][style*="max-width: 1152px"],
+  [style*="px 64px"][style*="max-width: 1200px"],
+  [style*="px 64px"][style*="max-width: 1220px"] {
+    max-width: 1280px !important;
+  }
+
+  /* --- INSET rounded panels. The bug this fixes: margin:auto overrode their
+         inline 64px side margins, and where max-width:1280px does not bind —
+         i.e. every viewport between 901px and 1408px, the common laptop range
+         — auto margins resolve to 0 and the panels sat flush against both
+         window edges with their corners touching the frame. min() makes the
+         width always bind so the margins always have room to split.
+         border-box matters here: these panels carry 56px of their own side
+         padding, so a content-box max-width let the box grow back out and the
+         inset collapsed to 8px. 1392px is the outer width that puts their
+         CONTENTS on the same 1280px column as every other section.
+         Anchored on the margin shorthand, which also keeps out index.html's
+         nested card whose style matches "px 64px" only via a box-shadow
+         blur radius. */
+  [style*="margin: 0px 64px"],
+  [style*="margin: 20px 64px"],
+  [style*="margin: 40px 64px"],
+  [style*="margin: 64px"] {
+    box-sizing: border-box !important;
+    max-width: min(1392px, 100% - 128px) !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
 }
 
-/* Past the point where a 1280px column plus its 64px gutters fits, push the
-   nav and footer padding inward so their contents line up with that column.
-   Padding rather than max-width, so the bottom border still spans the window. */
+/* --- BLEED bands keep their full width at every size; only their contents
+       move inward, and only once there is room. Same treatment nav and footer
+       already get, which is why those two never broke. Longhand padding so the
+       asymmetric vertical values survive. */
 @media (min-width: 1408px) {
-  nav,
-  footer {
+  [style*="px 64px"][style*="background"]:not([style*="border-radius"]):not(nav):not(footer) {
     padding-left: calc((100% - 1280px) / 2) !important;
     padding-right: calc((100% - 1280px) / 2) !important;
   }
