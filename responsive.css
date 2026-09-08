@@ -928,3 +928,40 @@
   }
 
 }
+
+/* ==========================================================================
+   LAYER 7 — STICKY HEADER, MOBILE ONLY.
+
+   Below 900px the nav pins to the top of the viewport while the page
+   scrolls. Desktop is deliberately left alone — it keeps the nav in normal
+   flow exactly as it is today.
+
+   The nav carries no background of its own in the markup, so it needs one
+   or the page would scroll through it. background-color: inherit takes the
+   page wrapper's own colour: cream on 15 pages, a slightly cooler grey on
+   login.html. Verified all 16 wrappers declare one. That keeps the seam
+   invisible per page without hard-coding a value, which matters because
+   React re-serializes colours to rgb() anyway.
+
+   z-index 100 matches the menu panel and clears index.html's fixed source
+   drawer at 91. Giving nav a z-index does make it a stacking context, which
+   nests the panel inside it — fine here, because the nav itself now sits
+   above everything the panel previously had to clear on its own.
+
+   scroll-padding-top keeps in-page anchors (contact.html#demo,
+   resources.html#articles and #faq) from landing underneath the bar. 74px
+   is the 62px bar plus a 12px breath.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background-color: inherit !important;
+  }
+
+  html {
+    scroll-padding-top: 74px;
+  }
+}
