@@ -1,0 +1,967 @@
+/* ==========================================================================
+   responsive.css — FohBoh.ai mobile overrides
+   --------------------------------------------------------------------------
+   The 16 marketing pages carry no classes and no stylesheet: every box is
+   styled with an inline `style` attribute, and the DOM is re-created at
+   runtime by the React renderer in support.js. That renderer parses each
+   style string into an object and hands it to React, so what ends up in the
+   live DOM is the CSSOM's *re-serialisation* of those declarations.
+
+   Consequences that shape every selector below:
+     * colours are normalised to rgb()/rgba(), so no selector may match a hex
+       value — `[style*="#FAF9F6"]` can never hit;
+     * property names and px lengths survive verbatim
+       (`padding: 48px 64px 28px`, `grid-template-columns: 1fr 1fr`), so
+       property-name substring selectors are reliable;
+     * shorthand values may be re-ordered (`box-shadow` puts the colour
+       first), which is why the padding rules exclude `box-shadow`;
+     * `<sc-for>` / `<sc-if>` render as fragments — they leave no element in
+       the DOM, so repeated rows are real children of their card wrapper.
+
+   Rules therefore lean on element/structural selectors plus property-name
+   attribute selectors, and every one of them needs `!important` to beat the
+   inline styles.
+
+   NOTHING outside the two media queries: desktop is byte-for-byte unchanged.
+   Breakpoints: 900px (tablet / large phone) and 560px (phone).
+   ========================================================================== */
+
+
+/* ==========================================================================
+   TABLET AND PHONE  —  max-width: 900px
+   ========================================================================== */
+@media (max-width: 900px) {
+
+  /* ------------------------------------------------------------------
+     1. PAGE SHELL
+     Stops anything from widening the document. `overflow-x` is set on
+     <html> only: it propagates to the viewport and leaves <body> a normal
+     block, so `position: sticky` inside the pages keeps working. The
+     border-box reset makes the many `width: 100%` + padding boxes behave.
+     `max-width: 100%` on every element that declares an inline width turns
+     all the hard-coded panels (320/380/420/430/440/640/780px) fluid in one
+     rule instead of one rule each.
+     ------------------------------------------------------------------ */
+  html {
+    overflow-x: hidden !important;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* `min-width: 0` is what makes the cap stick: a grid/flex item with a
+     definite inline width gets an automatic minimum size equal to that
+     width, which would otherwise win over `max-width` (login.html's 420px
+     card inside a `place-items: center` grid did exactly that). */
+  [style*="width: "] {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* `max-width` alone is not enough for a fixed-width box that is a grid or
+     flex item: it still contributes its full width to the track/line and
+     drags the container open. These are every inline width in the site
+     wider than a phone — video cards (440), the M04 board (430/640), the
+     sign-in card (420), the source drawer (380) — turned into full-width
+     blocks. 320px (the Cortex phone mock) already fits and is left alone;
+     780px is deliberately excluded, see below. */
+  [style*="width: 380px"],
+  [style*="width: 420px"],
+  [style*="width: 430px"],
+  [style*="width: 440px"],
+  [style*="width: 640px"] {
+    width: 100% !important;
+  }
+
+  /* The one `zoom`-scaled illustration (index.html hero diagram) must keep
+     its intrinsic 780px layout width — the zoom, reduced below, does the
+     fitting. Without this the rule above squashes the diagram instead. */
+  [style*="zoom"] > * {
+    max-width: none !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     2. SECTION PADDING + FULL-BLEED MARGINS
+     ~82 sections use `padding: <n>px 64px [...]` and a handful of CTA
+     bands use `margin: <n>px 64px [...]`. Matching on the substring
+     "px 64px" catches every horizontal-64 shorthand (a `0` is serialised
+     as `0px`, so `padding: 0 64px 56px` matches too) while
+     `[style*="padding: 64px"]` picks up the plain `padding: 64px` and
+     `padding: 64px 64px 40px` forms. box-shadow is excluded because the
+     serialiser can leave "…32px 64px" inside a shadow value.
+     ------------------------------------------------------------------ */
+  [style*="px 64px"]:not([style*="box-shadow"]),
+  [style*="padding: 64px"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  [style*="margin"][style*="64px"] {
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     3. NAV
+     One shared nav on every page: a single flex row of 6–8 links with the
+     logo lockup pushed left by `margin-right: auto`. Let it wrap onto
+     several lines, tighten the 22px gap, and keep the lockup and the
+     "Book a demo" pill intact (both are `white-space: nowrap`).
+     ------------------------------------------------------------------ */
+  nav {
+    flex-wrap: wrap !important;
+    row-gap: 10px !important;
+    column-gap: 16px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* The logo lockup keeps the auto margin so it still owns its own line. */
+  nav > a:first-child {
+    margin-right: auto !important;
+    max-width: 100% !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     4. GRIDS → ONE COLUMN
+     Every multi-column *layout* grid also declares a `gap`; the pseudo-
+     tables (CAAR report rows, the pricing comparison) never do — they rely
+     on cell padding instead. That single distinction separates "collapse
+     me" from "let me scroll" (group 8) without touching a single value.
+     `min-width: 0` on the children stops long tokens (hashes, URLs, order
+     IDs) from blowing the track out again.
+     ------------------------------------------------------------------ */
+  [style*="grid-template-columns"][style*="gap"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [style*="grid-template-columns"] > * {
+    min-width: 0 !important;
+  }
+
+  /* Desktop-scale gutters are dead space once everything is stacked. */
+  [style*="gap: 72px"],
+  [style*="gap: 64px"],
+  [style*="gap: 56px"],
+  [style*="gap: 40px"],
+  [style*="gap: 32px"],
+  [style*="gap: 28px"] {
+    gap: 20px !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     5. FLEX ROWS → WRAP
+     ~226 inline flex containers hold card rows, stat strips, CTA bands and
+     button groups. Allowing them to wrap is what stops them squashing.
+     Column-direction flexes are put back to `nowrap`: with a definite
+     height (the little connector rails in the diagrams) wrapping would
+     turn them into multi-column boxes.
+     ------------------------------------------------------------------ */
+  [style*="display: flex"] {
+    flex-wrap: wrap !important;
+  }
+
+  [style*="flex-direction: column"] {
+    flex-wrap: nowrap !important;
+  }
+
+  /* Flex items default to `min-width: auto`, so one long word can force the
+     whole row wider than the screen. Items that opted into `white-space`
+     (nowrap pills, buttons) are left alone — shrinking them would only
+     spill their text. */
+  [style*="display: flex"] > *:not([style*="white-space"]) {
+    min-width: 0 !important;
+  }
+
+  /* Segmented controls (pricing.html's M01/M02/Both/White Glove pickers) are
+     `flex: 1` buttons with nowrap labels: at phone width the equal shares
+     fall a few px short and clip the longest label. Letting them keep their
+     intrinsic width makes the strip wrap instead of truncate. */
+  [style*="display: flex"] > button[style*="white-space"] {
+    min-width: fit-content !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     6. DISPLAY TYPE
+     Headline sizes are inline and range 26–56px. A size ladder keyed on
+     the serialised px value scales them regardless of tag — the big stat
+     figures are plain <div>s, not headings, so an h1/h2/h3 rule alone
+     would miss them. Only font-size changes; family, weight and colour
+     are untouched.
+     ------------------------------------------------------------------ */
+  [style*="font-size: 56px"],
+  [style*="font-size: 52px"],
+  [style*="font-size: 48px"],
+  [style*="font-size: 44px"] {
+    font-size: 34px !important;
+  }
+
+  [style*="font-size: 40px"],
+  [style*="font-size: 38px"],
+  [style*="font-size: 36px"],
+  [style*="font-size: 34px"] {
+    font-size: 28px !important;
+  }
+
+  [style*="font-size: 32px"],
+  [style*="font-size: 30px"],
+  [style*="font-size: 28px"] {
+    font-size: 24px !important;
+  }
+
+  h1, h2, h3 {
+    overflow-wrap: break-word !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     7. MEDIA
+     Nothing embedded may out-measure the viewport. The two 16:9 players
+     are absolutely positioned inside an aspect-ratio box and are already
+     fluid; the rules below catch the fixed-size ones (the 430px M04 scroll
+     image, the 680px-tall Vimeo/embed iframes, the logo SVGs).
+     ------------------------------------------------------------------ */
+  img, svg, iframe, video, canvas, figure {
+    max-width: 100% !important;
+  }
+
+  img {
+    height: auto !important;
+  }
+
+  /* index.html's hero pipeline diagram is a fixed 780px board shown at
+     `zoom: 0.5`. Scaling the zoom (rather than the board) keeps the
+     drawing proportional instead of crushing its three columns. */
+  [style*="zoom"] {
+    zoom: 0.42 !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     8. WIDE / TABULAR BLOCKS → SCROLL IN PLACE
+     The CAAR report tables and the pricing comparison are grids-as-tables:
+     one grid per row, all sharing a column template, wrapped in a card
+     that already carries `overflow: hidden`. Collapsing them would destroy
+     the header↔cell relationship, so instead the card becomes the scroll
+     container.
+
+     `display: grid` + a single `max-content` track is the trick that keeps
+     the columns aligned: a max-content track is not clamped by the
+     scrollport, so it sizes to the widest row and every sibling row (and
+     the card's own header strip) is stretched to exactly that width. Each
+     row then resolves its own fixed px tracks identically. `:has()` with a
+     descendant combinator reaches rows that sit one level deeper inside an
+     `sc-if` wrapper (pricing). Restricted to `div` so index.html's hero
+     <figure> — which also pairs `overflow` with a gap-less grid — is left
+     alone.
+     ------------------------------------------------------------------ */
+  div[style*="overflow"]:has([style*="grid-template-columns"]:not([style*="gap"])) {
+    display: grid !important;
+    grid-template-columns: max-content !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  /* Shell commands in for-vendors.html scroll rather than push the page. */
+  pre, code {
+    overflow-x: auto !important;
+    overflow-wrap: anywhere !important;
+    max-width: 100% !important;
+  }
+
+
+  /* ------------------------------------------------------------------
+     9. FOOTER
+     The tall footer is a `2fr 1fr 1fr 1fr 1fr 1fr` grid: rule 4 has already
+     flattened it to one column, which makes it enormous. Two columns read
+     better; the brand/blurb cell (with its nowrap logo lockup) spans the
+     full width. The short footers are flex rows and wrap via rule 5.
+     ------------------------------------------------------------------ */
+  /* The double attribute selector is deliberate: it has to out-specify the
+     `[grid-template-columns][gap]` collapse rule above, which it would
+     otherwise lose to. */
+  footer [style*="grid-template-columns"][style*="gap"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  footer [style*="grid-template-columns"] > *:first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+}
+
+
+/* ==========================================================================
+   PHONE  —  max-width: 560px
+   Tightens what the 900px block already restructured.
+   ========================================================================== */
+@media (max-width: 560px) {
+
+  /* --- Page shell: give the content a little more of the 390px ------- */
+  [style*="px 64px"]:not([style*="box-shadow"]),
+  [style*="padding: 64px"] {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  [style*="margin"][style*="64px"] {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+  }
+
+  /* Deep card padding (52/56px, 34px, 32px, 30px horizontal) eats most of a
+     390px screen. box-shadow excluded — its serialised offsets can look
+     like a padding pair. */
+  [style*="px 56px"]:not([style*="box-shadow"]),
+  [style*="px 34px"]:not([style*="box-shadow"]),
+  [style*="px 32px"]:not([style*="box-shadow"]),
+  [style*="px 30px"]:not([style*="box-shadow"]) {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  /* --- Nav: let the logo lockup wrap instead of overflowing ---------- */
+  nav {
+    column-gap: 14px !important;
+    row-gap: 8px !important;
+  }
+
+  nav > a:first-child {
+    white-space: normal !important;
+  }
+
+  /* --- Type: one more step down ------------------------------------- */
+  [style*="font-size: 56px"],
+  [style*="font-size: 52px"],
+  [style*="font-size: 48px"],
+  [style*="font-size: 44px"] {
+    font-size: 29px !important;
+  }
+
+  [style*="font-size: 40px"],
+  [style*="font-size: 38px"],
+  [style*="font-size: 36px"],
+  [style*="font-size: 34px"] {
+    font-size: 25px !important;
+  }
+
+  [style*="font-size: 32px"],
+  [style*="font-size: 30px"],
+  [style*="font-size: 28px"] {
+    font-size: 22px !important;
+  }
+
+  /* --- Media -------------------------------------------------------- */
+  /* 780px board must fit ~354px of content width: 780 × 0.34 ≈ 265px. */
+  [style*="zoom"] {
+    zoom: 0.34 !important;
+  }
+
+  /* The two 680px-tall embeds (contact/resources) are mostly empty at
+     phone width. */
+  iframe[style*="height: 680px"] {
+    height: 520px !important;
+  }
+
+  /* Footer stays two-up at phone width — see the 900px block; a single
+     column turns six link lists into ~20 rows of scrolling. */
+
+}
+
+
+/* ==========================================================================
+   STILL NEEDS PER-PAGE ATTENTION
+   Things a safe, general rule cannot cover. None of these break the page or
+   cause horizontal scroll — they are quality-of-layout items that want a
+   human decision (and, for most of them, an edit to the page's own markup).
+
+   NOTE: this list was written against the two generic layers above, before
+   the LAYER 3 page-specific block at the bottom of this file existed. Items
+   2 (hero diagram), 3 (table scroll affordance), 7-ish, 8 (divider rules)
+   and 9 (dead sticky panels) are now handled there; 1, 4, 5, 6 and 10 still
+   stand.
+   --------------------------------------------------------------------------
+
+   1. NAV HAS NO MOBILE PATTERN.
+      Seven links plus a pill wrapping onto three rows works, but it is a
+      ~110px-tall masthead on every page. A real hamburger/disclosure needs
+      markup + state, which this stylesheet cannot add (no JS, no HTML).
+
+   2. index.html HERO PIPELINE DIAGRAM.
+      A 780px fixed board (`grid-template-columns: 170px 56px 1fr`) shown at
+      `zoom: 0.5`. It is scaled to 0.34 on phones, which keeps it whole but
+      makes its 10–13px labels genuinely tiny. It really wants a stacked
+      mobile variant, or to be swapped for the static
+      `assets/mge-structural-moat.png` below ~560px.
+
+   3. THE CAAR TRANSACTION TABLE (caar-example.html, Section 7).
+      `150px 130px 1fr 110px 110px 120px` is ~800px wide; it now scrolls
+      inside its card, but there is no visual affordance (no fade/shadow
+      edge) telling a phone user to swipe. Same for the pricing comparison
+      (`3fr 1fr 1fr 1fr 1fr`) and the Section 2/5/6 CAAR tables. If any of
+      these ever loses its `overflow: hidden` wrapper, or gains a `gap`,
+      the group-8 selector stops matching it.
+
+   4. THE GAP HEURISTIC IS THE LOAD-BEARING ASSUMPTION.
+      "grid + gap = layout, grid without gap = table" holds for all ~60
+      current `grid-template-columns` declarations, but it is a convention,
+      not a contract. Any new gap-less layout grid will refuse to collapse;
+      any new table row that declares a gap will be flattened.
+
+   5. THE TYPE LADDER IS A LADDER, NOT A SCALE.
+      44px and 56px headlines both land on 34px (29px on phones), so a page
+      that deliberately contrasted two display sizes loses that contrast.
+      Per-page `clamp()` on the real headings would be better.
+
+   6. PSEUDO-TABLE CELLS HAVE NO LABELS.
+      Even scrolled, a phone reader loses the header row as they swipe
+      right. A proper mobile treatment would restack each row as
+      label/value pairs — impossible without markup.
+
+   7. index.html SOURCE DRAWER.
+      `position: fixed; width: 380px` overlay. It is capped to 100% width
+      here, so on a 390px screen it covers the viewport edge to edge; the
+      close affordance and the 34px/32px padding were designed for a
+      380px panel over a wide page.
+
+   8. FOUR-UP STAT STRIPS with `gap: 0` and `border-right` dividers
+      (caar-example Section 1, index's stat bar) stack into a column where
+      the dividers now read as stray right-hand rules. Harmless, but it
+      wants `border-bottom` on mobile — which needs a colour-adjacent
+      decision, deliberately out of scope here.
+
+   9. roi-simulator.html / m04-scr.html STICKY PANELS.
+      `position: sticky; top: 20px` inside what is now a one-column grid:
+      the panel's grid area is only as tall as the panel, so it never
+      actually sticks. Behaviourally fine, but the sticky is now dead code.
+
+  10. PAGES NOT INSPECTED IN DEPTH: blog/ subpages,
+      fohboh-api-docs-page.html, terms.html, privacy.html, login.html.
+      They share the nav/footer chrome and the same inline idioms, so the
+      general rules apply, but their long-form content was not audited.
+   ========================================================================== */
+
+/* ==========================================================================
+   LAYER 3 — page-specific overrides, from the two mobile audits.
+   Placed last on purpose: these must beat the generic rules above, so where
+   a generic rule uses two attribute selectors these match it or exceed it.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+
+  /* --- iOS Safari zooms in on any focused input under 16px and never zooms
+         back out, leaving the visitor panned sideways. login + roi-simulator. */
+  input, select, textarea { font-size: 16px !important; }
+  button { min-height: 44px !important; }
+
+  /* --- The nav lockup is a ~350px white-space:nowrap flex item on every page,
+         so it overflows before a single link is drawn. Drop the divider and
+         the "CERTIFIED INTELLIGENCE" tail; keep the mark and wordmark. */
+  nav [style*="letter-spacing: 0.16em"],
+  nav [style*="width: 1px"][style*="height: 15px"],
+  footer [style*="letter-spacing: 0.16em"],
+  footer [style*="width: 1px"][style*="height: 15px"] { display: none !important; }
+
+  /* --- Homepage hero: the diagram is zoom:0.5 on a 780px tree inside
+         overflow:hidden, so it is cropped to an illegible band rather than
+         scrolling. A static PNG of the same diagram is already in the DOM as
+         the crossfade B layer — show that instead. */
+  .om-xfade-a { display: none !important; }
+  .om-xfade-b { position: static !important; opacity: 1 !important;
+                animation: none !important; inset: auto !important; }
+  .om-xfade-b img { width: 100% !important; height: auto !important; max-height: none !important; }
+
+  /* --- Dark CTA banner (index/sentry/cortex/mge): a 290px nowrap button in a
+         150px box. Stack it. */
+  [style*="padding: 52px 56px"] {
+    margin-left: 16px !important; margin-right: 16px !important;
+    padding: 28px 20px !important;
+    flex-direction: column !important; align-items: stretch !important;
+  }
+  [style*="padding: 52px 56px"] a {
+    white-space: normal !important; text-align: center !important;
+    display: block !important; box-sizing: border-box !important;
+  }
+
+  /* --- Pseudo-tables: keep the columns, scroll them. Collapsing these to one
+         column produces unlabelled value stacks. The cards clip with
+         overflow:hidden today, which is why the money columns are invisible. */
+  div:has(> [style*="grid-template-columns: 90px 1fr 180px 140px"]),
+  div:has(> [style*="grid-template-columns: 1.4fr 160px 1fr"]),
+  div:has(> [style*="grid-template-columns: 180px 1fr 140px"]),
+  div:has(> [style*="grid-template-columns: 150px 130px 1fr 110px 110px 120px"]),
+  div:has(> [style*="grid-template-columns: 3fr 1fr 1fr 1fr 1fr"]) {
+    overflow-x: auto !important; overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  [style*="grid-template-columns: 90px 1fr 180px 140px"] { min-width: 600px !important; }
+  [style*="grid-template-columns: 1.4fr 160px 1fr"]      { min-width: 560px !important; }
+  [style*="grid-template-columns: 180px 1fr 140px"]      { min-width: 560px !important; }
+  [style*="grid-template-columns: 150px 130px 1fr 110px 110px 120px"] { min-width: 770px !important; }
+  [style*="grid-template-columns: 3fr 1fr 1fr 1fr 1fr"]  { min-width: 600px !important; }
+
+  /* --- Trust Score bars are the one pseudo-table that carries a gap, so the
+         generic collapse catches it. Label / bar / score only means anything
+         on one line — narrow it instead. Two attributes to win the tie. */
+  [style*="grid-template-columns: 150px 1fr 40px"][style*="gap"] {
+    grid-template-columns: 104px 1fr 32px !important;
+    gap: 8px !important; font-size: 11.5px !important;
+  }
+
+  /* --- ROI simulator: the results panel is sticky beside the form. Stacked it
+         goes inert and lands below ~15 fields, so inputs appear to do nothing.
+         Move it to the top; its defaults are pre-populated. */
+  [style*="position: sticky"][style*="top: 20px"] {
+    position: static !important; order: -1 !important;
+  }
+
+  /* --- Contact: Calendly needs ~1150px on mobile and JotForm ~1100px. Pinned
+         at 680px they scroll inside the frame — a touch trap on the primary
+         demo-booking path. Make the frame taller than its content. */
+  iframe[src*="calendly.com"] { height: 1150px !important; }
+  iframe[src*="jotform.com"]  { height: 1100px !important; }
+
+  /* --- cortex: the suggestion-chip strip is a deliberately clipped scroller
+         (the second chip's label is authored truncated). It must not wrap. */
+  [style*="margin-top: 36px"][style*="overflow: hidden"] {
+    flex-wrap: nowrap !important; overflow-x: auto !important;
+  }
+  /* phone mock */
+  figure [style*="width: 320px"] { width: 100% !important; max-width: 320px !important; margin: 0 auto !important; }
+  figure[style*="justify-self: end"] { justify-self: center !important; }
+  /* pre-existing bug: an absolutely positioned caption escaping an
+     unpositioned parent and landing over the footer. */
+  [style*="aspect-ratio: 16 / 9"][style*="place-items: center"] { position: relative !important; }
+
+  /* --- sentry hub-and-spoke: the SVG scales, the absolutely positioned cards
+         don't, so they collide with the ring at narrow widths. */
+  figure [style*="width: 116px"] { width: 30% !important; padding: 6px 5px !important; }
+  figure [style*="width: 104px"] { width: 46% !important; }
+
+  /* --- Footer: a 6-column grid stacked one-up is ~20 rows of links. */
+  footer [style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important; gap: 22px 16px !important;
+  }
+  footer [style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr"] > *:first-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* --- Four-across stat strips (index/sentry/mge) shrink to shredded text. */
+  [style*="justify-content: space-between"][style*="padding: 30px 64px"] {
+    display: grid !important; grid-template-columns: 1fr 1fr !important;
+    gap: 20px 16px !important; padding: 24px 16px !important;
+  }
+
+  /* --- caar: vertical cell rules land wrong once columns change. */
+  [style*="border-right: 1px solid"] { border-right: 0 !important; }
+
+  /* --- pricing: a hand-tuned 62px spacer that aligned the Cortex price with
+         the other cards' toggles becomes a dead hole when stacked. */
+  [style*="margin-top: 62px"] { margin-top: 16px !important; }
+  [style*="min-height: 40px"] { min-height: 0 !important; }
+
+  /* --- index: the fixed source drawer overflows a 360px phone. */
+  [style*="width: 380px"][style*="position: fixed"] { width: min(88vw, 380px) !important; }
+
+  /* --- Long monospace commands are better scrolled than broken at hyphens. */
+  code { white-space: pre !important; overflow-x: auto !important; }
+
+  /* --- Sticky needs a scrollport; clip does not create one, hidden does. */
+  html, body { overflow-x: clip !important; }
+}
+
+/* --- m04-scr: the scroll animation is hand-tuned to translateY(-449px), which
+       is only correct while the image is 430px wide. Once it shrinks the
+       animation overshoots onto empty black. @keyframes cannot be overridden
+       by name (the page's own <style> is appended after this file), so this
+       defines a new name and switches to it. */
+@keyframes omM04ScrollMobile {
+  0%, 6%   { transform: translateY(0); }
+  80%, 92% { transform: translateY(-42%); }
+  100%     { transform: translateY(0); }
+}
+@media (max-width: 900px) {
+  img.om-m04-scroll { width: 100% !important; height: auto !important;
+                      animation-name: omM04ScrollMobile !important; }
+  [style*="height: 620px"] { height: auto !important; aspect-ratio: 430 / 620 !important; }
+}
+
+/* ==========================================================================
+   LAYER 4 — DESKTOP page width. Separable from the mobile layers above.
+
+   Every layout container declares a max-width and none declares auto margins,
+   so content sat pinned to the left edge with dead space beside it. But the
+   sections split into THREE kinds, and treating them alike breaks two of them:
+
+     COLUMN (44)  padding gutter, no background.  Constrain and centre.
+     BLEED  (8)   padding gutter + background, no radius. Full-bleed bands —
+                  the background must reach both window edges, so constrain
+                  the PADDING, never the width.
+     INSET  (9)   margin gutter + background + radius. Rounded panels that
+                  were always inset. Keep their inset at every width.
+   ========================================================================== */
+
+@media (min-width: 901px) {
+
+  /* --- COLUMN. max-width is deliberately NOT !important so a section that
+         chose its own measure keeps it; only sections with no width at all
+         pick up the 1280 default. The auto margins ARE !important because
+         several carry inline side margins. */
+  [style*="px 64px"]:not([style*="background"]):not(nav):not(footer),
+  [style*="padding: 64px"]:not([style*="background"]):not(nav):not(footer) {
+    max-width: 1280px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Normalise the layout measures to one column. 880px is excluded on
+     purpose: privacy.html and terms.html use it as a prose measure for legal
+     copy, and widening that would push line length past readable. */
+  [style*="px 64px"][style*="max-width: 1120px"],
+  [style*="px 64px"][style*="max-width: 1152px"],
+  [style*="px 64px"][style*="max-width: 1200px"],
+  [style*="px 64px"][style*="max-width: 1220px"] {
+    max-width: 1280px !important;
+  }
+
+  /* --- INSET rounded panels. The bug this fixes: margin:auto overrode their
+         inline 64px side margins, and where max-width:1280px does not bind —
+         i.e. every viewport between 901px and 1408px, the common laptop range
+         — auto margins resolve to 0 and the panels sat flush against both
+         window edges with their corners touching the frame. min() makes the
+         width always bind so the margins always have room to split.
+         border-box matters here: these panels carry 56px of their own side
+         padding, so a content-box max-width let the box grow back out and the
+         inset collapsed to 8px. 1392px is the outer width that puts their
+         CONTENTS on the same 1280px column as every other section.
+         Anchored on the margin shorthand, which also keeps out index.html's
+         nested card whose style matches "px 64px" only via a box-shadow
+         blur radius. */
+  [style*="margin: 0px 64px"],
+  [style*="margin: 20px 64px"],
+  [style*="margin: 40px 64px"],
+  [style*="margin: 64px"] {
+    box-sizing: border-box !important;
+    max-width: min(1392px, 100% - 128px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* --- BLEED bands keep their full width at every size; only their contents
+       move inward, and only once there is room. Same treatment nav and footer
+       already get, which is why those two never broke. Longhand padding so the
+       asymmetric vertical values survive. */
+@media (min-width: 1408px) {
+  [style*="px 64px"][style*="background"]:not([style*="border-radius"]):not(nav):not(footer) {
+    padding-left: calc((100% - 1280px) / 2) !important;
+    padding-right: calc((100% - 1280px) / 2) !important;
+  }
+}
+
+/* ==========================================================================
+   LAYER 5 — a real bug fix, and the ONLY rule in this file that applies at
+   every width, desktop included. Everything above is inside a media query.
+
+   index.html's hero crossfade centres a 1536x1024 PNG inside a layer that is
+   display:grid + place-items:center. Grid items carry min-height:auto, which
+   for a replaced element resolves to its INTRINSIC height — 1024px — and that
+   wins over the author's max-height:100%. The image therefore renders far
+   taller than its ~400px container and spills down across the <figcaption>.
+
+   This is present on the live site and was NOT introduced by this branch.
+   No !important needed: the inline style sets max-width, max-height and
+   object-fit, but never a min-* property.
+   ========================================================================== */
+
+.om-xfade-a > img,
+.om-xfade-b > img {
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ==========================================================================
+   LAYER 6 — MOBILE NAV: hamburger disclosure
+
+   Answers item 1 of the "STILL NEEDS PER-PAGE ATTENTION" list above ("NAV HAS
+   NO MOBILE PATTERN"). The markup is now a JS-free <details> disclosure that
+   every page carries identically:
+
+     nav > a.logo  +  details.om-nav > summary.om-nav-btn + div.om-nav-links > a...
+
+   DESKTOP IS UNCHANGED. At 901px and up the wrapper is dissolved with
+   `display: contents` so each <a> is once again a direct flex item of the
+   <nav>, in source order, with the nav's own inline gap and alignment. Three
+   things have to be dissolved, not one:
+
+     1. details.om-nav      — the author box.
+     2. div.om-nav-links    — the author box.
+     3. the ::details-content pseudo-element — the UA box that modern engines
+        (Chrome 131+, Safari 18.4+, Firefox 139+) insert between the two, and
+        which is what actually hides a closed disclosure, via
+        `content-visibility: hidden`. Leave it and the links render stacked
+        inside a block flex item instead of spread along the nav row; and no
+        amount of `display: contents` on the author elements reveals them,
+        because content-visibility skips the whole subtree. Older engines
+        hide with a plain `display: none` on the non-summary children, which
+        rule 2 defeats on its own. Both paths are covered.
+
+   MOBILE, 900px and down. The wrapper becomes a real box again: a 44x44
+   summary at the right of the bar, and a panel that drops out of flow below
+   the bar's hairline.
+
+   PANEL TREATMENT — full-bleed, not an inset card. The nav is already a
+   full-bleed band closed by a 1px hairline, so a white panel pinned
+   `left: 0; right: 0` under it reads as that same band opening rather than as
+   a new object floating over the page. It also buys the thing an inset card
+   cannot: every row is the full width of the screen, so the hit area is the
+   line, not the width of the word. An inset card would have needed a real
+   shadow to separate itself from the content it covers, and heavy shadows are
+   not in this site's vocabulary; a hairline plus a barely-there lift does the
+   same job here. White (not cream) because white over the cream ground is
+   this site's surface colour everywhere else, and because login.html is the
+   one page whose nav is already white — the panel continues it exactly.
+
+   Z-INDEX 100. It has to clear two things. index.html's source drawer is
+   `position: fixed; z-index: 91` with a `z-index: 90` scrim, and the
+   `position: sticky; top: 20px` result panels on roi-simulator.html and
+   m04-scr.html are positioned boxes with `z-index: auto`, which beat any
+   non-positioned content and would otherwise paint over an unindexed panel.
+   100 is the lowest round value above the site's current maximum of 91, and
+   it stays well below the 1000s where dialogs conventionally sit, so nothing
+   later has to be renumbered around it. It resolves in the root stacking
+   context: `nav` is given `position: relative` with z-index left at `auto`,
+   which makes it the panel's containing block WITHOUT opening a new stacking
+   context that would trap the 100 inside the nav.
+
+   THE PILL CANNOT BE `:last-child`. privacy.html and terms.html have a plain
+   "Home" link in that slot and no CTA at all, so the pill is matched on
+   `border-radius: 980px` instead — a px length, which survives the CSSOM
+   re-serialisation that would destroy a colour-based selector.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+
+  /* --- The bar itself. `nowrap` retires the three-row wrapping masthead the
+         old rule 3 produced: with the divider and the "CERTIFIED
+         INTELLIGENCE" tail already hidden (LAYER 3), lockup + button is
+         ~200px and fits a 320px screen on one line. `position: relative`
+         makes nav the panel's containing block, so the panel spans the
+         viewport and hangs off the bar's own bottom edge. */
+  nav {
+    position: relative !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .om-nav {
+    flex: none !important;
+    position: static !important;
+  }
+
+
+  /* --- The button. A <summary> is `display: list-item` by default, so the
+         disclosure triangle is removed three ways: `display: flex` takes it
+         out of list-item layout, `list-style: none` covers the standards
+         path, and the -webkit pseudo covers the legacy WebKit marker (kept in
+         its own rule — an unknown pseudo-element invalidates the entire
+         selector list it appears in, which would silently drop the others).
+         44x44 is the tap-target floor; the bars are 20px, so the box carries
+         12px of clear space on each side. The negative margin pulls that
+         padding back out of the layout so the bars line up on the same 20px
+         gutter as the logo instead of sitting 32px in. */
+  .om-nav-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin-right: -12px !important;
+    border-radius: 14px !important;
+    cursor: pointer !important;
+    list-style: none !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .om-nav-btn::-webkit-details-marker { display: none !important; }
+
+  .om-nav-btn::marker { content: "" !important; }
+
+  /* A summary is a real keyboard control: it is tabbable and Enter/Space
+     toggles it, so it needs a ring. Purple is the site's focus/primary hue. */
+  .om-nav-btn:focus-visible {
+    outline: 2px solid #6D28D9 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* 1.5px bars, not 2px: the site draws every rule as a hairline. */
+  .om-nav-btn > span {
+    display: block !important;
+    width: 20px !important;
+    height: 1.5px !important;
+    border-radius: 2px !important;
+    background: #1d1d1f !important;
+    transition: transform 0.22s ease, opacity 0.14s ease !important;
+  }
+
+  /* Bar pitch is 1.5px of bar plus a 5px gap, so 6.5px of travel lands the
+     outer bars exactly on the middle one before they rotate into the X. */
+  .om-nav[open] .om-nav-btn > span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg) !important;
+  }
+
+  .om-nav[open] .om-nav-btn > span:nth-child(2) {
+    opacity: 0 !important;
+    transform: scaleX(0.4) !important;
+  }
+
+  .om-nav[open] .om-nav-btn > span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg) !important;
+  }
+
+  /* The X still forms, it just forms instantly — the state change is
+     information, the tween is decoration. */
+  @media (prefers-reduced-motion: reduce) {
+    .om-nav-btn > span { transition: none !important; }
+  }
+
+
+  /* --- The panel. Dissolving ::details-content here too means the open and
+         closed states are driven entirely by the [open] attribute below,
+         rather than by a UA box whose containment behaviour differs between
+         engines and would otherwise sit between the panel and its intended
+         containing block. */
+  .om-nav::details-content { display: contents !important; }
+
+  .om-nav-links { display: none !important; }
+
+  /* `max-height` is expressed against the containing block rather than a
+     hard-coded bar height: for an absolutely positioned box, 100% is nav's
+     padding-box height, so `100dvh - 100% - 1px` is exactly the space left
+     below the bar and its hairline. It only bites in landscape; the dvh line
+     is the live one, the vh line is the fallback for older engines. */
+  .om-nav[open] .om-nav-links {
+    display: block !important;
+    position: absolute !important;
+    top: calc(100% + 1px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+    box-sizing: border-box !important;
+    padding: 6px 20px 20px !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #e8e8ed !important;
+    box-shadow: 0 16px 32px rgba(29,29,31,0.07) !important;
+    max-height: calc(100vh - 100% - 1px) !important;
+    max-height: calc(100dvh - 100% - 1px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  /* Full-width rows at 16px — the inline 13px is a desktop bar size and is
+     both hard to read and hard to hit as a list row. Colour is deliberately
+     NOT touched: privacy.html and terms.html mark the current page with a
+     muted link colour, and overriding it would erase that. */
+  .om-nav-links > a {
+    display: block !important;
+    padding: 15px 0 !important;
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    text-decoration: none !important;
+  }
+
+  /* Hairline between rows — the site's own divider weight, and it is what
+     tells a thumb the whole line is the target. Not drawn above the CTA,
+     which is separated by space instead. */
+  .om-nav-links > a + a:not([style*="border-radius"]) {
+    border-top: 1px solid #e8e8ed !important;
+  }
+
+  /* The CTA stays a pill and stays primary: it keeps its inline 980px radius
+     and purple fill and becomes a full-width, centred button under the list.
+     `background` is intentionally left alone so the page's own
+     style-hover swap still owns that property. */
+  .om-nav-links > a[style*="border-radius: 980px"] {
+    margin-top: 16px !important;
+    padding: 15px 22px !important;
+    font-size: 15px !important;
+    text-align: center !important;
+  }
+
+}
+
+
+@media (max-width: 560px) {
+
+  /* Match the tighter page gutter the 560px block already sets. */
+  .om-nav[open] .om-nav-links {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+}
+
+
+@media (min-width: 901px) {
+
+  /* Desktop: the disclosure is not a box at all. See the note at the top of
+     this layer for why all three of these are required. */
+  .om-nav,
+  .om-nav-links {
+    display: contents !important;
+  }
+
+  .om-nav::details-content {
+    display: contents !important;
+    content-visibility: visible !important;
+  }
+
+  .om-nav-btn {
+    display: none !important;
+  }
+
+}
+
+/* ==========================================================================
+   LAYER 7 — STICKY HEADER, MOBILE ONLY.
+
+   Below 900px the nav pins to the top of the viewport while the page
+   scrolls. Desktop is deliberately left alone — it keeps the nav in normal
+   flow exactly as it is today.
+
+   The nav carries no background of its own in the markup, so it needs one
+   or the page would scroll through it. background-color: inherit takes the
+   page wrapper's own colour: cream on 15 pages, a slightly cooler grey on
+   login.html. Verified all 16 wrappers declare one. That keeps the seam
+   invisible per page without hard-coding a value, which matters because
+   React re-serializes colours to rgb() anyway.
+
+   z-index 100 matches the menu panel and clears index.html's fixed source
+   drawer at 91. Giving nav a z-index does make it a stacking context, which
+   nests the panel inside it — fine here, because the nav itself now sits
+   above everything the panel previously had to clear on its own.
+
+   scroll-padding-top keeps in-page anchors (contact.html#demo,
+   resources.html#articles and #faq) from landing underneath the bar. 74px
+   is the 62px bar plus a 12px breath.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background-color: inherit !important;
+  }
+
+  html {
+    scroll-padding-top: 74px;
+  }
+}
